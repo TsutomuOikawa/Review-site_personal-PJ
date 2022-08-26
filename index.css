@@ -1,0 +1,77 @@
+
+.main{
+  width: 100%;
+}
+
+#first-wrap{
+  position: relative;
+  text-align: center;
+  height: 1450px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1)65%, rgba(254, 239, 204, 1));
+}
+
+.fv{
+  height: 900px;
+  background-image: url(img/top.jpg);
+  background-blend-mode: lighten;
+}
+
+.toumei{
+  height: 100%;
+  background:linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 1));
+}
+
+.fv h2{
+  text-align: left;
+  font-size: 45px;
+  font-weight: bold;
+  font-family: Poppins;
+  color: rgb(23, 23, 21);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  position: absolute;
+  top:  270px;
+  left: 220px;
+}
+
+.top-input{
+  position: absolute;
+  top: 435px;
+  left: 220px;
+}
+
+input[type="text"]{
+  width: 300px;
+  height: 35px;
+}
+
+input[type="submit"]{
+  width: 100px;
+  height: 35px;
+  background:linear-gradient(315deg,rgba(121, 132, 161, 1) 0%, rgba(201, 181, 114, 1) 100%);
+  border: 0.5px solid #000000;
+}
+
+.fv p{
+  font-size: 22px;
+  font-weight: bold;
+  font-family: Poppins;
+  color: rgb(23, 23, 21);
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  position: absolute;
+  top: 850px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+
+#find{
+  height: 1800px;
+  background-image: url(img/top2.jpg);
+}
+
+.toumei2{
+  height: 100%;
+  background:linear-gradient(to bottom, rgba(255, 255, 255, 0.5)80% , rgba(225, 225, 225, 0.9));
+}
