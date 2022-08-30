@@ -1,0 +1,62 @@
+header{
+  background-color: rgba(254, 239, 204, 1.0)
+}
+
+.wrap{
+  position: relative;
+  padding: 120px 0 50px;
+  width: 100%;
+}
+
+.container{
+  width: 40%;
+  margin: 0 auto;
+  padding: 50px;
+  background: rgba(237, 237, 237, 0.5);
+  border-radius: 50px;
+}
+
+
+form.narrow{
+  padding: 0 50px;
+
+}
+.regi-user{
+  margin:0 30px;
+}
+.regi-mail{
+  float: left;
+  margin-left: 10px;
+}
+.err_msg{
+  font-size: 12px;
+  color: red;
+}
+input{
+  width: 100%;
+  height: 45px;
+  margin: 15px 0 40px;
+}
+input[type="submit"]{
+  height: 40px;
+  width:120px;
+  background: rgba(38, 54, 104, 1);
+  border-radius: 25px;
+  display: block;
+  margin: 0 auto;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 1);
+
+}
+input[type="submit"]:hover{
+  cursor: pointer;
+}
+
+.container p{
+  padding-top: 30px;
+  text-align: center;
+}
+.container a{
+  color: blue;
+  text-decoration: underline;
+}
