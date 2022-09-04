@@ -76,7 +76,7 @@ require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
-<section class="wrap">
+<main class="wrap">
   <div class="h1-narrow">
     <h1>会員登録（無料）</h1>
   </div>
@@ -93,7 +93,7 @@ require('header.php');
           <label>パスワード
             <span class="err_msg"><?php if (!empty($err_msg['pass'])) echo $err_msg['pass']; ?></span>
           </label>
-          <input type="text" name="pass" placeholder="半角英数字6文字以上" value="">
+          <input type="password" name="pass" placeholder="半角英数字6文字以上" value="">
         </div>
         <div class="repass-form">
           <label>確認用パスワード
@@ -104,10 +104,10 @@ require('header.php');
         <input type="submit" value="登録する">
       </div>
     </form>
-
-    <p>登録済みの方は<a href="login.php">こちらからログイン</a></p>
+    <p>登録済みの方は <a href="login.php">こちらからログイン</a></p>
   </div>
-</section>
+</main>
+
 <!--　共通フッター呼び出し　-->
 <?php
 require('footer.php');
