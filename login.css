@@ -15,10 +15,14 @@ form.narrow{
 .regi-user{
   margin: 0 30px;
 }
-.err_msg{
+.err span{
   font-size: 12px;
   color: red;
 }
+.err input{
+  background: #f7dcd9;
+}
+
 input[type="text"],[type="password"]{
   width: 100%;
   height: 45px;
