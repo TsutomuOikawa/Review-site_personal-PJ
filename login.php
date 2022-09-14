@@ -51,7 +51,7 @@ if (!empty($_POST)) {
         try {
         //データベース接続情報を用意
         $dbh = dbConnect();
-        $sql = 'SELECT password,id FROM users WHERE(email = :email)';
+        $sql = 'SELECT password,id FROM users WHERE email = :email AND delete_flg = 0';
         $data = array(':email' => $email);
 
           //SQLを実行してデータを取得

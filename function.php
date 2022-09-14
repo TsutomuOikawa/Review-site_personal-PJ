@@ -22,8 +22,7 @@ function debug($str){
 //画面遷移のタイミングでログに自動表示
 function debugLogStart(){
   global $debug_current_page;
-  debug('■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■');
-  debug('デバッグログスタート');
+  debug('〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜');
   debug('■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■');
   debug('現在のページ：'.$debug_current_page);
   debug('セッションID：'.session_id());
@@ -128,7 +127,7 @@ function validEmailDup($email){
   global $err_msg;
   try {
     $dbh = dbConnect(); //$dbhが返り値
-    $sql ='SELECT count(*) FROM users WHERE email = :email';
+    $sql ='SELECT count(*) FROM users WHERE email = :email AND delete_flg = 0';
     $data = array(':email'=> $email);
     //クエリ実行
     $stmt = queryPost($dbh,$sql,$data);
