@@ -1,0 +1,86 @@
+.wrap{
+  padding: 120px 0 50px;
+  width: 1000px;
+  margin: 0 auto;
+  display:flex;
+}
+main{
+  width: 750px;
+}
+.h1-wide{
+  padding:0 0 50px;
+}
+section{
+  background: rgba(237, 237, 237, 0.5);
+  margin-bottom: 30px;
+}
+.align-center{
+  text-align: center;
+}
+.for-space{
+  padding: 50px;
+  margin: 0 auto;
+}
+.wide{
+  padding: 0 100px;
+}
+.err span{
+  font-size: 12px;
+  color: red;
+}
+.err input{
+  background: #f7dcd9;
+}
+input{
+  display: block;
+}
+input[type="text"]{
+  width: 100%;
+  height: 45px;
+  margin: 15px 0 40px;
+}
+input[type="number"]{
+  height: 45px;
+  width: 40%;
+}
+select{
+  height: 45px;
+  margin: 15px 0 40px;
+  display: block;
+}
+input[type="submit"]{
+  height: 40px;
+  width:120px;
+  background: rgba(38, 54, 104, 1);
+  border-radius: 25px;
+  display: block;
+  margin: 0 auto;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 1);
+}
+input[type="submit"]:hover{
+  cursor: pointer;
+}
+
+aside{
+  width: 230px;
+  height: 300px;
+  margin:95px 0 0 20px;
+  background: rgba(237, 237, 237, 0.5);
+}
+.sidebar-title{
+  height: 50px;
+  background: #d6d7da;
+  margin-bottom: 30px;
+}
+.sidebar-title p{
+  padding: 17px 0;
+  font-weight: bold;
+}
+.sidebar-inner a{
+  padding: 10px 15px;
+  margin: 15px 20px;
+  background: rgba(255, 255, 255, 1.0);
+  border: 1px solid rgba(56, 65, 79, 0.2);
+  display: block;
+}

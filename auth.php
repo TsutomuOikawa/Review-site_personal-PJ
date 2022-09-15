@@ -20,6 +20,7 @@ if (!empty($_SESSION['login_date'])) {
     //ログインページに遷移後、再度認証。セッション情報がない場合のフローへ
     debug('ログインページへ遷移します');
     header('Location:login.php');
+    exit;
 
   //有効期限内の場合
   }else {
@@ -29,6 +30,7 @@ if (!empty($_SESSION['login_date'])) {
     //login.phpに入っている場合にはそのままマイページへ遷移
     if(basename($_SERVER['PHP_SELF'])==='login.php'){
       header('Location:mypage.php');
+      exit;
     }
   }
 
@@ -39,6 +41,7 @@ if (!empty($_SESSION['login_date'])) {
   if (basename($_SERVER['PHP_SELF'])!=='login.php') {
     debug('ログインページへ遷移します');
     header('Location:login.php');
+    exit;
   }
 }
  ?>

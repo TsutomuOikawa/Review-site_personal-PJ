@@ -34,9 +34,9 @@ if (!empty($_POST)) {
       debug('メール・パスワード形式OK');
 
       //メール・パスワード文字数チェック
-      validMaxLen($email,'email');
-      validMaxLen($pass,'pass');
-      validMinLen($pass,'pass');
+      validMaxLen($email,'email',255);
+      validMaxLen($pass,'pass',255);
+      validMinLen($pass,'pass',6);
 
       //エラーがなければ次のバリデーションへ
       if (empty($err_msg)) {
@@ -79,6 +79,8 @@ if (!empty($_POST)) {
               debug('セッション情報の設定完了：'.print_r($_SESSION,true));
               debug('マイページへ遷移します');
               header('Location:mypage.php');
+              exit;
+
             }else {
               error_log('クエリに失敗しました');
               $err_msg['common'] = MSG08;
@@ -94,7 +96,6 @@ if (!empty($_POST)) {
   debug('処理を終了します');
 }
 ?>
-
 
 
 <?php

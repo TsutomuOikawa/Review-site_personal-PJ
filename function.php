@@ -49,10 +49,10 @@ session_start();
 session_regenerate_id();
 
 //=========================================
-//エラーメッセージ
+//定数（エラーメッセージ・）
 //=========================================
 define('MSG01','入力必須です');
-define('MSG02','メールの形式に誤りがあります');
+define('MSG02','メールアドレスの形式に誤りがあります');
 define('MSG03','半角英数字のみ入力可能です');
 define('MSG04','6文字以上で入力してください');
 define('MSG05','255文字以下で入力してください');
@@ -60,7 +60,14 @@ define('MSG06','パスワードが一致していません');
 define('MSG07','このメールアドレスは既に登録されています');
 define('MSG08','エラーが発生しております。しばらく経ってから再度お試しください');
 define('MSG09','メールアドレスまたはパスワードに誤りがあります');
+define('MSG10','電話番号の形式に誤りがあります');
+define('MSG11','年齢の形式に誤りがあります');
+define('MSG12','「市」「区」「町」「村」までつけて入力してください');
 
+//=========================================
+//グローバル変数
+//=========================================
+//エラーメッセージ格納用配列
 $err_msg = array();
 
 //=========================================
@@ -93,21 +100,21 @@ function validPass($str,$key){
   }
 }
 
-//パスワード最小文字数チェック
-function validMinLen($str,$key,$min=6){
+//最小文字数チェック
+function validMinLen($str,$key,$min){
   if (mb_strlen($str) < $min) {
     global $err_msg;
     $err_msg[$key] = MSG04;
-    debug('文字数が6文字未満でした');
+    debug('文字数に不足がありました');
   }
 }
 
-//パスワード最大文字数チェック
-function validMaxLen($str,$key,$max=255){
+//最大文字数(255)チェック
+function validMaxLen($str,$key,$max){
   if (mb_strlen($str) > $max) {
     global $err_msg;
     $err_msg[$key] = MSG05;
-    debug('文字数が256文字以上でした');
+    debug('文字数がオーバーしました');
   }
 }
 
@@ -143,8 +150,37 @@ function validEmailDup($email){
   }
 }
 
+//電話番号形式チェック
+function validTel($str, $key){
+  if (!preg_match('/^0[0-9]{9,10}$/',$str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG10;
+    debug('電話番号の形式に誤りがありました');
+  }
+}
+
+//年齢形式チェック
+function validAge($str, $key){
+  if (!preg_match('/^[0-9]{1,3}$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG11;
+    debug('年齢の入力形式に誤りがありました');
+  }
+}
+
+//都道府県データチェック
+
+//市区町村形式チェック
+function validCity($str, $key){
+  if(!preg_match('/$[市区町村]/',$str)){
+    global $err_msg;
+    $err_msg[$key] = MSG12;
+    debug('市区町村の入力形式に誤りがありました');
+  }
+}
+
 //=========================================
-//データベース
+//データベース接続
 //=========================================
 
 //DB接続情報を用意する関数
@@ -171,4 +207,71 @@ function queryPost($dbh,$sql,$data){
   $stmt -> execute($data);
   return $stmt;
 }
+
+//=========================================
+//データベースからのデータ取得
+//=========================================
+
+//ユーザーデータを取得
+function getUserData($u_id){
+  debug('ユーザーデータの取得を始めます');
+  global $err_msg;
+
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT name, email, tel, age, prefecture_id, city_id, pic FROM users WHERE id =:u_id';
+    $data = array(':u_id' => $u_id );
+    //クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+    debug(print_r($stmt,true));
+
+    if($stmt){
+      debug('クエリ成功');
+    }else {
+      debug('クエリ失敗');
+      $err_msg['common'] = MSG08;
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+    $err_msg['common'] = MSG08;
+  }
+  return $stmt->fetch(PDO::FETCH_ASSOC);
+  debug('DB情報の取得に成功しました');
+}
+
+//フォームにDBデータor入力データを表示させる
+function getFormData($str){
+  global $dbFormData;
+  global $err_msg;
+
+  //データベースにデータがある
+  if(!empty($dbFormData)){
+    //エラーメッセージが出ている
+    if(!empty($err_msg)) {
+      //POST送信がある = このフォームはPOSTしたがエラーになった
+      if(isset($_POST[$str])){
+        return $_POST[$str];
+      //POST送信がない = POSTしてないのにエラーになった（あり得ない）
+      }else {
+        return $dbFormData[$str];
+      }
+    //エラーメッセージが出ていない
+    }else{
+      //POST送信がある = このフォームはPOSTして問題ないが、他フォームでエラーがある
+      if(isset($_POST[$str])){
+        return $_POST[$str];
+      //POST送信がない = そもそもPOST送信をしていない（初期状態）
+      }else{
+        return $dbFormData[$str];
+      }
+    }
+  //データベースにデータがない
+  }else{
+    //POST送信があるならPOSTデータを表示
+    if (isset($_POST[$str])) {
+      return $_POST[$str];
+    }
+  }
+}
+
 ?>
