@@ -4,6 +4,9 @@ require('function.php');
 //ログイン認証
 require('auth.php');
 
+//デバッグログ
+$debug_current_page = basename(__FILE__);
+debugLogStart();
  ?>
 
 <?php
@@ -17,6 +20,9 @@ require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
+<div id="js_show_msg" style="display:none;" class="js_msg_window" >
+  <p><?php echo getSessionMsg('js-msg'); ?></p>
+</div>
 <div class="wrap">
   <main>
     <div class="h1-wide">

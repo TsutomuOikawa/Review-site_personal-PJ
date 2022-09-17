@@ -1,50 +1,50 @@
 header{
-  position: fixed;
-  z-index:9999;
   width: 100%;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(254, 239, 204, 1.0)
 }
-
 .header-left img{
   height: 50px;
   margin-top: 5px;
   margin-left: 120px;
   float: left;
 }
-
-.header-left span{
-  font-family: ubuntu;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 32px;
-}
-
 .header-right{
-  margin: 2.5px 120px 0 0;
+  margin-right: 120px;
 }
-
-.button{
-  padding: 15px;
+.btn{
   margin: 5px;
+  color: white;
+  float: right;
 }
-
-.r-button{
+.btn a{
+  padding: 15px;
+  display: block;
+}
+.r-btn{
   background-color: rgba(121, 132, 161, 1);
-  color: white;
-  float: right;
-
 }
-
-.l-button{
+.l-btn{
   background-color: rgba(201, 181, 114, 1);
-  color: white;
-  float: right;
-
 }
 
+
+/*JSによるメッセージウィンドウ*/
+.js_msg_window{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height:60px;
+  background: rgba(119, 100, 87, 0.7);
+  text-align: center;
+  font-size: 20px;
+  line-height: 60px;
+}
 
 /*コンテンツの共通部分*/
+.h1-narrow{
+  padding:0 0 50px 377.5px;
+}
 h1{
   font-size: 30px;
   font-weight: bold;
@@ -52,7 +52,27 @@ h1{
   color: rgb(23, 23, 21);
   letter-spacing: 0.1em;
   line-height: 1.5;
-
+}
+h2{
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Poppins;
+  color: rgb(23, 23, 21);
+  letter-spacing: 0.05em;
+}
+.h2_space{
+  padding: 15px 30px;
+  margin-bottom: 15px;
+  background:#d6d7da;
+}
+label{
+  display: block;
+}
+ul{
+  list-style-type: none;
+}
+.inline{
+  display: inline;
 }
 
 /*ここからfooter*/

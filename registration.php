@@ -26,7 +26,7 @@ if (!empty($_POST)) {
     debug('未入力項目なし');
 
     //バリデーション②メール・パスワード形式チェック
-    validEmail($email,'email');
+    validHalf($email,'email');
     validPass($pass,'pass');
 
     //エラーがなければ次のバリデーションへ
@@ -119,26 +119,26 @@ require('header.php');
       <div class ="regi-user">
 
         <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
-          <span><?php if (!empty($err_msg['common'])) echo $err_msg['common']; ?></span>
+          <span><?php echo showErrMsg('common'); ?></span>
         </div>
 
         <div class="email-form">
           <label class="<?php if (!empty($err_msg['email'])) echo 'err'; ?>">eメール
-            <span ><?php if (!empty($err_msg['email'])) echo $err_msg['email']; ?></span>
+            <span ><?php echo showErrMsg('email'); ?></span>
             <input type="text" name="email" placeholder="example@test.com" value="<?php if (!empty($_POST['email'])) echo $_POST['email']; ?>">
           </label>
         </div>
 
         <div class="pass-form">
           <label class="<?php if (!empty($err_msg['pass'])) echo 'err'; ?>">パスワード
-            <span><?php if (!empty($err_msg['pass'])) echo $err_msg['pass']; ?></span>
+            <span><?php  echo showErrMsg('pass'); ?></span>
             <input type="password" name="pass" placeholder="半角英数字6文字以上" value="<?php if (!empty($_POST['pass'])) echo $_POST['pass']; ?>">
           </label>
         </div>
 
         <div class="repass-form">
           <label class="<?php if (!empty($err_msg['pass_re'])) echo 'err'; ?>">パスワード（再入力）
-            <span><?php if (!empty($err_msg['pass_re'])) echo $err_msg['pass_re']; ?></span>
+            <span><?php  echo showErrMsg('pass_re'); ?></span>
             <input type="password" name="pass_re" value="<?php if (!empty($_POST['pass_re'])) echo $_POST['pass_re']; ?>">
           </label>
         </div>

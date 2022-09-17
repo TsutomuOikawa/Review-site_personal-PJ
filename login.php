@@ -29,7 +29,7 @@ if (!empty($_POST)) {
 
     //バリデーション②メール・パスワード形式チェック
     validEmail($email,'email');
-    validPass($pass,'pass');
+    // validHalf($pass,'pass');
 
     //エラーがなければ次のバリデーションへ
     if (empty($err_msg)){
@@ -124,16 +124,16 @@ if (!empty($_POST)) {
 
       <div class ="regi-user">
         <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
-          <span><?php if (!empty($err_msg['common'])) echo $err_msg['common']; ?></span>
+          <span><?php echo showErrMsg('common'); ?></span>
         </div>
 
         <label class="<?php if (!empty($err_msg['email'])) echo 'err'; ?>">eメール
-          <span><?php if (!empty($err_msg['email'])) echo $err_msg['email']; ?></span>
+          <span><?php echo showErrMsg('email'); ?></span>
           <input type="text" name="email" placeholder="example@test.com" value="<?php if(!empty($_POST['email'])) echo $_POST['email']; ?>">
         </label>
 
         <label class="<?php if (!empty($err_msg['pass'])) echo 'err'; ?>">パスワード
-          <span><?php if (!empty($err_msg['pass'])) echo $err_msg['pass']; ?></span>
+          <span><?php echo showErrMsg('pass'); ?></span>
           <input type="password" name="pass" placeholder="ご登録のパスワードを入力してください" value="<?php if(!empty($_POST['pass'])) echo $_POST['pass']; ?>">
         </label>
 

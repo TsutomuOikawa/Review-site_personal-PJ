@@ -57,12 +57,15 @@ define('MSG03','半角英数字のみ入力可能です');
 define('MSG04','6文字以上で入力してください');
 define('MSG05','255文字以下で入力してください');
 define('MSG06','パスワードが一致していません');
-define('MSG07','このメールアドレスは既に登録されています');
+define('MSG07','有効なメールアドレスをご利用ください');
 define('MSG08','エラーが発生しております。しばらく経ってから再度お試しください');
 define('MSG09','メールアドレスまたはパスワードに誤りがあります');
 define('MSG10','電話番号の形式に誤りがあります');
 define('MSG11','年齢の形式に誤りがあります');
 define('MSG12','「市」「区」「町」「村」までつけて入力してください');
+define('MSG13','パスワードに誤りがあります');
+define('MSG14','パスワードが変更されていません');
+define('JSMSG01','パスワードが変更されました');
 
 //=========================================
 //グローバル変数
@@ -91,8 +94,8 @@ function validEmail($str,$key){
   }
 }
 
-//パスワード形式チェック
-function validPass($str,$key){
+//半角英数字チェック
+function validHalf($str,$key){
   if (!preg_match('/^[a-zA-Z0-9]+$/',$str)){
     global $err_msg;
     $err_msg[$key] = MSG03;
@@ -152,7 +155,7 @@ function validEmailDup($email){
 
 //電話番号形式チェック
 function validTel($str, $key){
-  if (!preg_match('/^0[0-9]{9,10}$/',$str)) {
+  if(!preg_match('/^0[0-9]{9,10}$/',$str)) {
     global $err_msg;
     $err_msg[$key] = MSG10;
     debug('電話番号の形式に誤りがありました');
@@ -161,10 +164,10 @@ function validTel($str, $key){
 
 //年齢形式チェック
 function validAge($str, $key){
-  if (!preg_match('/^[0-9]{1,3}$/', $str)) {
-    global $err_msg;
-    $err_msg[$key] = MSG11;
-    debug('年齢の入力形式に誤りがありました');
+  if(!preg_match('/^[0-9]{1,3}$/', $str)) {
+      global $err_msg;
+      $err_msg[$key] = MSG11;
+      debug('年齢の入力形式に誤りがありました');
   }
 }
 
@@ -176,6 +179,21 @@ function validCity($str, $key){
     global $err_msg;
     $err_msg[$key] = MSG12;
     debug('市区町村の入力形式に誤りがありました');
+  }
+}
+
+//パスワードチェック
+function validPass($str, $key){
+  validMaxLen($str,$key,$max = 256);
+  validMinLen($str,$key,$max = 6);
+  validHalf($str,$key);
+}
+
+//エラーメッセージ表示関数
+function showErrMsg($key){
+  global $err_msg;
+  if (!empty($err_msg[$key])) {
+    return $err_msg[$key];
   }
 }
 
@@ -209,6 +227,28 @@ function queryPost($dbh,$sql,$data){
 }
 
 //=========================================
+//メール送信
+//=========================================
+
+function sendMail($from, $to, $subject, $message){
+  //最低限の引数が揃っているか確認
+  if (!empty($to) && !empty($subject) && !empty($message)) {
+    // 基本設定
+    mb_language('Japanese');
+    mb_internal_encoding('UTF-8');
+
+    $result = mb_send_mail($to, $subject, $message, 'From:'.$from);
+
+    if ($result) {
+      debug('メール送信成功');
+    }else {
+      debug('メール送信失敗');
+    }
+  }
+}
+
+
+//=========================================
 //データベースからのデータ取得
 //=========================================
 
@@ -219,7 +259,7 @@ function getUserData($u_id){
 
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT name, email, tel, age, prefecture_id, city_id, pic FROM users WHERE id =:u_id';
+    $sql = 'SELECT * FROM users WHERE id =:u_id';
     $data = array(':u_id' => $u_id );
     //クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
@@ -271,6 +311,17 @@ function getFormData($str){
     if (isset($_POST[$str])) {
       return $_POST[$str];
     }
+  }
+}
+
+//=========================================
+//その他
+//=========================================
+function getSessionMsg($key){
+  if (!empty($_SESSION[$key])) {
+    $msg = $_SESSION[$key];
+    $_SESSION[$key] = "";
+    return $msg;
   }
 }
 

@@ -26,17 +26,19 @@ if (!empty($_POST)) {
     debug('名前変更あり');
     validMaxLen($name,'name',255);
   }
-  if ($tel !== $dbFormData['tel']) {
+  if ($tel !== $dbFormData['tel'] && $tel !== '') {
     debug('電話番号変更あり・バリデーションチェック実施');
     validTel($tel,'tel');
   }
   if ($email !== $dbFormData['email']) {
     debug('email変更あり・バリデーションチェック実施');
-    validEmail($email,'email');
-    validMaxLen($email,'email',255);
     validRequired($email,'email');
     if (empty($err_msg)) {
-      validEmailDup($email);
+      validEmail($email,'email');
+      validMaxLen($email,'email',255);
+      if (empty($err_msg)) {
+        validEmailDup($email);
+      }
     }
   }
   if ($age !== (int)$dbFormData['age']) {
@@ -103,36 +105,39 @@ require('header.php');
         <div class="h2_space">
           <h2>プロフィール編集</h2>
         </div>
+        <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
+          <span><?php echo showErrMsg('common'); ?></span>
+        </div>
         <div class="for-space">
           <form class="wide" method="post">
             <div class ="regi-user">
               <div class="name-form">
                 <label class="<?php if(!empty($err_msg['name'])) echo 'err'; ?>">名前（ニックネームも可）
-                  <span><?php if (!empty($err_msg['name'])) echo $err_msg['name']; ?></span>
+                  <span><?php echo showErrMsg('name'); ?></span>
                   <input type="text" name="name" placeholder="コントレ太郎" value="<?php echo getFormData('name'); ?>">
                 </label>
               </div>
               <div class="tel-form">
-                <label class="<?php if(!empty($err_msg['tel'])) echo 'err'; ?>">電話
-                  <span><?php if (!empty($err_msg['tel'])) echo $err_msg['tel']; ?></span>
+                <label class="<?php if(!empty($err_msg['tel'])) echo 'err'; ?>">電話番号
+                  <span><?php echo showErrMsg('tel'); ?></span>
                   <input type="text" name="tel" placeholder="ハイフン不要" value="<?php echo getFormData('tel'); ?>">
                 </label>
               </div>
               <div class="email-form">
                 <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">eメール
-                  <span><?php if (!empty($err_msg['email'])) echo $err_msg['email']; ?></span>
+                  <span><?php echo showErrMsg('email'); ?></span>
                   <input type="text" name="email" placeholder="example@test.com" value="<?php echo getFormData('email'); ?>">
                 </label>
               </div>
               <div class="age-form">
                 <label class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">年齢
-                  <span><?php if (!empty($err_msg['age'])) echo $err_msg['age']; ?></span>
-                  <input type="number" min="0"　max="100" name="age" value="<?php echo getFormData('age'); ?>">
+                  <span><?php echo showErrMsg('age'); ?></span>
+                  <input type="number" min="0"　max="100" name="age" value="<?php if(!empty(getFormData('age'))) echo getFormData('age'); ?>">
                 </label>
               </div>
               <div class="prefecture-form">
                 <label class="<?php if(!empty($err_msg['prefecture'])) echo 'err'; ?>">都道府県
-                  <span><?php if (!empty($err_msg['prefecture'])) echo $err_msg['prefecture']; ?></span>
+                  <span><?php echo showErrMsg('prefecture'); ?></span>
                   <select name="prefecture" size="1">
                     <option disabled >選択する</option>
                     <?php
@@ -146,7 +151,7 @@ require('header.php');
               </div>
               <div class="city-form">
                 <label class="<?php if(!empty($err_msg['city'])) echo 'err'; ?>">市区町村
-                  <span><?php if (!empty($err_msg['city'])) echo $err_msg['city']; ?></span>
+                  <span><?php echo showErrMsg('city'); ?></span>
                   <input type="text" name="city" placeholder="新宿区" value="">
                 </label>
               </div>
