@@ -74,7 +74,7 @@ if (!empty($_POST)) {
 
                 //パスワード変更の通知メールを設定
                 $username = ($userData['name'])?$userData['name']: '匿名';
-                $from = 'o.2106.basket@gmail.com';
+                $from = '';
                 $to = $userData['email'];
                 $subject = 'パスワード変更通知【Concent-rate】';
                 $message = <<<EOT
@@ -90,7 +90,7 @@ Concent-rate(コンセントレート、コントレ)
 URL:https://concent-rate.com
 ==============================
 EOT;
-                //sendMail($from, $to, $subject, $message);
+                sendMail($from, $to, $subject, $message);
 
                 debug('マイページに遷移します');
                 header('Location:mypage.php');

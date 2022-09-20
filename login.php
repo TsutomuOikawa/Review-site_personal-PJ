@@ -114,6 +114,9 @@ if (!empty($_POST)) {
  require('header.php');
  ?>
 
+ <div id="js_show_msg" style="display:none;" class="js_msg_window" >
+   <p><?php echo getSessionMsg('js-msg'); ?></p>
+ </div>
 <!--　メインコンテンツ　-->
 <main class="wrap">
   <div class="h1-narrow">
@@ -145,7 +148,7 @@ if (!empty($_POST)) {
         <input type="submit" value="送信">
       </div>
     </form>
-    <p class="pass_forget">パスワードをお忘れの方は <a href="passReminder.php">こちら</a> </p>
+    <p class="pass_forget">パスワードをお忘れの方は <a href="passRemindSend.php">こちら</a> </p>
     <p>会員登録がまだの方は <a href="registration.php">こちらからご登録</a>ください</p>
   </div>
 </main>

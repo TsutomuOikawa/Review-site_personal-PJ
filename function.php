@@ -65,7 +65,12 @@ define('MSG11','年齢の形式に誤りがあります');
 define('MSG12','「市」「区」「町」「村」までつけて入力してください');
 define('MSG13','パスワードに誤りがあります');
 define('MSG14','パスワードが変更されていません');
+define('MSG15','メールアドレスに誤りがあります');
+define('MSG16','文字で入力してください');
+define('MSG17','認証キーに誤りがあります');
+define('MSG18','認証キーの有効期限が切れています');
 define('JSMSG01','パスワードが変更されました');
+define('JSMSG02','メールを送信しました');
 
 //=========================================
 //グローバル変数
@@ -187,6 +192,15 @@ function validPass($str, $key){
   validMaxLen($str,$key,$max = 256);
   validMinLen($str,$key,$max = 6);
   validHalf($str,$key);
+}
+
+//固定長チェック
+function validLength($str, $key, $length){
+  if (mb_strlen($str) !== $length) {
+    global $err_msg;
+    $err_msg[$key] = $length.MSG16;
+    debug('文字の長さに誤りがありました');
+  }
 }
 
 //エラーメッセージ表示関数
@@ -317,12 +331,23 @@ function getFormData($str){
 //=========================================
 //その他
 //=========================================
+//js用メッセージ表示関数
 function getSessionMsg($key){
   if (!empty($_SESSION[$key])) {
     $msg = $_SESSION[$key];
     $_SESSION[$key] = "";
     return $msg;
   }
+}
+
+//ランダムキー発行関数
+function makeRandkey($num){
+  $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  $str = '';
+  for ($i=0; $i < $num ; $i++) {
+    $str = $str.$chars[mt_rand(0,61)];
+  }
+  return $str;
 }
 
 ?>
