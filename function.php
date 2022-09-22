@@ -69,8 +69,13 @@ define('MSG15','メールアドレスに誤りがあります');
 define('MSG16','文字で入力してください');
 define('MSG17','認証キーに誤りがあります');
 define('MSG18','認証キーの有効期限が切れています');
+define('MSG19','選択に誤りがあります');
+define('MSG20','http もしくは https から入力してください');
 define('JSMSG01','パスワードが変更されました');
 define('JSMSG02','メールを送信しました');
+define('JSMSG03','登録が完了しました');
+define('JSMSG04','プロフィールが変更されました');
+
 
 //=========================================
 //グローバル変数
@@ -83,7 +88,7 @@ $err_msg = array();
 //=========================================
 //未入力チェック
 function validRequired($str,$key){
-  if (empty($str)) {
+  if ($str === '') {
     global $err_msg;
     $err_msg[$key] = MSG01;
     debug('未入力項目がありました');
@@ -176,11 +181,36 @@ function validAge($str, $key){
   }
 }
 
-//都道府県データチェック
+// セレクトボックスチェック
+function validSelect($str, $key){
+  if (!preg_match('/^[1-9][0-9]{0,1}$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG19;
+    debug($key.'のセレクトボックスに誤りがありました');
+  }
+}
+
+// 任意のセレクトボックスチェック
+function validOptSelect($str, $key){
+  if (!preg_match('/^[0-9]{1,2}$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG19;
+    debug($key.'のセレクトボックスに誤りがありました');
+  }
+}
 
 //市区町村形式チェック
 function validCity($str, $key){
-  if(!preg_match('/$[市区町村]/',$str)){
+  if(!preg_match('/.+[市区町村]$/',$str)){
+    global $err_msg;
+    $err_msg[$key] = MSG12;
+    debug('市区町村の入力形式に誤りがありました');
+  }
+}
+
+// 任意の市区町村形式チェック
+function validOptCity($str, $key){
+  if(!empty($str) && !preg_match('/.+[市区町村]$/',$str)){
     global $err_msg;
     $err_msg[$key] = MSG12;
     debug('市区町村の入力形式に誤りがありました');
@@ -200,6 +230,14 @@ function validLength($str, $key, $length){
     global $err_msg;
     $err_msg[$key] = $length.MSG16;
     debug('文字の長さに誤りがありました');
+  }
+}
+
+function validURL($str, $key){
+  if ($str !=='' && !preg_match('/^http.*+/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG20;
+    debug('URLに誤りがありました');
   }
 }
 
@@ -325,6 +363,86 @@ function getFormData($str){
     if (isset($_POST[$str])) {
       return $_POST[$str];
     }
+  }
+}
+
+// 施設データ取得
+function getInstData($i_id){
+  debug('施設データを取得します');
+  try {
+    // DB接続
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM institution WHERE id = :i_id AND delete_flg = 0';
+    $data = array(':i_id' => $i_id);
+    // SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('クエリ成功');
+      return $stmt -> fetchAll();
+    }else {
+      debug('クエリ失敗');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'. $e -> getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
+
+// 都道府県データ取得
+function getPrefData(){
+  debug('都道府県データを取得します');
+  try {
+    // DB接続
+    $dbh = dbConnect();
+    $sql = 'SELECT id, name FROM prefecture ORDER BY id';
+    $data = array();
+    // SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('クエリ成功');
+      return $stmt -> fetchAll();
+    }else{
+      debug('クエリ失敗');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'. $e -> getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
+
+// ジャンルデータ取得
+function getTypeData(){
+  try {
+    debug('ジャンルデータを取得します');
+    $dbh = dbConnect();
+    $sql = 'SELECT id, name FROM type ORDER BY id';
+    $data = array();
+    // SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      debug('クエリ成功');
+      return $stmt -> fetchAll();
+    }else {
+      debug('クエリ失敗');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'. $e -> getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
   }
 }
 

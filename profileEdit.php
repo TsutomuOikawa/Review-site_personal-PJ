@@ -10,6 +10,7 @@ debugLogStart();
 //DBからユーザー情報を取得しておく（POSTがなくてもプロフィール欄に表示）
 $dbFormData = getUserData($_SESSION['user_id']);
 debug('取得した情報：'.print_r($dbFormData,true));
+$dbPrefData = getPrefData();
 
 //POST送信があったら処理スタート
 if (!empty($_POST)) {
@@ -19,7 +20,7 @@ if (!empty($_POST)) {
   $tel = $_POST['tel'];
   $email = $_POST['email'];
   $age = (!empty($_POST['age'])) ?$_POST['age'] :0;
-  $prefecture = $_POST['prefecture'];
+  $prefecture = $_POST['prefecture_id'];
   $city = $_POST['city'];
 
   if ($name !== $dbFormData['name']) {
@@ -45,15 +46,15 @@ if (!empty($_POST)) {
     debug('年齢変更あり・バリデーションチェック実施');
     validAge($age, 'age');
   }
-//  if ($prefecture !== $dbFormData) {
-//    debug('都道府県変更あり・バリデーションチェック実施');
-
-//  }
-//  if ($city !== $dbFormData['city']) {
-//    debug('市区町村変更あり・バリデーションチェック実施');
-//    validMaxLen($city, 'city', 10);
-//    validCity($city, 'city');
-//  }
+ if ($prefecture !== $dbFormData['prefecture_id']) {
+   debug('都道府県変更あり・バリデーションチェック実施');
+   validOptSelect($prefecture, 'prefecture_id');
+ }
+ if ($city !== $dbFormData['city']) {
+   debug('市区町村変更あり・バリデーションチェック実施');
+   validMaxLen($city, 'city', 10);
+   validOptCity($city, 'city');
+ }
 
   if (empty($err_msg)) {
     debug('バリデーションOK・DBを更新します');
@@ -68,6 +69,8 @@ if (!empty($_POST)) {
 
       if($stmt){
         debug('クエリ成功');
+
+        $_SESSION['js-msg'] = JSMSG04;
         debug('マイページへ遷移します');
         header('Location:mypage.php');
         exit;
@@ -112,7 +115,7 @@ require('header.php');
           <form class="wide" method="post">
             <div class ="regi-user">
               <div class="name-form">
-                <label class="<?php if(!empty($err_msg['name'])) echo 'err'; ?>">名前（ニックネームも可）
+                <label class="<?php if(!empty($err_msg['name'])) echo 'err'; ?>">名前（ニックネーム可）
                   <span><?php echo showErrMsg('name'); ?></span>
                   <input type="text" name="name" placeholder="コントレ太郎" value="<?php echo getFormData('name'); ?>">
                 </label>
@@ -132,27 +135,27 @@ require('header.php');
               <div class="age-form">
                 <label class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">年齢
                   <span><?php echo showErrMsg('age'); ?></span>
-                  <input type="number" min="0"　max="100" name="age" value="<?php if(!empty(getFormData('age'))) echo getFormData('age'); ?>">
+                  <input type="number" min="0" max="100" name="age" value="<?php echo getFormData('age'); ?>">
                 </label>
               </div>
               <div class="prefecture-form">
-                <label class="<?php if(!empty($err_msg['prefecture'])) echo 'err'; ?>">都道府県
-                  <span><?php echo showErrMsg('prefecture'); ?></span>
-                  <select name="prefecture" size="1">
-                    <option disabled >選択する</option>
-                    <?php
-                    $prefecturesList = ['北海道','青森県','岩手県'];
-                    foreach ($prefecturesList as $prefecture) {
-                      echo '<option>'.$prefecture.'</option>';
-                    }
-                     ?>
+                <label class="<?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">都道府県
+                  <span><?php echo showErrMsg('prefecture_id'); ?></span>
+
+                  <select name="prefecture_id" size="1">
+                    <option value="0" <?php if(empty($dbFormData['prefecture_id'])) echo 'selected';?>>選択してください</option>
+                    <?php foreach ($dbPrefData as $key => $value) {?>
+                    <option value="<?php echo $value['id']; ?>" <?php if (getFormData('prefecture_id') == $value['id']) echo 'selected'; ?>>
+                      <?php echo $value['name']; ?>
+                    </option><?php } ?>
                   </select>
+
                 </label>
               </div>
               <div class="city-form">
                 <label class="<?php if(!empty($err_msg['city'])) echo 'err'; ?>">市区町村
                   <span><?php echo showErrMsg('city'); ?></span>
-                  <input type="text" name="city" placeholder="新宿区" value="">
+                  <input type="text" name="city" placeholder="新宿区" value="<?php echo getFormData('city'); ?>">
                 </label>
               </div>
               <input type="submit" value="更新する">
