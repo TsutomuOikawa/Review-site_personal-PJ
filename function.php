@@ -331,41 +331,6 @@ function getUserData($u_id){
   debug('DB情報の取得に成功しました');
 }
 
-//フォームにDBデータor入力データを表示させる
-function getFormData($str){
-  global $dbFormData;
-  global $err_msg;
-
-  //データベースにデータがある
-  if(!empty($dbFormData)){
-    //エラーメッセージが出ている
-    if(!empty($err_msg)) {
-      //POST送信がある = このフォームはPOSTしたがエラーになった
-      if(isset($_POST[$str])){
-        return $_POST[$str];
-      //POST送信がない = POSTしてないのにエラーになった（あり得ない）
-      }else {
-        return $dbFormData[$str];
-      }
-    //エラーメッセージが出ていない
-    }else{
-      //POST送信がある = このフォームはPOSTして問題ないが、他フォームでエラーがある
-      if(isset($_POST[$str])){
-        return $_POST[$str];
-      //POST送信がない = そもそもPOST送信をしていない（初期状態）
-      }else{
-        return $dbFormData[$str];
-      }
-    }
-  //データベースにデータがない
-  }else{
-    //POST送信があるならPOSTデータを表示
-    if (isset($_POST[$str])) {
-      return $_POST[$str];
-    }
-  }
-}
-
 // 施設データ取得
 function getInstData($i_id){
   debug('施設データを取得します');
@@ -392,6 +357,60 @@ function getInstData($i_id){
     $err_msg['common'] = MSG08;
   }
 }
+
+// searchListページ用施設データの一覧を取得
+// 合計データ数とページ数、10件ごとのデータが欲しい
+function getInstList($listSpan, $currentMinNum){
+  debug('施設データの一覧を取得します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT id FROM institution WHERE delete_flg = 0';
+    $data = array();
+    // SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+    // データ数を取得
+    $rst['total_data'] = $stmt -> rowCount();
+    $rst['total_page'] = ceil($rst['total_data'] / $listSpan);
+
+    if (!$stmt -> fetchAll()) {
+      debug('クエリに失敗しました');
+      debug('失敗したSQL'.$sql);
+      global $err_msg;
+      $err_msg = MSG08;
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+  }
+
+  // 2つ目の処理
+  debug($currentMinNum.'から'.$listSpan.'件のデータを取得します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM institution';
+
+    $sql = $sql.' LIMIT :list OFFSET :minNum';
+
+    $stmt = $dbh -> prepare($sql);
+    $stmt -> bindParam(':list', $listSpan, PDO::PARAM_INT);
+    $stmt -> bindParam(':minNum', $currentMinNum, PDO::PARAM_INT);
+    $stmt -> execute();
+
+    if ($stmt) {
+      $rst['list_data'] = $stmt -> fetchAll();
+      debug(print_r($rst['list_data'],true));
+      return $rst;
+    }else {
+      debug('クエリに失敗しました');
+      debug('失敗したSQL'.$sql);
+      global $err_msg;
+      $err_msg = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+    }
+}
+
 
 // 都道府県データ取得
 function getPrefData(){
@@ -449,6 +468,41 @@ function getTypeData(){
 //=========================================
 //その他
 //=========================================
+//inputフォームにDBデータor入力データを表示させる
+function getFormData($str){
+  global $dbFormData;
+  global $err_msg;
+
+  //データベースにデータがある
+  if(!empty($dbFormData)){
+    //エラーメッセージが出ている
+    if(!empty($err_msg)) {
+      //POST送信がある = このフォームはPOSTしたがエラーになった
+      if(isset($_POST[$str])){
+        return $_POST[$str];
+      //POST送信がない = POSTしてないのにエラーになった（あり得ない）
+      }else {
+        return $dbFormData[$str];
+      }
+    //エラーメッセージが出ていない
+    }else{
+      //POST送信がある = このフォームはPOSTして問題ないが、他フォームでエラーがある
+      if(isset($_POST[$str])){
+        return $_POST[$str];
+      //POST送信がない = そもそもPOST送信をしていない（初期状態）
+      }else{
+        return $dbFormData[$str];
+      }
+    }
+  //データベースにデータがない
+  }else{
+    //POST送信があるならPOSTデータを表示
+    if (isset($_POST[$str])) {
+      return $_POST[$str];
+    }
+  }
+}
+
 //js用メッセージ表示関数
 function getSessionMsg($key){
   if (!empty($_SESSION[$key])) {

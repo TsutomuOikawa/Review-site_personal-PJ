@@ -1,0 +1,145 @@
+main{
+  padding: 120px 0 50px;
+  width: 1000px;
+  margin: 0 auto;
+  display:flex;
+}
+#left-sidebar{
+  width: 220px;
+  margin-right: 20px;
+  height: 100%;
+  border: solid 5px rgba(237, 237, 237, 0.5);
+}
+.main_search{
+  background: rgba(237, 237, 237, 0.5);
+  padding: 15px 15px 20px 15px;
+}
+.search_detail p{
+  padding: 10px;
+  background: rgba(254, 239, 204, 0.8);
+  display: block;
+}
+.main_search input{
+  width: 180px;
+  padding: 0 5px;
+  height: 30px;
+  border: none;
+}
+.sub_search input{
+  width: 210px;
+  height: 30px;
+  padding: 0 5px;
+  border: none;
+}
+input[type="submit"]{
+  width: 220px;
+  height: 50px;
+  border: none;
+  background: rgba(38, 54, 104, 1);
+  font-size: 20px;
+  color: rgba(255, 255, 255, 1);
+}
+article{
+  width: 750px;
+}
+.h1-wide{
+  padding:0 0 50px;
+}
+.list{
+  background: rgba(237, 237, 237, 0.5);
+  padding-top: 30px;
+  margin-bottom: 30px;
+}
+.card{
+  background: rgba(255, 255, 255, 1);
+  border-top: solid 0.1px;
+  border-bottom: solid 0.1px;
+  margin: 0 12px 30px 12px;
+}
+.photo-area{
+  margin:0 5px 10px 0;
+}
+.small_photo{
+  margin-top: 5px;
+  margin-right: 4.5px;
+}
+.name_area h2{
+  color: blue;
+  padding: 3px 0 10px;
+}
+.script_area{
+  width: 524px;
+}
+.review_score{
+  padding: 5px 0 10px;
+}
+.total_score span{
+  color: red;
+  font-size: 23px;
+  font-weight: bold;
+}
+.review_numbers{
+  margin: auto 0;
+}
+.feature_area li{
+  background: rgba(254, 239, 204, 0.8);
+  color: rgba(121, 132, 161, 1);
+  border: 0.5px solid rgba(121, 132, 161, 1);
+  border-radius: 15px;
+  margin-right: 5px;
+}
+.feature_area a{
+  padding:5px 10px;
+  display: block;
+  font-size: 13px;
+}
+.comment{
+  background: rgba(237, 237, 237, 0.5);
+  padding: 5px 0 10px 3px;
+  margin: 10px 5px 0 0;
+}
+.more{
+  padding-bottom: 30px;
+}
+.display_flex{
+  display: flex;
+}
+.border_bottom{
+   border-bottom: dashed black 1px;
+}
+.align_center{
+  text-align: center;
+}
+.small_font{
+  font-size: 12.5px;
+}
+.padding_top10{
+  padding-top: 10px;
+}
+.padding_bottom10{
+  padding-bottom: 10px;
+}
+
+/*
+input[type="text"],[type="password"]{
+  width: 100%;
+  height: 45px;
+  margin: 15px 0 40px;
+}
+input[type="checkbox"]{
+  margin-right: 3px;
+}
+input[type="submit"]{
+  height: 40px;
+  width:120px;
+  background: rgba(38, 54, 104, 1);
+  border-radius: 25px;
+  display: block;
+  margin: 0 auto;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 1);
+}
+input[type="submit"]:hover{
+  cursor: pointer;
+}
+*/
