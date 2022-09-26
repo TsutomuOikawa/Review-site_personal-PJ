@@ -331,7 +331,7 @@ function getUserData($u_id){
   debug('DB情報の取得に成功しました');
 }
 
-// 施設データ取得
+// 施設情報編集用データ取得
 function getInstData($i_id){
   debug('施設データを取得します');
   try {
@@ -397,7 +397,6 @@ function getInstList($listSpan, $currentMinNum){
 
     if ($stmt) {
       $rst['list_data'] = $stmt -> fetchAll();
-      debug(print_r($rst['list_data'],true));
       return $rst;
     }else {
       debug('クエリに失敗しました');
@@ -411,6 +410,51 @@ function getInstList($listSpan, $currentMinNum){
     }
 }
 
+// 施設詳細表示用データ取得
+function getInstDetail($i_id){
+  debug('施設詳細のデータを取得します');
+
+  try {
+    $dbh = dbConnect();
+    // 施設情報データと都道府県データの取得
+    $sql1 = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture
+            FROM institution AS i LEFT JOIN prefecture AS p ON i.prefecture_id = p.id WHERE i.id = :i_id AND i.delete_flg = 0 AND p.delete_flg = 0';
+    // 施設情報に紐付くタイプデータも取得
+    $sql2 = 'SELECT t.name AS type FROM institution AS i LEFT JOIN type AS t ON i.type_id = t.id WHERE i.id = :i_id AND i.delete_flg = 0 AND t.delete_flg = 0';
+    // 施設情報に紐づくクチコミデータ数も取得
+    $sql3 = 'SELECT count(*) FROM review WHERE institution_id = :i_id AND delete_flg = 0';
+    $data = array(':i_id' => $i_id);
+    // 3種類のクエリを実行
+    $stmt1 = queryPost($dbh, $sql1, $data);
+    $stmt2 = queryPost($dbh, $sql2, $data);
+    $stmt3 = queryPost($dbh, $sql3, $data);
+
+    if ($stmt1 && $stmt2 && $stmt3) {
+
+    $rst['inst'] = $stmt1 -> fetchAll();
+    $rst['inst'] = array_shift($rst['inst']);
+
+    $rst['type'] = $stmt2 -> fetchAll();
+    $rst['type'] = array_shift($rst['type']);
+
+    $rst['review-num'] = $stmt3 -> fetch(PDO::FETCH_ASSOC);
+    $rst['review-num'] = array_shift($rst['review-num']);
+
+    debug('クエリ成功');
+    return $rst;
+
+    }else{
+      debug('クエリに失敗しました');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生'.$e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
 
 // 都道府県データ取得
 function getPrefData(){
@@ -464,6 +508,33 @@ function getTypeData(){
     $err_msg['common'] = MSG08;
   }
 }
+
+// 検索条件バー用、利用シーンデータを取得
+function getPurposeData(){
+  debug('利用目的データを取得します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT id, name FROM purpose WHERE delete_flg = 0 ORDER BY id';
+    $data = array();
+    //クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      return $stmt -> fetchAll();
+
+    }else {
+      debug('クエリ失敗');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'. $e -> getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
+
 
 //=========================================
 //その他
@@ -522,4 +593,12 @@ function makeRandkey($num){
   return $str;
 }
 
+// 画像表示
+function showImg($path){
+  if (empty($path)) {
+    return 'img/noimage.jpeg';
+  }else {
+    return($path);
+  }
+}
 ?>

@@ -68,7 +68,7 @@ require('header.php');
               </div>
               <div class="script_area padding_top10">
                 <div class="name_area border_bottom padding_bottom10">
-                  <h2><a href="searchDetail.php?i=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></h2>
+                  <h2><a href="searchDetail.php?i=<?php echo $value['id'].'&p='.$currentPageNum; ?>"><?php echo $value['name']; ?></a></h2>
                   <ul class="display_flex small_font">
                     <li>【<?php echo $value['prefecture_id']; ?>(要修正)】<?php echo $value['city']; ?>　</li>
                     <li>【アクション】におすすめの【<?php echo $value['type_id']; ?>(要修正)】</li>
