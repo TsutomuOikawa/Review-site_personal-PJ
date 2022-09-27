@@ -7,16 +7,33 @@ require('function.php');
 $debug_current_page = basename(__FILE__);
 debugLogStart();
 //=========================================
+$area = (!empty($_GET['ar'])) ? $_GET['ar'] :'';
+$purpose = (!empty($_GET['pu'])) ? $_GET['pu'] :'';
+$type = (!empty($_GET['ty'])) ? $_GET['ty'] :'';
+$concent = (isset($_GET['c'])) ? $_GET['c'] :'';
+$c_num = (!empty($_GET['c_num'])) ? $_GET['c_num'] :'';
+$wifi = (isset($_GET['w'])) ? $_GET['w'] :'';
+$w_rate = (!empty($_GET['w_rate'])) ? $_GET['w_rate'] :'';
+$stay = (!empty($_GET['st'])) ? $_GET['st'] :'';
+$silence = (!empty($_GET['si'])) ? $_GET['si'] :'';
+
 // GET値によって現在のページが変化（GET値がなければ1ページ目）
 $currentPageNum = (!empty($_GET['p'])) ? $_GET['p'] : 1;
 // ページ内の表示件数を設定
-$listSpan = 3;
-// 現在のページのうち、一番小さいデータを取得 1-> 11 -> 21
+$listSpan = 10;
+// 現在のページのうち、一番小さいデータを取得 0-> 10 -> 20
 $currentMinNum = ($currentPageNum - 1) * $listSpan;
 // 施設データ一覧を取得
-$dbInstList = getInstList($listSpan, $currentMinNum);
+$dbInstList = getInstList($listSpan, $currentMinNum, $area, $purpose,
+              $type, $concent, $c_num, $wifi, $w_rate, $stay, $silence);
 // 施設ジャンルを取得
 $dbTypeData = getTypeData();
+// 利用シーンデータ取得(サイドバーで利用)
+$dbPurposeData = getPurposeData();
+
+// ページネーション用複数条件を指定した際のリンク
+$link = '&ar='.$area.'&pu='.$purpose.'&ty='.$type.'&c='.$concent.
+        '&c_num='.$c_num.'&w='.$wifi.'&w_rate='.$w_rate.'&st='.$stay.'&si='.$silence;
 
 // GET値に変な値が入っている（GETに値があるが、データを取得できない）場合はログインページへ
 if (!empty($_GET['P']) && empty($dbInstList)) {

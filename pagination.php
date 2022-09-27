@@ -29,15 +29,15 @@ if ($dbInstList['total_page'] >= $listItemNum) {
 <div class="pagination">
   <ul class="pagination-list">
   <?php if ($currentPageNum != 1): ?>
-    <li class="list-item"><a href="?p=<?php echo 1; ?>">&lt;&lt;</a></li>
-    <li class="list-item"><a href="?p=<?php echo ($currentPageNum -1); ?>">&lt; 前へ</a></li>
+    <li class="list-item"><a href="?p=<?php echo 1; echo $link;?>">&lt;&lt;</a></li>
+    <li class="list-item"><a href="?p=<?php echo ($currentPageNum -1).$link; ?>">&lt; 前へ</a></li>
   <?php endif; ?>
   <?php for ($i = $minPageNum; $i <= $maxPageNum ; $i++):?>
-    <li class="list-item <?php if($currentPageNum == $i) echo 'list-active'; ?>"><a href="?p=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+    <li class="list-item <?php if($currentPageNum == $i) echo 'list-active'; ?>"><a href="?p=<?php echo $i.$link; ?>"><?php echo $i; ?></a></li>
   <?php endfor; ?>
   <?php if($currentPageNum != $dbInstList['total_page']): ?>
-    <li class="list-item"><a href="?p=<?php echo ($currentPageNum +1); ?>">次へ &gt;</a></li>
-    <li class="list-item"><a href="?p=<?php echo $dbInstList['total_page']; ?>">&gt;&gt;</a></li>
+    <li class="list-item"><a href="?p=<?php echo ($currentPageNum +1).$link; ?>">次へ &gt;</a></li>
+    <li class="list-item"><a href="?p=<?php echo $dbInstList['total_page'].$link; ?>">&gt;&gt;</a></li>
   <?php endif; ?>
   </ul>
 </div>

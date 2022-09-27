@@ -360,11 +360,33 @@ function getInstData($i_id){
 
 // searchListページ用施設データの一覧を取得
 // 合計データ数とページ数、10件ごとのデータが欲しい
-function getInstList($listSpan, $currentMinNum){
+function getInstList($listSpan, $currentMinNum, $area, $purpose,
+              $type, $concent, $c_num, $wifi, $w_rate, $stay, $silence){
   debug('施設データの一覧を取得します');
   try {
+    // 検索条件が複数あるか判断
+
     $dbh = dbConnect();
     $sql = 'SELECT id FROM institution WHERE delete_flg = 0';
+
+    // 条件分岐によってSQLを変更
+    if (!empty($area)) {
+        $sql .= " AND city LIKE '%".$area."%'";
+    }
+    // if (!empty($purpose)) {
+    //    $sql .= ' AND purpose = '.$purpose;
+    // }
+    if (!empty($type)) {
+      $sql .= ' AND type_id = '.$type;
+    }
+    if ($concent !== '') {
+      $sql .= ' AND concent = '.$concent;
+    }
+    if ($wifi !== '') {
+      $sql .= ' AND wifi = '.$wifi;
+    }
+    // debug('実行するSQL：'.$sql);
+
     $data = array();
     // SQL実行
     $stmt = queryPost($dbh, $sql, $data);
@@ -386,9 +408,27 @@ function getInstList($listSpan, $currentMinNum){
   debug($currentMinNum.'から'.$listSpan.'件のデータを取得します');
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM institution';
+    $sql = 'SELECT * FROM institution WHERE delete_flg = 0';
+    // 条件分岐によってSQLを変更
+    if (!empty($area)) {
+        $sql .= " AND city LIKE '%".(string)$area."%'";
+    }
+    // if (!empty($purpose)) {
+    //    $sql .= ' AND purpose = '.$purpose;
+    // }
+    if (!empty($type)) {
+      $sql .= ' AND type_id = '.$type;
+    }
+    if ($concent !== '') {
+      $sql .= ' AND concent = '.$concent;
+    }
+    if ($wifi !== '') {
+      $sql .= ' AND wifi = '.$wifi;
+    }
 
     $sql = $sql.' LIMIT :list OFFSET :minNum';
+
+    // debug('実行するSQL：'.$sql);
 
     $stmt = $dbh -> prepare($sql);
     $stmt -> bindParam(':list', $listSpan, PDO::PARAM_INT);
@@ -540,36 +580,42 @@ function getPurposeData(){
 //その他
 //=========================================
 //inputフォームにDBデータor入力データを表示させる
-function getFormData($str){
+function getFormData($str, $flg = 1){
   global $dbFormData;
   global $err_msg;
+
+  if ($flg === 1) {
+    $method = $_POST;
+  }else {
+    $method = $_GET;
+  }
 
   //データベースにデータがある
   if(!empty($dbFormData)){
     //エラーメッセージが出ている
     if(!empty($err_msg)) {
-      //POST送信がある = このフォームはPOSTしたがエラーになった
-      if(isset($_POST[$str])){
-        return $_POST[$str];
-      //POST送信がない = POSTしてないのにエラーになった（あり得ない）
+      //送信がある = このフォームは送信したがエラーになった
+      if(isset($method[$str])){
+        return $method[$str];
+      //送信がない = 送信してないのにエラーになった（あり得ない）
       }else {
         return $dbFormData[$str];
       }
     //エラーメッセージが出ていない
     }else{
-      //POST送信がある = このフォームはPOSTして問題ないが、他フォームでエラーがある
-      if(isset($_POST[$str])){
-        return $_POST[$str];
-      //POST送信がない = そもそもPOST送信をしていない（初期状態）
+      //送信がある = このフォームはして問題ないが、他フォームでエラーがある
+      if(isset($method[$str])){
+        return $method[$str];
+      //送信がない = そもそも送信をしていない（初期状態）
       }else{
         return $dbFormData[$str];
       }
     }
   //データベースにデータがない
   }else{
-    //POST送信があるならPOSTデータを表示
-    if (isset($_POST[$str])) {
-      return $_POST[$str];
+    //送信があるならデータを表示
+    if (isset($method[$str])) {
+      return $method[$str];
     }
   }
 }
