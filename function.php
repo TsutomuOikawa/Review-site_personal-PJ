@@ -468,29 +468,21 @@ function getInstDetail($i_id){
 
   try {
     $dbh = dbConnect();
-    // 施設情報データと都道府県データの取得
-    $sql1 = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture
-            FROM institution AS i LEFT JOIN prefecture AS p ON i.prefecture_id = p.id WHERE i.id = :i_id AND i.delete_flg = 0 AND p.delete_flg = 0';
-    // 施設情報に紐付くタイプデータも取得
-    $sql2 = 'SELECT t.name AS type FROM institution AS i LEFT JOIN type AS t ON i.type_id = t.id WHERE i.id = :i_id AND i.delete_flg = 0 AND t.delete_flg = 0';
-    // 施設情報に紐づくクチコミデータ数も取得
-    $sql3 = 'SELECT count(*) FROM review WHERE institution_id = :i_id AND delete_flg = 0';
+    // 施設情報データと紐づく都道府県データ、タイプデータの取得
+    $sql1 = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture , t.name AS type
+            FROM institution AS i LEFT JOIN prefecture AS p ON i.prefecture_id = p.id LEFT JOIN type AS t ON i.type_id = t.id WHERE i.id = :i_id AND i.delete_flg = 0 AND p.delete_flg = 0';
+    // 施設情報に紐づくクチコミデータも取得
+    $sql2 = 'SELECT * FROM review WHERE institution_id = :i_id AND delete_flg = 0 ORDER BY create_date DESC';
     $data = array(':i_id' => $i_id);
     // 3種類のクエリを実行
     $stmt1 = queryPost($dbh, $sql1, $data);
     $stmt2 = queryPost($dbh, $sql2, $data);
-    $stmt3 = queryPost($dbh, $sql3, $data);
 
-    if ($stmt1 && $stmt2 && $stmt3) {
+    if ($stmt1 && $stmt2) {
 
-    $rst['inst'] = $stmt1 -> fetchAll();
-    $rst['inst'] = array_shift($rst['inst']);
-
-    $rst['type'] = $stmt2 -> fetchAll();
-    $rst['type'] = array_shift($rst['type']);
-
-    $rst['review-num'] = $stmt3 -> fetch(PDO::FETCH_ASSOC);
-    $rst['review-num'] = array_shift($rst['review-num']);
+    $rst['inst'] = $stmt1 -> fetch(PDO::FETCH_ASSOC);
+    $rst['review-num'] = $stmt2 -> rowCount();
+    $rst['review'] = $stmt2 -> fetchAll();
 
     debug('クエリ成功');
     return $rst;
