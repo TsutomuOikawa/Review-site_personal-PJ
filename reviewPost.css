@@ -1,21 +1,35 @@
 .wrap{
-  padding: 120px 0 50px;
+  padding: 50px 0 50px;
   width: 1000px;
   margin: 0 auto;
-  display:flex;
 }
 main{
   width: 750px;
+  margin: 0 auto;
 }
 .h1-wide{
   padding:0 0 50px;
 }
-.mypage-inner{
-  background: rgba(237, 237, 237, 0.5);
+.contents-inner{
 }
+
+
 .for-space{
-  padding: 50px 150px;
+  padding: 20px 150px;
   margin: 0 auto;
+}
+.section-container{
+  padding: 40px 110px 20px;
+  margin: 0 auto;
+  border: solid 40px rgba(237, 237, 237, 1);
+
+}
+
+.area-msg{
+  height: 20px;
+  margin: 5px 0 20px;
+  font-size: 14px;
+  color: red;
 }
 .label-required{
   margin-right: 5px;
@@ -36,20 +50,44 @@ main{
   padding: 4px 5px;
   display: inline;
 }
-.err span{
-  font-size: 12px;
-  color: red;
-}
-.err input, .err select{
+
+.err{
   background: #f7dcd9;
 }
-input[type="text"],[type="password"],select{
+input[type="text"],[type="password"]{
   width: 100%;
-  height: 45px;
-  margin: 15px 0 40px;
+  height: 40px;
+  margin-top: 10px;
+  background: rgba(237, 237, 237, 1);
+  border: none;
+  padding: 5px 10px;
+}
+select{
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  background: rgba(237, 237, 237, 1);
+  border: none;
+  padding: 5px 10px;
+}
+.option-items{
+  margin-top: 10px;
+  height: 20px;
+  background: rgb(237, 237, 237);
+  padding: 15px 10px 10px;
 }
 input[type="checkbox"]{
   margin-right: 3px;
+}
+textarea{
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: rgba(237, 237, 237, 1);
+  border: none;
+}
+.text-counter{
+  text-align: right;
 }
 input[type="submit"]{
   height: 40px;
@@ -64,6 +102,8 @@ input[type="submit"]{
 input[type="submit"]:hover{
   cursor: pointer;
 }
+
+
 .align-center{
   text-align: center;
 }

@@ -68,6 +68,10 @@ h2{
   margin-bottom: 15px;
   background:#d6d7da;
 }
+.h2_space2{
+  padding: 15px 30px;
+  background:#d6d7da;
+}
 label{
   display: block;
 }

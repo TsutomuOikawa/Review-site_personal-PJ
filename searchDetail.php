@@ -10,6 +10,7 @@ $i_id = (!empty($_GET['i'])) ? $_GET['i'] : '';
 debug('施設ID：'.$i_id);
 // 施設詳細データを取得
 $dbInstDetail = getInstDetail($i_id);
+debug('$dbInstDetail：'.print_r($dbInstDetail,true));
 // GETパラメータがあるのにデータが空であれば一覧ページに戻る
 if (empty($dbInstDetail['inst'])) {
   debug('GETパラメータに不正な値が入りました。一覧ページへ遷移します');
@@ -34,6 +35,10 @@ require('head.php');
 //共通ヘッダー呼び出し
 require('header.php');
 ?>
+
+<div id="js_show_msg" class="js_msg_window" style="display:none;">
+  <p><?php echo getSessionMsg('js-msg'); ?></p>
+</div>
 
 <main>
   <div class="wrapper">
@@ -62,7 +67,7 @@ require('header.php');
         <div class="padding_top10 display_flex">
           <h2><?php echo $dbInstDetail['inst']['name']; ?></h2>
           <div class="genre_tag">
-            <?php echo $dbInstDetail['type']['type']; ?>
+            <?php echo $dbInstDetail['inst']['type']; ?>
           </div>
         </div>
         <div style="overflow:hidden;">
@@ -105,36 +110,26 @@ require('header.php');
       <section id="reviews">
         <h2 class="padding_top10">最新のクチコミ</h2>
         <ul>
+          <?php foreach ($dbInstDetail['review'] as $key => $val):?>
           <li>
             <div class="background">
               <div class="review_summary border_bottom padding_bottom10">
-                <p class="small_font">2022/04投稿</p>
+                <p class="small_font"><?php $val['create_date'].'投稿' ?>投稿</p>
                 <div class="score display_flex">
                   <div class="total_score">
                     <span>【4.57】</span>
                   </div>
                   <div class="detail_score">
-                    [コンセント：4.7｜Wi-Fi：4.3｜静かさ：4.2]
+                    [コンセント：<?php echo $val['concent_pt'];?>｜Wi-Fi：<?php echo $val['wifi_pt']; ?>｜静かさ：<?php echo $val['silence_pt']; ?>]
                   </div>
                 </div>
                 <div class="how_used">
-                  勉強・読書で利用｜滞在時間：3~4時間
+                  勉強・読書で利用｜滞在時間：<?php echo $val['stay'];?>
                 </div>
               </div>
               <div class="review_detail">
-                <h3>店員が早めの退店を呼びかけている</h3>
-                <p>テキストテキストテキストテキストテキストテキストテキストテキストテキスト<br>
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキスト<br>
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキスト<br>
-                  <br>
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキスト<br>
-                  テキストテキストテキスト<br>
-                  <br>
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                  テキストテキストテキストテキストテキストテキストテキストテキストテキスト<br>
-                  テキストテキストテキスト</p>
+                <h3><?php echo $val['title'];?></h3>
+                <p><?php echo $val['comment'];?></p>
                 <ul class="display_flex">
                   <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
                   <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
@@ -145,6 +140,7 @@ require('header.php');
               </div>
             </div>
           </li>
+        <?php endforeach; ?>
         </ul>
         <form class="review_action align_center" action="" method="post">
           <p>もっと見る</p>
@@ -161,7 +157,7 @@ require('header.php');
             </tr>
             <tr>
               <th scope="row"><span>施設タイプ</span></th>
-              <td><?php echo $dbInstDetail['type']['type']; ?></td>
+              <td><?php echo $dbInstDetail['inst']['type']; ?></td>
             </tr>
             <tr>
               <th scope="row"><span>住所</span></th>

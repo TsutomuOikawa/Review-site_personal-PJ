@@ -71,10 +71,13 @@ define('MSG17','認証キーに誤りがあります');
 define('MSG18','認証キーの有効期限が切れています');
 define('MSG19','選択に誤りがあります');
 define('MSG20','http もしくは https から入力してください');
+define('MSG21','選択形式に誤りがあります');
 define('JSMSG01','パスワードが変更されました');
 define('JSMSG02','メールを送信しました');
 define('JSMSG03','登録が完了しました');
 define('JSMSG04','プロフィールが変更されました');
+define('JSMSG05','クチコミを投稿しました');
+define('JSMSG06','クチコミの編集が完了しました');
 
 
 //=========================================
@@ -123,7 +126,7 @@ function validMinLen($str,$key,$min){
 }
 
 //最大文字数(255)チェック
-function validMaxLen($str,$key,$max){
+function validMaxLen($str,$key,$max = 255){
   if (mb_strlen($str) > $max) {
     global $err_msg;
     $err_msg[$key] = MSG05;
@@ -233,11 +236,20 @@ function validLength($str, $key, $length){
   }
 }
 
+// URLチェック
 function validURL($str, $key){
   if ($str !=='' && !preg_match('/^http.*+/', $str)) {
     global $err_msg;
     $err_msg[$key] = MSG20;
     debug('URLに誤りがありました');
+  }
+}
+
+// 半角数字チェック
+function validNum($str, $key){
+  if (!preg_match('/^[0-9]+$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG21;
   }
 }
 
@@ -344,7 +356,7 @@ function getInstData($i_id){
 
     if ($stmt) {
       debug('クエリ成功');
-      return $stmt -> fetchAll();
+      return $stmt -> fetch(PDO::FETCH_ASSOC);
     }else {
       debug('クエリ失敗');
       global $err_msg;
@@ -549,7 +561,7 @@ function getTypeData(){
   }
 }
 
-// 検索条件バー用、利用シーンデータを取得
+// 利用目的データ取得
 function getPurposeData(){
   debug('利用目的データを取得します');
   try {
@@ -573,6 +585,32 @@ function getPurposeData(){
     global $err_msg;
     $err_msg['common'] = MSG08;
   }
+}
+
+// レビューデータ取得
+function getReviewData($r_id){
+  debug('レビューデータを取得します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM review WHERE id = :id AND delete_flg = 0';
+    $data = array(':id' => $r_id);
+
+    $stmt = queryPost($dbh, $sql, $data);
+    if ($stmt) {
+      return $stmt -> fetchAll();
+
+    }else {
+      debug('失敗したSQL：'.$sql);
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+
 }
 
 
