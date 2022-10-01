@@ -86,6 +86,21 @@ article{
   color: blue;
   padding: 3px 0 10px;
 }
+
+.material-icons.md-24{
+  font-size: 24px;
+  margin: 3px 10px;
+  opacity: 0.3;
+}
+.material-icons:hover{
+  cursor: pointer;
+}
+.material-icons.md-24.active{
+  font-size: 36px;
+  margin: 3px 10px;
+  color: rgba(257, 50, 50, 1);
+}
+
 .script_area{
   width: 524px;
 }

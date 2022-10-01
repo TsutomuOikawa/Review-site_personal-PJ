@@ -69,6 +69,8 @@ require('header.php');
           <div class="genre_tag">
             <?php echo $dbInstDetail['inst']['type']; ?>
           </div>
+          <span class="material-icons md-36" data-instid="<?php echo $i_id; ?>">favorite</span>
+
         </div>
         <div style="overflow:hidden;">
           <div class="summarize_left">
@@ -109,6 +111,7 @@ require('header.php');
       </section>
       <section id="reviews">
         <h2 class="padding_top10">最新のクチコミ</h2>
+        <?php if (!empty($dbInstList['list_data'])): ?>
         <ul>
           <?php foreach ($dbInstDetail['review'] as $key => $val):?>
           <li>
@@ -140,10 +143,13 @@ require('header.php');
               </div>
             </div>
           </li>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
         </ul>
+        <?php else: ?>
+        <p class="align_center">まだクチコミ投稿がありません</p>
+      <?php endif; ?>
+
         <form class="review_action align_center" action="" method="post">
-          <p>もっと見る</p>
           <input type="submit" name="submit" value="この施設のクチコミを投稿する">
         </form>
       </section>
