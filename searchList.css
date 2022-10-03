@@ -87,18 +87,18 @@ article{
   padding: 3px 0 10px;
 }
 
-.material-icons.md-24{
+.material-icons.md-24.nonactive{
   font-size: 24px;
-  margin: 3px 10px;
+  margin: 1px 10px;
   opacity: 0.3;
 }
-.material-icons:hover{
+.material-icons.js-favorite:hover{
   cursor: pointer;
 }
 .material-icons.md-24.active{
-  font-size: 36px;
-  margin: 3px 10px;
-  color: rgba(257, 50, 50, 1);
+  font-size: 24px;
+  margin: 1px 10px;
+  color: rgba(250, 120, 120, 1);
 }
 
 .script_area{
@@ -111,6 +111,7 @@ article{
   color: red;
   font-size: 23px;
   font-weight: bold;
+  margin-right: 10px;
 }
 .review_numbers{
   margin: auto 0;
@@ -129,8 +130,12 @@ article{
 }
 .comment{
   background: rgba(237, 237, 237, 0.5);
-  padding: 5px 0 10px 3px;
+  padding: 0 5px;
   margin: 10px 5px 0 0;
+}
+.comment p{
+  font-size: 14px;
+  line-height: 25.5px;
 }
 .more{
   padding-bottom: 30px;

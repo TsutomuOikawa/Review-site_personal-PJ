@@ -51,6 +51,19 @@ h2{
   padding: 2px 8px;
   margin-right: 5px;
 }
+.material-icons.md-36.nonactive{
+  font-size: 36px;
+  margin: 3px 10px;
+  opacity: 0.3;
+}
+.material-icons.js-favorire:hover{
+  cursor: pointer;
+}
+.material-icons.md-36.active{
+  font-size: 36px;
+  margin: 3px 10px;
+  color: rgba(250, 120, 120, 1);
+}
 .summarize_left{
   margin-left: 80px;
   float: left;
@@ -58,10 +71,21 @@ h2{
 .review_score{
   padding: 5px 0 10px;
 }
-.total_score span{
+.total_pt{
   color: red;
   font-size: 23px;
   font-weight: bold;
+}
+.material-icons.md-24.nonactive{
+  margin: 3px 0;
+  opacity: 0.1;
+}
+.material-icons.md-24.active{
+  margin: 3px 0;
+  color: rgba(250, 190, 0, 1);
+}
+.detail_score{
+  margin-left: 10px;
 }
 .score_right{
   width: 100%;
@@ -172,28 +196,3 @@ table td{
 .padding_bottom10{
   padding-bottom: 10px;
 }
-
-
-/*
-input[type="text"],[type="password"]{
-  width: 100%;
-  height: 45px;
-  margin: 15px 0 40px;
-}
-input[type="checkbox"]{
-  margin-right: 3px;
-}
-input[type="submit"]{
-  height: 40px;
-  width:120px;
-  background: rgba(38, 54, 104, 1);
-  border-radius: 25px;
-  display: block;
-  margin: 0 auto;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 1);
-}
-input[type="submit"]:hover{
-  cursor: pointer;
-}
-*/

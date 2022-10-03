@@ -35,13 +35,11 @@ if (!empty($_POST)) {
 
   // POSTの中身を変数に詰める
   $stay = $_POST['stay'];
-  $purpose_id = '';
-  foreach ($_POST['purpose_id'] as $key => $id) { $purpose_id .= $id; }
-  debug('$purpose_id：'.$purpose_id);
-
+  $purpose_id = (!empty($_POST['purpose_id']))?implode(',', $_POST['purpose_id']):'';
   $concent_pt = $_POST['concent_pt'];
   $wifi_pt = $_POST['wifi_pt'];
   $silence_pt = $_POST['silence_pt'];
+  $total_pt = $_POST['total_pt'];
   $title = $_POST['title'];
   $comment = $_POST['comment'];
 
@@ -51,6 +49,7 @@ if (!empty($_POST)) {
     validRequired($purpose_id, 'purpose_id');
     validRequired($concent_pt, 'concent_pt');
     validRequired($wifi_pt, 'wifi_pt');
+    validRequired($total_pt, 'total_pt');
     validRequired($silence_pt, 'silence_pt');
 
     if (empty($err_msg)) {
@@ -61,6 +60,8 @@ if (!empty($_POST)) {
       validSelect($concent_pt, 'concent_pt');
       validSelect($wifi_pt, 'wifi_pt');
       validSelect($silence_pt, 'silence_pt');
+      validSelect($total_pt, 'total_pt');
+
       // 半角数字チェック
       validNum($purpose_id, 'purpose_id');
       // コメントチェック
@@ -90,6 +91,10 @@ if (!empty($_POST)) {
       validSelect($silence_pt, 'silence_pt');
       validRequired($silence_pt, 'silence_pt');
     }
+    if ($total_pt !== (int)$dbFormData['total_pt']) {
+      validSelect($total_pt, 'total_pt');
+      validRequired($total_pt, 'total_pt');
+    }
     if ($title !== $dbFormData['title']) {
       validMaxLen($title, 'title', 30);
     }
@@ -106,20 +111,20 @@ if (!empty($_POST)) {
       // 新規登録か更新かでSQLを分ける
       if (!$edit_flg) {
         debug('DBに新規登録します');
-        $sql = 'INSERT INTO review (institution_id, stay, purpose_id, concent_pt, wifi_pt, silence_pt, title, comment, user_id, create_date)
-                VALUES (:i_id, :stay, :p_id, :c_pt, :w_pt, :s_pt, :title, :comment, :u_id, :c_date)';
-        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
+        $sql = 'INSERT INTO review (institution_id, stay, purpose_id, concent_pt, wifi_pt, silence_pt, total_pt, title, comment, user_id, create_date)
+                VALUES (:i_id, :stay, :p_id, :c_pt, :w_pt, :s_pt, :t_pt, :title, :comment, :u_id, :c_date)';
+        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
       }else {
         debug('DBを更新します');
-        $sql = 'UPDATE review SET stay = :stay, purpose_id = :p_id, concent_pt = :c_pt, wifi_pt= :w_pt, silence_pt = :s_pt, title = :title, comment = :comment WHERE institution_id = :i_id AND user_id = :u_id AND delete_flg = 0';
-        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id);
+        $sql = 'UPDATE review SET stay = :stay, purpose_id = :p_id, concent_pt = :c_pt, wifi_pt= :w_pt, silence_pt = :s_pt, total_pt = :t_pt, title = :title, comment = :comment WHERE institution_id = :i_id AND user_id = :u_id AND delete_flg = 0';
+        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id);
       }
       $stmt = queryPost($dbh, $sql, $data);
 
       if ($stmt) {
         debug('施設詳細ページに遷移します');
 
-        if (!$delete_flg) {
+        if (!$edit_flg) {
           $_SESSION['js-msg'] = JSMSG05;
         }else {
           $_SESSION['js-msg'] = JSMSG06;
@@ -200,7 +205,7 @@ require('header.php');
                 </label>
                 <?php foreach ($dbPurposeData as $key => $value):?>
                 <label style="display:inline;">
-                  <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" ><?php echo $value['name']; ?>
+                  <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php echo ((empty($_POST) || (!empty($_POST)&&!strpos($purpose_id,$value['id'])))?'':'checked');?> ><?php echo $value['name']; ?>
                 </label>
                 <?php endforeach; ?>
               </div>
@@ -263,6 +268,21 @@ require('header.php');
             <div class="area-msg">
               <?php echo showErrMsg('silence_pt'); ?>
             </div>
+
+            <label>
+              <div class="label-required">必須</div>総合評価<span class="small_font"></span>
+              <select class="<?php if(!empty($err_msg['total_pt'])) echo 'err'; ?>" name="total_pt">
+                <option value="" <?php if(empty(getFormData('total_pt'))) echo 'selected';?> >選択してください</option>
+                <option value="1" <?php if(getFormData('total_pt') == "1") echo 'selected';?> >1点（悪い）</option>
+                <option value="2"<?php if(getFormData('total_pt') == "2") echo 'selected';?> >2点（やや悪い）</option>
+                <option value="3" <?php if(getFormData('total_pt') == "3") echo 'selected';?> >3点（普通）</option>
+                <option value="4" <?php if(getFormData('total_pt') == "4") echo 'selected';?>>4点（やや良い）</option>
+                <option value="5" <?php if(getFormData('total_pt') == "5") echo 'selected';?>>5点（良い）</option>
+              </select>
+            </label>
+            <div class="area-msg">
+              <?php echo showErrMsg('total_pt'); ?>
+            </div>
           </div>
         </section>
 
@@ -274,8 +294,8 @@ require('header.php');
           <div class="section-container">
             <label>
               <div class="label-optional">任意</div>ひとこと感想
-              <input type="text" name="title" class="<?php if(!empty($err_msg['title'])) echo 'err'; ?>" value="<?php echo getFormData('title'); ?>" placeholder="静かで設備も充実しており、作業にぴったりでした">
-              <p class="text-counter"><span class="js-text-count">0</span>/30文字</p>
+              <input type="text" name="title" class="js-text-count1 <?php if(!empty($err_msg['title'])) echo 'err'; ?>" value="<?php echo getFormData('title'); ?>" placeholder="静かで設備も充実しており、作業にぴったりでした">
+              <p class="text-counter"><span class="js-text-count-view1">0</span>/30文字</p>
             </label>
             <div class="area-msg">
               <?php echo showErrMsg('title'); ?>
@@ -283,8 +303,8 @@ require('header.php');
 
             <label>
               <div class="label-optional">任意</div>詳細なコメント・その他備考など
-              <textarea name="comment" class="text-counter <?php if(!empty($err_msg['comment'])) echo 'err'; ?>" rows="8"><?php echo getFormData('comment'); ?></textarea>
-              <p class=""><span class="js-text-count">0</span>/200文字</p>
+              <textarea name="comment" class="js-text-count2 <?php if(!empty($err_msg['comment'])) echo 'err'; ?>" rows="8"><?php echo getFormData('comment'); ?></textarea>
+              <p class="text-counter"><span class="js-text-count-view2">0</span>/200文字</p>
             </label>
             <div class="area-msg">
               <?php echo showErrMsg('comment'); ?>
