@@ -56,13 +56,21 @@ h2{
   margin: 3px 10px;
   opacity: 0.3;
 }
-.material-icons.js-favorire:hover{
+.material-icons.js-favorite:hover{
   cursor: pointer;
 }
 .material-icons.md-36.active{
   font-size: 36px;
   margin: 3px 10px;
   color: rgba(250, 120, 120, 1);
+}
+.material-icons.md-24.nonactive{
+  margin: 3px 0;
+  opacity: 0.1;
+}
+.material-icons.md-24.active{
+  margin: 3px 0;
+  color: rgba(250, 190, 0, 1);
 }
 .summarize_left{
   margin-left: 80px;
@@ -75,14 +83,6 @@ h2{
   color: red;
   font-size: 23px;
   font-weight: bold;
-}
-.material-icons.md-24.nonactive{
-  margin: 3px 0;
-  opacity: 0.1;
-}
-.material-icons.md-24.active{
-  margin: 3px 0;
-  color: rgba(250, 190, 0, 1);
 }
 .detail_score{
   margin-left: 10px;

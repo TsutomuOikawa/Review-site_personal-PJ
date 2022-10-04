@@ -36,6 +36,7 @@ if (!empty($_POST)) {
   // POSTの中身を変数に詰める
   $stay = $_POST['stay'];
   $purpose_id = (!empty($_POST['purpose_id']))?implode(',', $_POST['purpose_id']):'';
+  debug($purpose_id);
   $concent_pt = $_POST['concent_pt'];
   $wifi_pt = $_POST['wifi_pt'];
   $silence_pt = $_POST['silence_pt'];
@@ -63,7 +64,7 @@ if (!empty($_POST)) {
       validSelect($total_pt, 'total_pt');
 
       // 半角数字チェック
-      validNum($purpose_id, 'purpose_id');
+      validPurpose($purpose_id, 'purpose_id');
       // コメントチェック
       validMaxLen($title, 'title', 30);
       validMaxLen($comment, 'comment', 200);
