@@ -50,10 +50,11 @@ $(function(){
 
   /////////////////////////////
     // お気に入り機能
-    var $icon = $('.material-icons');
+    var $icon = $('.js-favorite');
     $icon.on('click',function(){
       var inst_id = $(this).data('instid');
       $(this).toggleClass('active');
+      $(this).toggleClass('nonactive')
 
       $.ajax({
         type: 'POST',
