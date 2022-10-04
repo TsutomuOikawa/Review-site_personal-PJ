@@ -4,20 +4,27 @@ require('function.php');
 //デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
-//=========================================
+// =========================================
 // GETパラメータを確認・変数に格納
 $i_id = (!empty($_GET['i'])) ? $_GET['i'] : '';
 debug('施設ID：'.$i_id);
 // 施設詳細データを取得
 $dbInstDetail = getInstDetail($i_id);
 debug('$dbInstDetail：'.print_r($dbInstDetail,true));
+
+
 // GETパラメータがあるのにデータが空であれば一覧ページに戻る
 if (empty($dbInstDetail['inst'])) {
   debug('GETパラメータに不正な値が入りました。一覧ページへ遷移します');
   header('Location:searchList.php');
   exit;
 }
+$t_avg = (isset($dbInstDetail['inst']['t_avg']))?number_format($dbInstDetail['inst']['t_avg'],2):'ーー';
+$c_avg = (isset($dbInstDetail['inst']['c_avg']))?number_format($dbInstDetail['inst']['c_avg'],1):'ーー';
+$w_avg = (isset($dbInstDetail['inst']['w_avg']))?number_format($dbInstDetail['inst']['w_avg'],1):'ーー';
+$s_avg = (isset($dbInstDetail['inst']['s_avg']))?number_format($dbInstDetail['inst']['s_avg'],1):'ーー';
 
+// =========================================
 // POST送信があったら画面処理を開始
 if (!empty($_POST)) {
   // 施設IDを渡しながらレビュー投稿画面へ
@@ -28,7 +35,7 @@ if (!empty($_POST)) {
 
 <?php
 $css_title = basename(__FILE__,".php");
-$p_title = '店名';
+$p_title = $dbInstDetail['inst']['name'];
 //共通headタグ呼び出し
 require('head.php');
 
@@ -69,33 +76,33 @@ require('header.php');
           <div class="genre_tag">
             <?php echo $dbInstDetail['inst']['type']; ?>
           </div>
-          <span class="material-icons md-36" data-instid="<?php echo $i_id; ?>">favorite</span>
-
+          <span class="material-icons md-36 js-favorite <?php echo((isLike($_SESSION['user_id'], $i_id))?'active':'nonactive');?>" data-instid="<?php echo $i_id; ?>">favorite</span>
         </div>
         <div style="overflow:hidden;">
           <div class="summarize_left">
             <div class="review_score display_flex">
-              <div class="total_score">
-                <span>【4.57】</span>
+              <span class="material-icons md-24 <?php echo(($t_avg>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($t_avg>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($t_avg>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($t_avg>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($t_avg>=5)?'active':'nonactive') ?>">grade</span>
+              <div class="total_pt">
+                <span><?php echo $t_avg; ?></span>
+              </div>
+              <div class="small_font">
+                [コンセント:<?php echo $c_avg; ?>｜Wi-Fi:<?php echo $w_avg; ?>｜静かさ:<?php echo $s_avg; ?>]
               </div>
               <div class="score_right small_font">
                 <div class="review_numbers">
-                  【<?php echo $dbInstDetail['review-num']; ?>】件のクチコミ
+                  <?php echo $dbInstDetail['review-num']; ?>件のクチコミ
                 </div>
               </div>
             </div>
-            <div class="features">
-              <p class="padding_bottom10">
-                <span>要修正勉強</span>
-                <span>仕事</span>
-                <span>ビデオ会議</span>
-                におすすめ
+            <div class="features display_flex">
+              <p class="">
+                <span><?php echo $dbInstDetail['inst']['purpose']; ?></span>におすすめ
               </p>
               <ul class="feature_tag display_flex">
                 <li style="<?php if($dbInstDetail['inst']['concent'] ==0 )echo'display:none;'?>"><a href="#">コンセントあり</a></li>
                 <li style="<?php if($dbInstDetail['inst']['wifi'] ==0 )echo'display:none;'?>"><a href="#">Wi-fiあり</a></li>
-                <li><a href="#">3~4時間滞在</a></li>
-                <li><a href="#">とても静か</a></li>
+                <li><a href="#"><?php echo $dbInstDetail['inst']['stay']; ?>滞在</a></li>
+                <li><a href="#">とても集中できる</a></li>
               </ul>
             </div>
           </div>
@@ -111,19 +118,20 @@ require('header.php');
       </section>
       <section id="reviews">
         <h2 class="padding_top10">最新のクチコミ</h2>
-        <?php if (!empty($dbInstList['list_data'])): ?>
+        <?php if (!empty($dbInstDetail['review'])): ?>
         <ul>
           <?php foreach ($dbInstDetail['review'] as $key => $val):?>
           <li>
             <div class="background">
               <div class="review_summary border_bottom padding_bottom10">
-                <p class="small_font"><?php $val['create_date'].'投稿' ?>投稿</p>
+                <p class="small_font"><?php echo(date('Y年m月d日',strtotime($val['create_date']))); ?>投稿</p>
                 <div class="score display_flex">
-                  <div class="total_score">
-                    <span>【4.57】</span>
+                  <div>
+                    <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
+                    <span class="total_pt"><?php echo $val['total_pt'] ?>.0</span>
                   </div>
                   <div class="detail_score">
-                    [コンセント：<?php echo $val['concent_pt'];?>｜Wi-Fi：<?php echo $val['wifi_pt']; ?>｜静かさ：<?php echo $val['silence_pt']; ?>]
+                    [コンセント:<span class="material-icons md-18">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi:<span class="material-icons md-18">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ:<span class="material-icons md-18">grade</span><?php echo $val['silence_pt']; ?>]
                   </div>
                 </div>
                 <div class="how_used">
@@ -134,11 +142,11 @@ require('header.php');
                 <h3><?php echo $val['title'];?></h3>
                 <p><?php echo $val['comment'];?></p>
                 <ul class="display_flex">
-                  <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
-                  <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
-                  <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
-                  <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
-                  <li><img src="http://dummyimage.com/100x100/acc/fff.gif&text=画像" alt=""></li>
+                  <li><img src="<?php showImg(''); ?>" alt=""></li>
+                  <li><img src="<?php showImg(''); ?>" alt=""></li>
+                  <li><img src="<?php showImg(''); ?>" alt=""></li>
+                  <li><img src="" alt=""></li>
+                  <li><img src="" alt=""></li>
                 </ul>
               </div>
             </div>

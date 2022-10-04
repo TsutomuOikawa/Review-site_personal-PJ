@@ -55,7 +55,7 @@ define('MSG01','入力必須です');
 define('MSG02','メールアドレスの形式に誤りがあります');
 define('MSG03','半角英数字のみ入力可能です');
 define('MSG04','6文字以上で入力してください');
-define('MSG05','255文字以下で入力してください');
+define('MSG05','文字以下で入力してください');
 define('MSG06','パスワードが一致していません');
 define('MSG07','有効なメールアドレスをご利用ください');
 define('MSG08','エラーが発生しております。しばらく経ってから再度お試しください');
@@ -129,7 +129,7 @@ function validMinLen($str,$key,$min){
 function validMaxLen($str,$key,$max = 255){
   if (mb_strlen($str) > $max) {
     global $err_msg;
-    $err_msg[$key] = MSG05;
+    $err_msg[$key] = $max.MSG05;
     debug('文字数がオーバーしました');
   }
 }
@@ -246,8 +246,8 @@ function validURL($str, $key){
 }
 
 // 半角数字チェック
-function validNum($str, $key){
-  if (!preg_match('/^[0-9]+$/', $str)) {
+function validPurpose($str, $key){
+  if (!preg_match('/^[0-9,]*$/', $str)) {
     global $err_msg;
     $err_msg[$key] = MSG21;
   }
@@ -376,11 +376,11 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
               $type, $concent, $c_num, $wifi, $w_rate, $stay, $silence){
   debug('施設データの一覧を取得します');
   try {
-    // 検索条件が複数あるか判断
 
     $dbh = dbConnect();
     $sql = 'SELECT id FROM institution WHERE delete_flg = 0';
 
+    // 検索条件が複数あるか判断
     // 条件分岐によってSQLを変更
     if (!empty($area)) {
         $sql .= " AND city LIKE '%".$area."%'";
@@ -420,7 +420,7 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
   debug($currentMinNum.'から'.$listSpan.'件のデータを取得します');
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM institution WHERE delete_flg = 0';
+    $sql = 'SELECT i.*, p.name AS prefecture, t.name AS type FROM institution AS i LEFT JOIN prefecture AS p ON i.prefecture_id = p.id LEFT JOIN type AS t ON i.type_id = t.id WHERE i.delete_flg = 0';
     // 条件分岐によってSQLを変更
     if (!empty($area)) {
         $sql .= " AND city LIKE '%".(string)$area."%'";
@@ -468,9 +468,26 @@ function getInstDetail($i_id){
 
   try {
     $dbh = dbConnect();
-    // 施設情報データと紐づく都道府県データ、タイプデータの取得
-    $sql1 = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture , t.name AS type
-            FROM institution AS i LEFT JOIN prefecture AS p ON i.prefecture_id = p.id LEFT JOIN type AS t ON i.type_id = t.id WHERE i.id = :i_id AND i.delete_flg = 0 AND p.delete_flg = 0';
+    // 施設情報データに都道府県、施設タイプ、評価項目の各平均点を取得
+    $sql1 = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture, t.name AS type, t_avg, c_avg, w_avg, s_avg, purpose, stay
+              FROM institution AS i
+              LEFT JOIN prefecture AS p ON i.prefecture_id = p.id
+              LEFT JOIN type AS t ON i.type_id = t.id
+              LEFT JOIN
+                  (SELECT institution_id, AVG(total_pt) AS t_avg , AVG(concent_pt) AS c_avg, AVG(wifi_pt) AS w_avg, AVG(silence_pt) AS s_avg
+                    FROM review WHERE delete_flg = 0 GROUP BY institution_id) AS avg
+              ON i.id = avg.institution_id
+              LEFT JOIN
+                  (SELECT p_i_r.institution_id, pu.name AS purpose
+                      FROM purpose_in_review AS p_i_r LEFT JOIN purpose AS pu ON p_i_r.purpose_id = pu.id
+                      WHERE institution_id = :i_id GROUP BY purpose_id HAVING count(*) >= ALL (SELECT count(*) FROM purpose_in_review WHERE institution_id = 33 GROUP BY purpose_id)) AS pu_i
+              ON i.id = pu_i.institution_id
+              LEFT JOIN
+                  (SELECT institution_id, stay
+                    FROM review WHERE institution_id = :i_id GROUP BY stay HAVING count(*) >= ALL (SELECT count(*) FROM review WHERE institution_id = :i_id GROUP BY stay)) AS s
+              ON i.id = s.institution_id
+              WHERE i.id = :i_id AND i.delete_flg = 0';
+
     // 施設情報に紐づくクチコミデータも取得
     $sql2 = 'SELECT * FROM review WHERE institution_id = :i_id AND delete_flg = 0 ORDER BY create_date DESC';
     $data = array(':i_id' => $i_id);
@@ -579,7 +596,7 @@ function getPurposeData(){
   }
 }
 
-// レビューデータ取得
+// レビューデータ全件取得
 function getReviewData($r_id){
   debug('レビューデータを取得します');
   try {
@@ -602,9 +619,32 @@ function getReviewData($r_id){
     global $err_msg;
     $err_msg['common'] = MSG08;
   }
-
 }
 
+// 検索結果用レビューデータ取得
+// 何件のレビューがあるか
+// 総合得点はいくらか
+// 最新クチコミの
+function getInstListReview($i_id){
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM review WHERE institution_id = :i_id AND delete_flg =0 ORDER BY create_date DESC';
+    $data = array(':i_id' => $i_id);
+
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      $rst['total_review'] = $stmt -> rowCount();
+      $rst['all_review'] = $stmt -> fetchAll();
+
+      return $rst;
+    }else {
+      debug('クエリ失敗：'.$sql);
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+  }
+}
 
 //=========================================
 //その他
@@ -677,4 +717,30 @@ function showImg($path){
     return($path);
   }
 }
+
+// お気に入り検索
+function isLike($u_id, $i_id){
+  // debug('お気に入り登録状況を確認します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM favorite WHERE user_id = :u_id AND institution_id = :i_id';
+    $data = array(':u_id'=> $u_id, 'i_id'=> $i_id);
+
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt -> fetchAll();
+
+    if (!empty($result)) {
+      // debug('お気に入り登録があります');
+      return true;
+    }else {
+      // debug('お気に入り登録はありません');
+      return false;
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e-> getMessage());
+  }
+}
+
+
+
 ?>
