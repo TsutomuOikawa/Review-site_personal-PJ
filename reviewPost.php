@@ -9,17 +9,12 @@ debugLogStart();
 //=========================================
 // GETパラメータを確認
 $i_id = (!empty($_GET['i'])) ? $_GET['i'] :'';
-$r_id = (!empty($_GET['r'])) ? $_GET['r'] :'';
 // セッション変数からユーザーIDを確認
 $u_id = (!empty($_SESSION['user_id'])) ? $_SESSION['user_id'] :'';
 // 施設情報を取得
 $dbInstData = getInstData($i_id);
-// クチコミ情報(フォーム情報)を取得
-$dbFormData = getReviewData($r_id);
 // 利用目的データを取得
 $dbPurposeData = getPurposeData();
-// クチコミGETの有無で編集か新規投稿かを判別
-$edit_flg = (!empty($r_id)) ? true :false;
 
 // 施設IDのGETがない、もしくは不正の場合は一覧ページへ遷移
 if (!isset($i_id) || empty($dbInstData)) {
@@ -28,6 +23,8 @@ if (!isset($i_id) || empty($dbInstData)) {
   exit;
 }
 
+debug(print_r($_POST,true));
+//=========================================
 // POST送信があったら処理スタート
 if (!empty($_POST)) {
   debug('POST送信がありました。処理を開始します');
@@ -35,8 +32,11 @@ if (!empty($_POST)) {
 
   // POSTの中身を変数に詰める
   $stay = $_POST['stay'];
-  $purpose_id = (!empty($_POST['purpose_id']))?implode(',', $_POST['purpose_id']):'';
-  debug($purpose_id);
+
+  // purpose_idは先頭に含まれている[0]を削除
+  array_shift($_POST['purpose_id']);
+  $purpose_id = ($_POST['purpose_id']) ? $_POST['purpose_id'] : '';
+  debug('ここに注目！！'.print_r($purpose_id, true));
   $concent_pt = $_POST['concent_pt'];
   $wifi_pt = $_POST['wifi_pt'];
   $silence_pt = $_POST['silence_pt'];
@@ -44,92 +44,55 @@ if (!empty($_POST)) {
   $title = $_POST['title'];
   $comment = $_POST['comment'];
 
-  if (!$edit_flg) {
-    // 新規登録用バリデーション実施
-    validRequired($stay, 'stay');
-    validRequired($purpose_id, 'purpose_id');
-    validRequired($concent_pt, 'concent_pt');
-    validRequired($wifi_pt, 'wifi_pt');
-    validRequired($total_pt, 'total_pt');
-    validRequired($silence_pt, 'silence_pt');
+  // 新規登録用バリデーション実施
+  validRequired($stay, 'stay');
+  validRequired($purpose_id, 'purpose_id');
+  validRequired($concent_pt, 'concent_pt');
+  validRequired($wifi_pt, 'wifi_pt');
+  validRequired($total_pt, 'total_pt');
+  validRequired($silence_pt, 'silence_pt');
 
-    if (empty($err_msg)) {
-      debug('未入力チェックOK');
-      // 最大文字数チェック
-      validMaxLen($stay, 'stay', 7);
-      // セレクトボックスチェック
-      validSelect($concent_pt, 'concent_pt');
-      validSelect($wifi_pt, 'wifi_pt');
-      validSelect($silence_pt, 'silence_pt');
-      validSelect($total_pt, 'total_pt');
+  if (empty($err_msg)) {
+    debug('未入力チェックOK');
+    // 最大文字数チェック
+    validMaxLen($stay, 'stay', 7);
+    // セレクトボックスチェック
+    validSelect($concent_pt, 'concent_pt');
+    validSelect($wifi_pt, 'wifi_pt');
+    validSelect($silence_pt, 'silence_pt');
+    validSelect($total_pt, 'total_pt');
 
-      // 半角数字チェック
-      validPurpose($purpose_id, 'purpose_id');
-      // コメントチェック
-      validMaxLen($title, 'title', 30);
-      validMaxLen($comment, 'comment', 200);
-    }
-
-  }else {
-    // delete_flgがtrueのときはデータが変わったもののみバリデーション
-    if ($stay !== (int)$dbFormData['stay'] ) {
-      validMaxLen($stay, 'stay', 7);
-      validRequired($stay, 'stay');
-    }
-    if ($purpose_id !== (int)$dbFormData['purpose_id']) {
-      validNum($purpose_id, 'purpose_id');
-      validRequired($purpose_id, 'purpose_id');
-    }
-    if ($concent_pt !== (int)$dbFormData['concent_pt']) {
-      validSelect($concent_pt, 'concent_pt');
-      validRequired($concent_pt, 'concent_pt');
-    }
-    if ($wifi_pt !== (int)$dbFormData['wifi_pt']) {
-      validSelect($wifi_pt, 'wifi_pt');
-      validRequired($wifi_pt, 'wifi_pt');
-    }
-    if ($silence_pt !== (int)$dbFormData['silence_pt']) {
-      validSelect($silence_pt, 'silence_pt');
-      validRequired($silence_pt, 'silence_pt');
-    }
-    if ($total_pt !== (int)$dbFormData['total_pt']) {
-      validSelect($total_pt, 'total_pt');
-      validRequired($total_pt, 'total_pt');
-    }
-    if ($title !== $dbFormData['title']) {
-      validMaxLen($title, 'title', 30);
-    }
-    if ($comment !== $dbFormData['comment']) {
-      validMaxLen($comment, 'comment', 200);
-    }
+    // 半角数字チェック
+    // validPurpose($purpose_id, 'purpose_id');
+    // コメントチェック
+    validMaxLen($title, 'title', 30);
+    validMaxLen($comment, 'comment', 200);
   }
 
   if (empty($err_msg)) {
     debug('バリデーションOK');
-
     try {
       $dbh = dbConnect();
       // 新規登録か更新かでSQLを分ける
-      if (!$edit_flg) {
-        debug('DBに新規登録します');
-        $sql = 'INSERT INTO review (institution_id, stay, purpose_id, concent_pt, wifi_pt, silence_pt, total_pt, title, comment, user_id, create_date)
-                VALUES (:i_id, :stay, :p_id, :c_pt, :w_pt, :s_pt, :t_pt, :title, :comment, :u_id, :c_date)';
-        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
-      }else {
-        debug('DBを更新します');
-        $sql = 'UPDATE review SET stay = :stay, purpose_id = :p_id, concent_pt = :c_pt, wifi_pt= :w_pt, silence_pt = :s_pt, total_pt = :t_pt, title = :title, comment = :comment WHERE institution_id = :i_id AND user_id = :u_id AND delete_flg = 0';
-        $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':p_id'=> $purpose_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id);
-      }
+      debug('DBに新規登録します');
+      $sql = 'INSERT INTO review (institution_id, stay, concent_pt, wifi_pt, silence_pt, total_pt, title, comment, user_id, create_date)
+              VALUES (:i_id, :stay, :c_pt, :w_pt, :s_pt, :t_pt, :title, :comment, :u_id, :c_date)';
+
+      $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
       $stmt = queryPost($dbh, $sql, $data);
 
-      if ($stmt) {
-        debug('施設詳細ページに遷移します');
+      $r_id = $dbh->lastInsertID();
 
-        if (!$edit_flg) {
-          $_SESSION['js-msg'] = JSMSG05;
-        }else {
-          $_SESSION['js-msg'] = JSMSG06;
-        }
+      foreach ($purpose_id as $key => $p_id) {
+        $sql2 = 'INSERT INTO purpose_in_review (review_id, purpose_id, institution_id, user_id) VALUES (:r, :p, :i, :u)';
+        $data2 = array(':r'=> $r_id, ':p'=> $p_id, ':i'=>$i_id, ':u'=>$u_id);
+
+        $stmt2 = queryPost($dbh, $sql2, $data2);
+      }
+
+      if ($stmt && $stmt2) {
+        debug('施設詳細ページに遷移します');
+        $_SESSION['js-msg'] = JSMSG05;
         header('Location:searchDetail.php?i='.$i_id);
         exit;
 
@@ -149,7 +112,7 @@ if (!empty($_POST)) {
 
 <?php
 $css_title = basename(__FILE__,".php");
-$p_title = ($edit_flg) ? 'クチコミ編集' : 'クチコミ投稿' ;
+$p_title = 'クチコミ投稿' ;
 //共通headタグ呼び出し
 require('head.php');
 
@@ -206,7 +169,7 @@ require('header.php');
                 </label>
                 <?php foreach ($dbPurposeData as $key => $value):?>
                 <label style="display:inline;">
-                  <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php echo ((empty($_POST) || (!empty($_POST)&&!strpos($purpose_id,$value['id'])))?'':'checked');?> ><?php echo $value['name']; ?>
+                  <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php if(!empty($_POST)) echo ((in_array($value['id'],$purpose_id))?'checked':'');?> ><?php echo $value['name']; ?>
                 </label>
                 <?php endforeach; ?>
               </div>
@@ -311,7 +274,7 @@ require('header.php');
               <?php echo showErrMsg('comment'); ?>
             </div>
 
-            <input type="submit" value="<?php echo (($edit_flg)? '編集する':'投稿する'); ?>">
+            <input type="submit" value="投稿する">
           </div>
         </section>
 
