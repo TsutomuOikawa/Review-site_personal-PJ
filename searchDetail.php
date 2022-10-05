@@ -90,7 +90,7 @@ require('header.php');
               </div>
               <div class="score_right small_font">
                 <div class="review_numbers">
-                  <?php echo $dbInstDetail['review-num']; ?>件のクチコミ
+                  <?php echo $dbInstDetail['inst']['total_review']; ?>件のクチコミ
                 </div>
               </div>
             </div>
