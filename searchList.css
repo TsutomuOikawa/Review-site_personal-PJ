@@ -87,19 +87,25 @@ article{
   padding: 3px 0 10px;
 }
 
-.material-icons.md-24.nonactive{
+/*/////////////////////////
+ アイコンフォント
+/////////////////////////*/
+.material-icons.md-24{
   font-size: 24px;
-  margin: 1px 10px;
-  opacity: 0.3;
+}
+.material-icons.nonactive{
+  opacity: 0.2;
 }
 .material-icons.js-favorite:hover{
   cursor: pointer;
 }
-.material-icons.md-24.active{
-  font-size: 24px;
-  margin: 1px 10px;
+.material-icons.js-favorite.active{
   color: rgba(250, 120, 120, 1);
 }
+.material-icons.active{
+  color: rgba(250, 190, 0, 1);
+}
+
 
 .script_area{
   width: 524px;
@@ -111,23 +117,28 @@ article{
   color: red;
   font-size: 23px;
   font-weight: bold;
-  margin-right: 10px;
+  margin: 0 10px;
 }
 .review_numbers{
   margin: auto 0;
 }
-.feature_area li{
+.purpose{
+  font-size: 13px;
+  margin:0 10px 10px;
+}
+.feature_area .list-feature{
   background: rgba(254, 239, 204, 0.8);
   color: rgba(121, 132, 161, 1);
   border: 0.5px solid rgba(121, 132, 161, 1);
   border-radius: 15px;
   margin-right: 5px;
 }
-.feature_area a{
+.feature_area .list-feature a{
   padding:5px 10px;
   display: block;
   font-size: 13px;
 }
+
 .comment{
   background: rgba(237, 237, 237, 0.5);
   padding: 0 5px;
@@ -157,4 +168,7 @@ article{
 }
 .padding_bottom10{
   padding-bottom: 10px;
+}
+.icon-space{
+  margin-left: 10px;
 }

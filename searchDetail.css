@@ -51,33 +51,39 @@ h2{
   padding: 2px 8px;
   margin-right: 5px;
 }
-.material-icons.md-36.nonactive{
+/*/////////////////////////
+ アイコンフォント
+/////////////////////////*/
+.material-icons.md-36{
   font-size: 36px;
-  margin: 3px 10px;
-  opacity: 0.3;
+}
+.material-icons.md-24{
+  font-size: 24px;
+}
+.material-icons.md-18{
+  font-size: 18px;
+  color: rgba(250, 190, 0, 1);
+}
+.material-icons.nonactive{
+  opacity: 0.2;
 }
 .material-icons.js-favorite:hover{
   cursor: pointer;
 }
-.material-icons.md-36.active{
-  font-size: 36px;
-  margin: 3px 10px;
+.material-icons.js-favorite.active{
   color: rgba(250, 120, 120, 1);
 }
-.material-icons.md-24.nonactive{
-  margin: 3px 0;
-  opacity: 0.1;
-}
-.material-icons.md-24.active{
-  margin: 3px 0;
+.material-icons.active{
   color: rgba(250, 190, 0, 1);
 }
+
 .summarize_left{
   margin-left: 80px;
   float: left;
 }
 .review_score{
   padding: 5px 0 10px;
+  margin: auto 0;
 }
 .total_pt{
   color: red;
@@ -86,13 +92,6 @@ h2{
 }
 .detail_score{
   margin-left: 10px;
-}
-.score_right{
-  width: 100%;
-  margin: auto 0;
-}
-.review_numbers{
-  float: left;
 }
 .features span{
   font-weight: bold;
