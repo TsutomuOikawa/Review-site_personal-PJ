@@ -40,52 +40,45 @@
         </li>
         <li>
           <label class="search_detail">
-            <p>コンセント</p>
+            <p>コンセントの有無と評価</p>
             <select style="border-bottom:dashed #ededed 3px;" name="c">
               <option value="" <?php if($concent=='') echo'selected';?>>選択してください</option>
               <option value="1" <?php if($concent==='1') echo'selected';?> >あり</option>
               <option value="0" <?php if($concent==='0') echo'selected';?> >なし</option>
             </select>
-            <div class="search_select_box">
-              <input type="text" name="c_num" value="" placeholder="席数を指定する">
-            </div>
+            <select name = "c_r">
+              <option value="" <?php if($c_rate=='') echo'selected';?>>選択してください</option>
+              <?php for ($i=1; $i < 6 ; $i++):?>
+              <option value="<?php echo $i; ?>" <?php if($c_rate==$i) echo'selected';?> ><?php echo $i.'点 以上'; ?></option>
+              <?php endfor; ?>
+            </select>
           </label>
         </li>
         <li>
           <label class="search_detail">
-            <p>Wi-Fi</p>
+            <p>Wi-Fiの有無と評価</p>
             <select style="border-bottom:dashed #ededed 3px;" name="w">
               <option value="" <?php if($wifi==='') echo'selected';?>>選択してください</option>
               <option value="1" <?php if($wifi==='1') echo'selected';?> >あり</option>
               <option value="0" <?php if($wifi==='0') echo'selected';?> >なし</option>
             </select>
-            <div class="search_select_box">
-              <input type="text" name="w_rate" value="" placeholder="Wi-Fi強度を指定する">
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="search_detail">
-            <p>滞在可能時間の目安</p>
-            <div class="search_select_box">
-              <input type="text" name="st" value="<?php echo getFormData('st'); ?>">
-            </div>
+            <select name = "w_r">
+              <option value="" <?php if($w_rate =='') echo'selected';?>>選択してください</option>
+              <?php for ($i=1; $i < 6 ; $i++):?>
+              <option value="<?php echo $i; ?>" <?php if($w_rate ==$i) echo'selected';?> ><?php echo $i.'点 以上'; ?></option>
+              <?php endfor; ?>
+            </select>
           </label>
         </li>
         <li>
           <label class="search_detail">
             <p>静かさ</p>
-            <div class="search_select_box">
-              <input type="text" name="si" value="">
-            </div>
-          </label>
-        </li>
-        <li>
-          <label class="search_detail">
-            <p>フリーワード</p>
-            <div class="search_select_box">
-              <input type="text" name="" value="">
-            </div>
+            <select name = "s_r">
+              <option value="" <?php if($s_rate =='') echo'selected';?>>選択してください</option>
+              <?php for ($i=1; $i < 6 ; $i++):?>
+              <option value="<?php echo $i; ?>" <?php if($s_rate ==$i) echo'selected';?> ><?php echo $i.'点 以上'; ?></option>
+              <?php endfor; ?>
+            </select>
           </label>
         </li>
       </ul>

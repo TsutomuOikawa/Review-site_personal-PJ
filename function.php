@@ -370,108 +370,11 @@ function getInstData($i_id){
   }
 }
 
-// searchListページ用施設データの一覧を取得
-// 合計データ数とページ数、10件ごとのデータが欲しい
-function getInstList($listSpan, $currentMinNum, $area, $purpose,
-              $type, $concent, $c_num, $wifi, $w_rate, $stay, $silence){
-  debug('該当する施設データの全件数を取得します');
-  try {
-
-    $dbh = dbConnect();
-    $sql = 'SELECT id FROM institution WHERE delete_flg = 0';
-
-    // 検索条件が複数あるか判断
-    // 条件分岐によってSQLを変更
-    if (!empty($area)) {
-        $sql .= " AND city LIKE '%".$area."%'";
-    }
-    // if (!empty($purpose)) {
-    //    $sql .= ' AND purpose = '.$purpose;
-    // }
-    if (!empty($type)) {
-      $sql .= ' AND type_id = '.$type;
-    }
-    if ($concent !== '') {
-      $sql .= ' AND concent = '.$concent;
-    }
-    if ($wifi !== '') {
-      $sql .= ' AND wifi = '.$wifi;
-    }
-    // debug('実行するSQL：'.$sql);
-
-    $data = array();
-    // SQL実行
-    $stmt = queryPost($dbh, $sql, $data);
-    // データ数を取得
-    $rst['total_data'] = $stmt -> rowCount();
-    $rst['total_page'] = ceil($rst['total_data'] / $listSpan);
-
-    if (!$stmt -> fetchAll()) {
-      debug('クエリに失敗しました');
-      debug('失敗したSQL'.$sql);
-      global $err_msg;
-      $err_msg = MSG08;
-    }
-  } catch (\Exception $e) {
-    error_log('エラー発生：'.$e->getMessage());
-  }
-
-  // 2つ目の処理
-  debug($currentMinNum.'から'.$listSpan.'件のデータを取得します');
-  try {
-    $dbh = dbConnect();
-    $sql = 'SELECT i.*, p.name AS prefecture, t.name AS type, t_avg, purpose, stay FROM institution AS i
-                LEFT JOIN prefecture AS p ON i.prefecture_id = p.id
-                LEFT JOIN type AS t ON i.type_id = t.id
-            WHERE i.delete_flg = 0';
-    // 条件分岐によってSQLを変更
-    if (!empty($area)) {
-        $sql .= " AND city LIKE '%".(string)$area."%'";
-    }
-    // if (!empty($purpose)) {
-    //    $sql .= ' AND purpose = '.$purpose;
-    // }
-    if (!empty($type)) {
-      $sql .= ' AND type_id = '.$type;
-    }
-    if ($concent !== '') {
-      $sql .= ' AND concent = '.$concent;
-    }
-    if ($wifi !== '') {
-      $sql .= ' AND wifi = '.$wifi;
-    }
-
-    $sql = $sql.' LIMIT :list OFFSET :minNum';
-
-    // debug('実行するSQL：'.$sql);
-
-    $stmt = $dbh -> prepare($sql);
-    $stmt -> bindParam(':list', $listSpan, PDO::PARAM_INT);
-    $stmt -> bindParam(':minNum', $currentMinNum, PDO::PARAM_INT);
-    $stmt -> execute();
-
-    if ($stmt) {
-      $rst['list_data'] = $stmt -> fetchAll();
-      return $rst;
-
-    }else {
-      debug('クエリに失敗しました');
-      debug('失敗したSQL'.$sql);
-      global $err_msg;
-      $err_msg = MSG08;
-    }
-
-  } catch (\Exception $e) {
-    error_log('エラー発生：'.$e->getMessage());
-    }
-}
-
 // 施設データに都道府県、施設タイプ、各評価平均点、利用目的、滞在時間を加えて全部網羅したデータ
 function getInstAll($i_id){
-  debug('施設データに、評価平均、利用目的、滞在時間を加えたデータ取得します。');
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture, t.name AS type, total_review, t_avg, c_avg, w_avg, s_avg, purpose, stay
+    $sql = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture, t.name AS type, total_review, t_avg, c_avg, w_avg, s_avg, purpose, purpose_id, stay
               FROM institution AS i
               LEFT JOIN prefecture AS p ON i.prefecture_id = p.id
               LEFT JOIN type AS t ON i.type_id = t.id
@@ -480,9 +383,9 @@ function getInstAll($i_id){
                     FROM review WHERE delete_flg = 0 GROUP BY institution_id) AS avg
               ON i.id = avg.institution_id
               LEFT JOIN
-                  (SELECT p_i_r.institution_id, pu.name AS purpose
+                  (SELECT p_i_r.institution_id, pu.name AS purpose, pu.id AS purpose_id
                       FROM purpose_in_review AS p_i_r LEFT JOIN purpose AS pu ON p_i_r.purpose_id = pu.id
-                      WHERE institution_id = :i_id GROUP BY purpose_id HAVING count(*) >= ALL (SELECT count(*) FROM purpose_in_review WHERE institution_id = 33 GROUP BY purpose_id)) AS pu_i
+                      WHERE institution_id = :i_id GROUP BY purpose_id HAVING count(*) >= ALL (SELECT count(*) FROM purpose_in_review WHERE institution_id = :i_id GROUP BY purpose_id)) AS pu_i
               ON i.id = pu_i.institution_id
               LEFT JOIN
                   (SELECT institution_id, stay
@@ -507,6 +410,134 @@ function getInstAll($i_id){
     $err_msg = MSG08;
   }
 }
+
+
+// searchListページ用施設データの一覧を取得
+// 1つ目の処理：検索条件に該当する施設数を取得し、そこからページ数を計算
+function getInstList($listSpan, $currentMinNum, $area, $purpose,
+              $type, $concent, $c_rate, $wifi, $w_rate, $s_rate){
+  debug('該当する施設データの全件数を取得します');
+  try {
+
+    $dbh = dbConnect();
+    $sql = 'SELECT DISTINCT id FROM institution AS i
+                      LEFT JOIN (SELECT r1.institution_id AS r1_institution_id, r1.purpose_id AS r1_purpose_id FROM
+                                                                                                                (SELECT institution_id, purpose_id, count(*) AS num FROM purpose_in_review GROUP BY institution_id, purpose_id) AS r1 INNER JOIN (SELECT institution_id, max(num) AS m FROM (SELECT institution_id, purpose_id, count(*) AS num FROM purpose_in_review GROUP BY institution_id, purpose_id)AS r GROUP BY institution_id) AS r2 ON r1.institution_id = r2.institution_id AND r1.num = m) AS p
+                              ON i.id = p.r1_institution_id
+                      LEFT JOIN (SELECT institution_id ,AVG(total_pt) AS t_rate, AVG(concent_pt) AS c_rate, AVG(wifi_pt) AS w_rate, AVG(silence_pt) AS s_rate FROM review GROUP BY institution_id) AS avg
+                              ON i.id = avg.institution_id
+                      WHERE delete_flg = 0';
+
+    // 検索条件が複数あるか判断
+    // 条件分岐によってSQLを変更
+    if (!empty($area)) {
+        $sql .= " AND (city LIKE '%" .$area. "%' OR address LIKE '%". $area . "%' OR access LIKE '%". $area . "%')";
+    }
+    if (!empty($purpose)) {
+       $sql .= ' AND r1_purpose_id = '.$purpose;
+    }
+    if (!empty($type)) {
+      $sql .= ' AND type_id = '.$type;
+    }
+    if ($concent !== '') {
+      $sql .= ' AND concent = '.$concent;
+    }
+    if ($c_rate !== '') {
+      $swl .= ' AND c_rate >= '.$c_rate;
+    }
+    if ($wifi !== '') {
+      $sql .= ' AND wifi = '.$wifi;
+    }
+    if ($w_rate !== '') {
+      $sql .= ' AND w_rate >= '.$w_rate;
+    }
+    if ($s_rate !== '') {
+      $sql .= ' AND s_rate >= '.$s_rate;
+    }
+    debug('実行するSQL1：'.$sql);
+
+    $data = array();
+    // SQL実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+    // データ数を取得
+      $rst['total_data'] = $stmt -> rowCount();
+      $rst['total_page'] = ceil($rst['total_data'] / $listSpan);
+
+      // もし検索結果が0件なら、以下に続く2つ目の処理は行わない
+      if ($rst['total_data'] === 0) {
+        $rst['inst_id_list'] = '';
+        return $rst;
+        debug('2つ目の処理をスキップしました');
+        exit;
+      }
+
+    }else{
+      debug('クエリに失敗しました');
+      debug('失敗したSQL'.$sql);
+      global $err_msg;
+      $err_msg = MSG08;
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+  }
+
+  // 2つ目の処理：nページ目に表示する施設IDを取得
+  debug($currentMinNum.'から'.$listSpan.'件の施設idを取得します');
+  try {
+
+    $sql = $sql.' LIMIT :list OFFSET :minNum';
+
+    debug('実行するSQL2：'.$sql);
+
+    $stmt = $dbh -> prepare($sql);
+    $stmt -> bindParam(':list', $listSpan, PDO::PARAM_INT);
+    $stmt -> bindParam(':minNum', $currentMinNum, PDO::PARAM_INT);
+    $stmt -> execute();
+
+    if ($stmt) {
+      $rst['inst_id_list'] = $stmt -> fetchAll();
+      return $rst;
+
+    }else {
+      debug('クエリに失敗しました');
+      debug('失敗したSQL'.$sql);
+      global $err_msg;
+      $err_msg = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+    }
+}
+
+// 検索結果用レビューデータ取得
+// 何件のレビューがあるか
+// 最新クチコミのタイトル部分は何か
+function getInstListReview($i_id){
+  // まずは該当施設の全データを格納
+  $rst['inst'] = getInstAll($i_id);
+  // 加えて最新のコメントと登録日を2件取得
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT title, create_date FROM review WHERE institution_id = :i_id AND delete_flg =0 ORDER BY create_date DESC LIMIT 2';
+    $data = array(':i_id' => $i_id);
+
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      $rst['latest_review'] = $stmt -> fetchAll();
+      return $rst;
+
+    }else {
+      debug('クエリ失敗：'.$sql);
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e->getMessage());
+  }
+}
+
 
 // 施設詳細表示用データ取得
 function getInstDetail($i_id){
@@ -617,35 +648,6 @@ function getPurposeData(){
     error_log('エラー発生：'. $e -> getMessage());
     global $err_msg;
     $err_msg['common'] = MSG08;
-  }
-}
-
-// 検索結果用レビューデータ取得
-// 何件のレビューがあるか
-// 最新クチコミのタイトル部分は何か
-function getInstListReview($i_id){
-  // まずは該当施設の全データを取得
-  // $rst[''];
-  // 加えて最新のコメントを２件取得したい
-  try {
-    $dbh = dbConnect();
-    $sql = 'SELECT * FROM review WHERE institution_id = :i_id AND delete_flg =0 ORDER BY create_date DESC';
-    $data = array(':i_id' => $i_id);
-
-    $stmt = queryPost($dbh, $sql, $data);
-
-    if ($stmt) {
-      // =====================================不要
-      $rst['total_review'] = $stmt -> rowCount();
-      // =====================================
-      $rst['all_review'] = $stmt -> fetchAll();
-
-      return $rst;
-    }else {
-      debug('クエリ失敗：'.$sql);
-    }
-  } catch (\Exception $e) {
-    error_log('エラー発生：'.$e->getMessage());
   }
 }
 
