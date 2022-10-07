@@ -15,6 +15,9 @@ $u_id = (!empty($_SESSION['user_id'])) ? $_SESSION['user_id'] :'';
 $dbInstData = getInstData($i_id);
 // 利用目的データを取得
 $dbPurposeData = getPurposeData();
+// 滞在時間データを取得
+$dbStayData = getStayData();
+debug('$dbStayData'.print_r($dbStayData,true));
 
 // 施設IDのGETがない、もしくは不正の場合は一覧ページへ遷移
 if (!isset($i_id) || empty($dbInstData)) {
@@ -31,7 +34,7 @@ if (!empty($_POST)) {
   debug('POST送信の中身：'.print_r($_POST,true));
 
   // POSTの中身を変数に詰める
-  $stay = $_POST['stay'];
+  $stay_id = $_POST['stay_id'];
 
   // purpose_idは先頭に含まれている[0]を削除
   array_shift($_POST['purpose_id']);
@@ -45,7 +48,7 @@ if (!empty($_POST)) {
   $comment = $_POST['comment'];
 
   // 新規登録用バリデーション実施
-  validRequired($stay, 'stay');
+  validRequired($stay_id, 'stay_id');
   validRequired($purpose_id, 'purpose_id');
   validRequired($concent_pt, 'concent_pt');
   validRequired($wifi_pt, 'wifi_pt');
@@ -54,16 +57,14 @@ if (!empty($_POST)) {
 
   if (empty($err_msg)) {
     debug('未入力チェックOK');
-    // 最大文字数チェック
-    validMaxLen($stay, 'stay', 7);
     // セレクトボックスチェック
+    validSelect($stay_id, 'stay_id');
     validSelect($concent_pt, 'concent_pt');
     validSelect($wifi_pt, 'wifi_pt');
     validSelect($silence_pt, 'silence_pt');
     validSelect($total_pt, 'total_pt');
-
     // 半角数字チェック
-    // validPurpose($purpose_id, 'purpose_id');
+    validIsArrayNum($purpose_id, 'purpose_id');
     // コメントチェック
     validMaxLen($title, 'title', 30);
     validMaxLen($comment, 'comment', 200);
@@ -75,10 +76,10 @@ if (!empty($_POST)) {
       $dbh = dbConnect();
       // 新規登録か更新かでSQLを分ける
       debug('DBに新規登録します');
-      $sql = 'INSERT INTO review (institution_id, stay, concent_pt, wifi_pt, silence_pt, total_pt, title, comment, user_id, create_date)
+      $sql = 'INSERT INTO review (institution_id, stay_id, concent_pt, wifi_pt, silence_pt, total_pt, title, comment, user_id, create_date)
               VALUES (:i_id, :stay, :c_pt, :w_pt, :s_pt, :t_pt, :title, :comment, :u_id, :c_date)';
 
-      $data = array(':i_id'=> $i_id, ':stay'=> $stay, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
+      $data = array(':i_id'=> $i_id, ':stay'=> $stay_id, ':c_pt'=> $concent_pt, ':w_pt'=> $wifi_pt, ':s_pt'=> $silence_pt, ':t_pt'=> $total_pt, ':title'=> $title, ':comment'=> $comment, ':u_id'=> $u_id, ':c_date'=> date('Y/m/d H:i:s'));
       $stmt = queryPost($dbh, $sql, $data);
 
       $r_id = $dbh->lastInsertID();
@@ -146,19 +147,15 @@ require('header.php');
 
             <label>
               <div class="label-required">必須</div>滞在時間
-              <select class="<?php if(!empty($err_msg['stay'])) echo 'err'; ?>" name="stay">
-                <option value="" <?php if(empty(getFormData('stay'))) echo 'selected';?> >選択してください</option>
-                <option value="30分以下" <?php if(getFormData('stay') === "30分以下") echo 'selected';?> >30分以下</option>
-                <option value="30分~1時間"<?php if(getFormData('stay') === "30分~1時間") echo 'selected';?> >30分~1時間</option>
-                <option value="1~2時間" <?php if(getFormData('stay') === "1~2時間") echo 'selected';?> >1~2時間</option>
-                <option value="2~3時間" <?php if(getFormData('stay') === "2~3時間") echo 'selected';?>>2~3時間</option>
-                <option value="3~5時間" <?php if(getFormData('stay') === "3~5時間") echo 'selected';?>>3~5時間</option>
-                <option value="5時間以上" <?php if(getFormData('stay') === "5時間以上") echo 'selected';?>>5時間以上</option>
-                <option value="1日中" <?php if(getFormData('stay') === "1日中") echo 'selected';?>>1日中</option>
+              <select class="<?php if(!empty($err_msg['stay_id'])) echo 'err'; ?>" name="stay_id">
+                <option value="" <?php if(empty(getFormData('stay_id'))) echo 'selected';?> >選択してください</option>
+                <?php foreach ($dbStayData as $key => $st):?>
+                <option value="<?php echo $st['id']; ?>" <?php if(getFormData('stay_id') === $st['id']) echo 'selected';?> ><?php echo $st['name']; ?></option>
+                <?php endforeach; ?>
               </select>
             </label>
             <div class="area-msg">
-              <?php echo showErrMsg('stay'); ?>
+              <?php echo showErrMsg('stay_id'); ?>
             </div>
 
             <div>

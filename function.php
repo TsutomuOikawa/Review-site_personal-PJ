@@ -77,8 +77,6 @@ define('JSMSG02','メールを送信しました');
 define('JSMSG03','登録が完了しました');
 define('JSMSG04','プロフィールが変更されました');
 define('JSMSG05','クチコミを投稿しました');
-define('JSMSG06','クチコミの編集が完了しました');
-
 
 //=========================================
 //グローバル変数
@@ -245,8 +243,9 @@ function validURL($str, $key){
   }
 }
 
-// 半角数字チェック
-function validPurpose($str, $key){
+// 配列数字チェック
+function validIsArrayNum($str, $key){
+  $str = implode(',', $str);
   if (!preg_match('/^[0-9,]*$/', $str)) {
     global $err_msg;
     $err_msg[$key] = MSG21;
@@ -374,7 +373,7 @@ function getInstData($i_id){
 function getInstAll($i_id){
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture, t.name AS type, total_review, t_avg, c_avg, w_avg, s_avg, purpose, purpose_id, stay
+    $sql = 'SELECT i.id, i.name, i.city, i.address, i.access, i.hours, i.holidays, i.concent, i.wifi, i.homepage, p.name AS prefecture, t.name AS type, total_review, t_avg, c_avg, w_avg, s_avg, purpose, purpose_id, stay_id, stay
               FROM institution AS i
               LEFT JOIN prefecture AS p ON i.prefecture_id = p.id
               LEFT JOIN type AS t ON i.type_id = t.id
@@ -382,22 +381,31 @@ function getInstAll($i_id){
                   (SELECT institution_id, COUNT(id) AS total_review, AVG(total_pt) AS t_avg , AVG(concent_pt) AS c_avg, AVG(wifi_pt) AS w_avg, AVG(silence_pt) AS s_avg
                     FROM review WHERE delete_flg = 0 GROUP BY institution_id) AS avg
               ON i.id = avg.institution_id
+
               LEFT JOIN
                   (SELECT p_i_r.institution_id, pu.name AS purpose, pu.id AS purpose_id
                       FROM purpose_in_review AS p_i_r LEFT JOIN purpose AS pu ON p_i_r.purpose_id = pu.id
                       WHERE institution_id = :i_id GROUP BY purpose_id HAVING count(*) >= ALL (SELECT count(*) FROM purpose_in_review WHERE institution_id = :i_id GROUP BY purpose_id)) AS pu_i
               ON i.id = pu_i.institution_id
+
               LEFT JOIN
-                  (SELECT institution_id, stay
-                    FROM review WHERE institution_id = :i_id GROUP BY stay HAVING count(*) >= ALL (SELECT count(*) FROM review WHERE institution_id = :i_id GROUP BY stay)) AS s
-              ON i.id = s.institution_id
+                  (SELECT institution_id, stay_id, s.name AS stay
+                    FROM review AS r LEFT JOIN stay AS s ON r.stay_id = s.id WHERE institution_id = :i_id GROUP BY stay_id HAVING count(*) >= ALL (SELECT count(*) FROM review WHERE institution_id = :i_id GROUP BY stay_id)) AS s2
+              ON i.id = s2.institution_id
+
               WHERE i.id = :i_id AND i.delete_flg = 0';
 
     $data = array('i_id' => $i_id);
     $stmt = queryPost($dbh, $sql, $data);
 
     if ($stmt) {
-      return $stmt -> fetch(PDO::FETCH_ASSOC);
+      // 利用目的と滞在時間は、max(count(X))の結果が2つ以上の結果を返す時がある
+      // その場合は、滞在時間の長い方をデータとして返すために、array_popにする
+      // 利用目的においては問わない
+      $result = $stmt -> fetchAll();
+      $result = array_pop($result);
+
+      return $result;
 
     }else {
       debug('失敗したSQL：'.$sql);
@@ -548,13 +556,38 @@ function getInstDetail($i_id){
   // 施設情報に紐づくクチコミデータも取得
   try {
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM review WHERE institution_id = :i_id AND delete_flg = 0 ORDER BY create_date DESC';
+    $sql = 'SELECT r.*, s.name AS stay FROM review AS r
+                    LEFT JOIN stay AS s ON r.stay_id = s.id
+                     WHERE r.institution_id = :i_id AND r.delete_flg = 0 ORDER BY create_date DESC';
+
+
     $data = array(':i_id' => $i_id);
     // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
 
     if ($stmt) {
       $rst['review'] = $stmt -> fetchAll();
+
+      // 各レビューにおける利用目的も回収
+      $sql2 = 'SELECT name FROM purpose AS p RIGHT JOIN purpose_in_review AS p_i_r ON p.id = p_i_r.purpose_id
+                WHERE p_i_r.review_id = :r_id AND p_i_r.institution_id = :i_id';
+
+      foreach ($rst['review'] as $id => $value) {
+
+        $data2 = array(':r_id' => $value['id'] , ':i_id' => $i_id);
+        $stmt2 = queryPost($dbh, $sql2, $data2);
+
+        if ($stmt2) {
+          $result = $stmt2 -> fetchAll();
+          debug('$resultの値：'.print_r($result,true));
+          $purposes = '';
+
+          foreach ($result as $key => $p) {
+            $purposes .=  array_shift($p).'、';
+          }
+          $rst['review'][$id] += array('purpose' => substr($purposes, 0 ,-3));
+        }
+      }
 
       debug('クエリ成功');
       return $rst;
@@ -599,7 +632,11 @@ function getPrefData(){
   }
 }
 
-// ジャンルデータ取得
+//=========================================
+//サブテーブル項目取得
+//=========================================
+
+// タイプデータ取得
 function getTypeData(){
   try {
     debug('ジャンルデータを取得します');
@@ -650,6 +687,30 @@ function getPurposeData(){
     $err_msg['common'] = MSG08;
   }
 }
+
+// 滞在時間データ取得
+function getStayData(){
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT id, name From stay WHERE delete_flg = 0 ORDER BY id';
+    $data = array();
+
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      return $stmt -> fetchAll();
+    }else {
+      debug('クエリ失敗');
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+  } catch (\Exception $e) {
+    error_log('エラー発生：'. $e -> getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
+
 
 //=========================================
 //その他

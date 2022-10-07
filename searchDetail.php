@@ -101,8 +101,8 @@ require('header.php');
               <ul class="feature_tag display_flex">
                 <li style="<?php if($dbInstDetail['inst']['concent'] ==0 )echo'display:none;'?>"><a href="#">コンセントあり</a></li>
                 <li style="<?php if($dbInstDetail['inst']['wifi'] ==0 )echo'display:none;'?>"><a href="#">Wi-fiあり</a></li>
-                <li><a href="#"><?php echo $dbInstDetail['inst']['stay']; ?>滞在</a></li>
-                <li><a href="#">とても集中できる</a></li>
+                <li><a href="#"><?php if($dbInstDetail['inst']['stay_id']>=5) echo $dbInstDetail['inst']['stay']; ?>滞在</a></li>
+                <?php if($s_avg >= 3.5) echo "<li><a href='#'>集中しやすい環境</a></li>";?>
               </ul>
             </div>
           </div>
@@ -135,7 +135,7 @@ require('header.php');
                   </div>
                 </div>
                 <div class="how_used">
-                  勉強・読書で利用｜滞在時間：<?php echo $val['stay'];?>
+                  <?php echo $val['purpose']; ?>で利用｜滞在時間：<?php echo $val['stay'];?>
                 </div>
               </div>
               <div class="review_detail">

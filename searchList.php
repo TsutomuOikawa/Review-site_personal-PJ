@@ -122,8 +122,8 @@ require('header.php');
                   <ul class="display_flex">
                     <?php if($value['inst']['concent']==='1') echo'<li class="list-feature"><a href="#">コンセントあり</a></li>'; ?>
                     <?php if($value['inst']['wifi']==='1') echo'<li class = "list-feature"><a href="#">Wi-fiあり</a></li>'; ?>
-                    <li class="list-feature"><a href="#">3~4時間滞在</a></li>
-                    <li class="list-feature"><a href="#">とても静か</a></li>
+                    <?php if($value['inst']['stay_id'] >= 5) echo'<li class="list-feature"><a href="#">'.$value['inst']['stay'].'滞在</a></li>'; ?>
+                    <?php if($value['inst']['s_avg'] >= 3.5) echo "<li><a href='#'>集中しやすい環境</a></li>";?>
                   </ul>
                 </div>
                 <div class="others_area">
