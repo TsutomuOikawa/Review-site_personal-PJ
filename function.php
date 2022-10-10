@@ -756,6 +756,7 @@ function getFormData($str, $flg = 1){
   }
 }
 
+
 //js用メッセージ表示関数
 function getSessionMsg($key){
   if (!empty($_SESSION[$key])) {
@@ -764,6 +765,7 @@ function getSessionMsg($key){
     return $msg;
   }
 }
+
 
 //ランダムキー発行関数
 function makeRandkey($num){
@@ -775,6 +777,7 @@ function makeRandkey($num){
   return $str;
 }
 
+
 // 画像表示
 function showImg($path){
   if (empty($path)) {
@@ -783,6 +786,7 @@ function showImg($path){
     return($path);
   }
 }
+
 
 // お気に入り検索
 function isLike($u_id, $i_id){
@@ -808,5 +812,53 @@ function isLike($u_id, $i_id){
 }
 
 
+// 画像アップロードパス生成用関数
+function uploadImg($file, $key){
+  // 画像のバリデーションチェック（エラーメッセージと拡張子のタイプ）
+  if (isset($file['error']) && is_int($file['error'])) {
 
+    try {
+      // エラーメッセージでのバリデーション
+      switch ($file['error']) {
+        case UPLOAD_ERR_OK:
+          break;
+        case UPLOAD_ERR_INI_SIZE:
+          throw new RuntimeException('ファイルがphp.ini指定のサイズをオーバーしています');
+          break;
+        case UPLOAD_ERR_FORM_SIZE:
+          throw new RuntimeException('ファイルがフォーム指定のサイズをオーバーしています');
+          break;
+        case UPLOAD_ERR_NO_FILE:
+          throw new RuntimeException('ファイルがアップロードされませんでした');
+          break;
+        default:
+          throw new RuntimeException('その他のエラーが発生しました');
+          break;
+      }
+
+      // MIMEタイプのチェック
+      $type = @exif_imagetype($file['tmp_name']); //ファイルの型を取得
+      if(!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)){
+        throw new RuntimeException('画像タイプに誤りがあります');
+      }
+
+      // 画像をハッシュ化、パスを生成して返す
+      $path = '/Applications/MAMP/htdocs/Concent-rate/review_pic/'.sha1($file['tmp_name']).'.'.substr(image_type_to_mime_type($type), mb_strpos(image_type_to_mime_type($type), '/')+1);
+      if (!move_uploaded_file($file['tmp_name'], $path)) {
+        throw new RuntimeException('ファイルの移動に失敗しました');
+      }
+
+      debug('ファイルのアップロード完了');
+      debug('ファイルパス：'.print_r($path, true));
+      chmod($path, 0644);
+
+      return $path;
+
+    } catch (RuntimeException $e) {
+      debug('画像アップエラー：'.$e->getMessage());
+      global $err_msg;
+      $err_msg[$key] = $e->getMessage();
+    }
+   }
+ }
 ?>

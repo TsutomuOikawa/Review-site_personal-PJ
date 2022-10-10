@@ -25,6 +25,11 @@ main{
 
 }
 
+.input-label{
+  margin-bottom: 5px;
+  line-height: 21px;
+}
+
 .area-msg{
   height: 20px;
   margin: 5px 0 20px;
@@ -57,21 +62,19 @@ main{
 input[type="text"],[type="password"]{
   width: 100%;
   height: 40px;
-  margin-top: 10px;
   background: rgba(237, 237, 237, 1);
   border: none;
   padding: 5px 10px;
+  box-sizing: border-box;
 }
 select{
   width: 100%;
   height: 50px;
-  margin-top: 10px;
   background: rgba(237, 237, 237, 1);
   border: none;
   padding: 5px 10px;
 }
 .option-items{
-  margin-top: 10px;
   height: 20px;
   background: rgb(237, 237, 237);
   padding: 15px 10px 10px;
@@ -81,10 +84,10 @@ input[type="checkbox"]{
 }
 textarea{
   width: 100%;
-  margin-top: 10px;
   padding: 5px 10px;
   background: rgba(237, 237, 237, 1);
   border: none;
+  box-sizing: border-box;
 }
 .text-counter{
   text-align: right;
@@ -102,6 +105,45 @@ input[type="submit"]{
 input[type="submit"]:hover{
   cursor: pointer;
 }
+
+/*  /////////////////////////////
+画像ファイルアップデート箇所
+/////////////////////////////  */
+.pic-wrapper{
+  margin-bottom: 45px;
+  overflow:hidden;
+}
+.dropPic-container{
+  width: 33.3%;
+  float: left;
+  padding: 0 3px;
+  box-sizing: border-box;
+}
+.drop-area{
+  width: 100%;
+  height: 150px;
+  background: rgba(237, 237, 237, 1);
+  color: rgba(210, 210, 210, 1);
+  text-align: center;
+  line-height: 150px;
+  position: relative;
+  box-sizing: border-box;
+}
+.input-file, .js-img-preview{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.input-file{
+  opacity: 0;
+}
+.js-img-preview{
+  display: none;
+}
+
+
 
 
 .align-center{
