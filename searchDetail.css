@@ -77,6 +77,14 @@ h2{
   color: rgba(250, 190, 0, 1);
 }
 
+/*/////////////////////////
+ 一覧内の画像
+/////////////////////////*/
+.imgInList{
+  height: 150px;
+}
+
+
 .summarize_left{
   margin-left: 80px;
   float: left;

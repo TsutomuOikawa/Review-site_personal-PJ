@@ -53,21 +53,15 @@ require('header.php');
     <article>
       <div class="photo_top">
         <div class="main-photo">
-          <img src="<?php echo showImg('img/pc.jpg'); ?>" alt="メイン画像1" id="js-img-main1">
+          <img src="<?php echo showImg($dbInstDetail['image'][0]['path']); ?>" alt="メイン画像1" id="js-img-main1">
         </div>
         <div class="main-photo">
-          <img src="<?php echo showImg('img/reading.jpg'); ?>" alt="メイン画像2" id="js-img-main2">
+          <img src="<?php echo showImg($dbInstDetail['image'][1]['path']); ?>" alt="メイン画像2" id="js-img-main2">
         </div>
         <div class="sub-photo">
-          <img src="<?php echo showImg('img/pc.jpg'); ?>" alt="画像1：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg('img/reading.jpg'); ?>" alt="画像2：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg('img/studying.jpg'); ?>" alt="画像3：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg('img/top.jpg'); ?>" alt="画像4：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg(''); ?>" alt="画像5：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg(''); ?>" alt="画像6：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg(''); ?>" alt="画像7：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg(''); ?>" alt="画像8：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
-          <img src="<?php echo showImg(''); ?>" alt="画像9：<?php echo $dbInstDetail['inst']['name']; ?>" class="js-img-sub">
+          <?php foreach ($dbInstDetail['image'] as $id => $pic): ?>
+          <img src="<?php echo showImg($pic['path']); ?>" alt="<?php echo '画像'.$key.'：'.$dbInstDetail['inst']['name']; ?>" class="js-img-sub">
+          <?php endforeach; ?>
         </div>
       </div>
       <section id="summarize">
@@ -142,11 +136,11 @@ require('header.php');
                 <h3><?php echo $val['title'];?></h3>
                 <p><?php echo $val['comment'];?></p>
                 <ul class="display_flex">
-                  <li><img src="<?php showImg(''); ?>" alt=""></li>
-                  <li><img src="<?php showImg(''); ?>" alt=""></li>
-                  <li><img src="<?php showImg(''); ?>" alt=""></li>
-                  <li><img src="" alt=""></li>
-                  <li><img src="" alt=""></li>
+                <?php foreach ($dbInstDetail['image'] as $id => $pic):?>
+                <?php if($pic['review_id'] == $val['id']): ?>
+                  <li><img src="<?php echo showImg($pic['path']); ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$dbInstDetail['inst']['name']; ?>"></li>
+                <?php endif; ?>
+                <?php endforeach; ?>
                 </ul>
               </div>
             </div>

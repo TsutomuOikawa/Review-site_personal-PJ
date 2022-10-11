@@ -342,6 +342,32 @@ function getUserData($u_id){
   debug('DB情報の取得に成功しました');
 }
 
+// 画像データ取得
+function getImgData($i_id, $limit){
+  debug('画像データを取得します');
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT review_id, `path` from image_in_review WHERE institution_id = :i_id ORDER BY id ASC LIMIT :l';
+
+    $stmt = $dbh -> prepare($sql);
+    $stmt -> bindParam(':i_id', $i_id, PDO::PARAM_INT);
+    $stmt -> bindParam(':l', $limit, PDO::PARAM_INT);
+    $stmt ->execute();
+
+    if ($stmt) {
+      return $stmt -> fetchAll();
+
+    }else{
+      debug('失敗したSQL：'.$sql);
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+  } catch (\Exception $e) {
+    debug($e-> getMessage());
+  }
+}
+
 // 施設情報編集用データ取得
 function getInstData($i_id){
   debug('施設データを取得します');
@@ -435,9 +461,7 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
                       LEFT JOIN (SELECT institution_id ,AVG(total_pt) AS t_rate, AVG(concent_pt) AS c_rate, AVG(wifi_pt) AS w_rate, AVG(silence_pt) AS s_rate FROM review GROUP BY institution_id) AS avg
                               ON i.id = avg.institution_id
                       WHERE delete_flg = 0';
-
-    // 検索条件が複数あるか判断
-    // 条件分岐によってSQLを変更
+    // SQLに検索条件を追加
     if (!empty($area)) {
         $sql .= " AND (city LIKE '%" .$area. "%' OR address LIKE '%". $area . "%' OR access LIKE '%". $area . "%')";
     }
@@ -520,12 +544,12 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
     }
 }
 
-// 検索結果用レビューデータ取得
-// 何件のレビューがあるか
-// 最新クチコミのタイトル部分は何か
+// 検索結果用レビューデータ取得 各施設のレビュー件数、画像3枚、最新のクチコミコメント2件
 function getInstListReview($i_id){
   // まずは該当施設の全データを格納
   $rst['inst'] = getInstAll($i_id);
+  // 最新の画像を3件取得
+  $rst['image'] = getImgData($i_id, 3);
   // 加えて最新のコメントと登録日を2件取得
   try {
     $dbh = dbConnect();
@@ -552,14 +576,14 @@ function getInstDetail($i_id){
   debug('施設詳細のデータを取得します');
   // まずは該当施設の全データを格納
   $rst['inst'] = getInstAll($i_id);
-
+  // 最新の画像も9件取得
+  $rst['image'] = getImgData($i_id, 9);
   // 施設情報に紐づくクチコミデータも取得
   try {
     $dbh = dbConnect();
     $sql = 'SELECT r.*, s.name AS stay FROM review AS r
                     LEFT JOIN stay AS s ON r.stay_id = s.id
                      WHERE r.institution_id = :i_id AND r.delete_flg = 0 ORDER BY create_date DESC';
-
 
     $data = array(':i_id' => $i_id);
     // クエリ実行
@@ -605,6 +629,9 @@ function getInstDetail($i_id){
   }
 }
 
+//=========================================
+//サブテーブル項目取得
+//=========================================
 // 都道府県データ取得
 function getPrefData(){
   debug('都道府県データを取得します');
@@ -631,10 +658,6 @@ function getPrefData(){
     $err_msg['common'] = MSG08;
   }
 }
-
-//=========================================
-//サブテーブル項目取得
-//=========================================
 
 // タイプデータ取得
 function getTypeData(){
@@ -711,7 +734,6 @@ function getStayData(){
   }
 }
 
-
 //=========================================
 //その他
 //=========================================
@@ -778,16 +800,6 @@ function makeRandkey($num){
 }
 
 
-// 画像表示
-function showImg($path){
-  if (empty($path)) {
-    return 'img/noimage.jpeg';
-  }else {
-    return($path);
-  }
-}
-
-
 // お気に入り検索
 function isLike($u_id, $i_id){
   // debug('お気に入り登録状況を確認します');
@@ -843,7 +855,7 @@ function uploadImg($file, $key){
       }
 
       // 画像をハッシュ化、パスを生成して返す
-      $path = '/Applications/MAMP/htdocs/Concent-rate/review_pic/'.sha1($file['tmp_name']).'.'.substr(image_type_to_mime_type($type), mb_strpos(image_type_to_mime_type($type), '/')+1);
+      $path = 'review_pic/'.sha1($file['tmp_name']).'.'.substr(image_type_to_mime_type($type), mb_strpos(image_type_to_mime_type($type), '/')+1);
       if (!move_uploaded_file($file['tmp_name'], $path)) {
         throw new RuntimeException('ファイルの移動に失敗しました');
       }
@@ -859,6 +871,15 @@ function uploadImg($file, $key){
       global $err_msg;
       $err_msg[$key] = $e->getMessage();
     }
+   }
+ }
+
+ // 画像表示
+ function showImg($path){
+   if (empty($path)) {
+     return 'img/noimage.jpeg';
+   }else {
+     return($path);
    }
  }
 ?>
