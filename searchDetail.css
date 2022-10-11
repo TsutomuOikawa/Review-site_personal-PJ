@@ -88,10 +88,13 @@ h2{
  スクロールビュー
 /////////////////////////*/
 .scrollView{
-  height: 500px;
+  max-height: 500px;
   overflow-y: scroll;
+}
+.scrollView-visual{
   border: 1px rgb(237, 237, 237) solid;
 }
+
 
 
 .summarize_left{

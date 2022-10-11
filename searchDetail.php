@@ -114,7 +114,7 @@ require('header.php');
         <h2 class="padding_top10">最新のクチコミ</h2>
 
         <?php if (!empty($dbInstDetail['review'])): ?>
-        <div class="scrollView">
+        <div class="scrollView scrollView-visual">
           <ul>
             <?php foreach ($dbInstDetail['review'] as $key => $val):?>
             <li>

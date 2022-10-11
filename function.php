@@ -264,7 +264,8 @@ function showErrMsg($key){
 //データベース接続
 //=========================================
 
-//DB接続情報を用意する関数
+//////////////////////////////
+// DB接続情報を用意する関数
 function dbConnect(){
   //DB接続情報を定義
   $dsn = 'mysql:dbname=concent-rate;host=localhost;charset=utf8';
@@ -280,13 +281,21 @@ function dbConnect(){
   return $dbh;
 }
 
-//SQL実行関数
+//////////////////////////////
+// SQL実行関数
 function queryPost($dbh,$sql,$data){
   //prepareメソッドでSQL文をセット
   $stmt = $dbh->prepare($sql);
   //executeでprepareが用意したSQL文の実行し、結果を返す
   $stmt -> execute($data);
-  return $stmt;
+
+  if ($stmt) {
+    debug('クエリ成功');
+    return $stmt;
+  }else {
+    debug('クエリ失敗');
+    return false;
+  }
 }
 
 //=========================================
@@ -315,7 +324,8 @@ function sendMail($from, $to, $subject, $message){
 //データベースからのデータ取得
 //=========================================
 
-//ユーザーデータを取得
+//////////////////////////////
+// ユーザーデータを取得
 function getUserData($u_id){
   debug('ユーザーデータの取得を始めます');
   global $err_msg;
@@ -342,9 +352,9 @@ function getUserData($u_id){
   debug('DB情報の取得に成功しました');
 }
 
+//////////////////////////////
 // 画像データ取得
 function getImgData($i_id, $limit){
-  debug('画像データを取得します');
   try {
     $dbh = dbConnect();
     $sql = 'SELECT review_id, `path` from image_in_review WHERE institution_id = :i_id ORDER BY id ASC LIMIT :l';
@@ -352,10 +362,14 @@ function getImgData($i_id, $limit){
     $stmt = $dbh -> prepare($sql);
     $stmt -> bindParam(':i_id', $i_id, PDO::PARAM_INT);
     $stmt -> bindParam(':l', $limit, PDO::PARAM_INT);
-    $stmt ->execute();
+    $stmt -> execute();
 
     if ($stmt) {
-      return $stmt -> fetchAll();
+      if ($limit === 1) {
+        return $stmt -> fetch(PDO::FETCH_ASSOC);
+      }else{
+        return $stmt -> fetchAll();
+      }
 
     }else{
       debug('失敗したSQL：'.$sql);
@@ -368,6 +382,7 @@ function getImgData($i_id, $limit){
   }
 }
 
+//////////////////////////////
 // 施設情報編集用データ取得
 function getInstData($i_id){
   debug('施設データを取得します');
@@ -395,6 +410,7 @@ function getInstData($i_id){
   }
 }
 
+//////////////////////////////
 // 施設データに都道府県、施設タイプ、各評価平均点、利用目的、滞在時間を加えて全部網羅したデータ
 function getInstAll($i_id){
   try {
@@ -445,7 +461,7 @@ function getInstAll($i_id){
   }
 }
 
-
+//////////////////////////////
 // searchListページ用施設データの一覧を取得
 // 1つ目の処理：検索条件に該当する施設数を取得し、そこからページ数を計算
 function getInstList($listSpan, $currentMinNum, $area, $purpose,
@@ -544,6 +560,7 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
     }
 }
 
+//////////////////////////////
 // 検索結果用レビューデータ取得 各施設のレビュー件数、画像3枚、最新のクチコミコメント2件
 function getInstListReview($i_id){
   // まずは該当施設の全データを格納
@@ -583,7 +600,7 @@ function getInstListReview($i_id){
   }
 }
 
-
+//////////////////////////////
 // 施設詳細表示用データ取得
 function getInstDetail($i_id){
   debug('施設詳細のデータを取得します');
@@ -637,6 +654,113 @@ function getInstDetail($i_id){
 
   } catch (\Exception $e) {
     error_log('エラー発生'.$e->getMessage());
+    global $err_msg;
+    $err_msg['common'] = MSG08;
+  }
+}
+
+//////////////////////////////
+// マイページデータ取得
+function getMypageData($u_id){
+  debug('マイページ表示用データを取得します');
+  $rst = array();
+
+  try {
+    $dbh = dbConnect();
+
+    // 1,お気に入り施設の名前、タイプ、市区町村、総合評価、写真1枚
+    $sql = 'SELECT institution_id FROM favorite WHERE user_id = :u_id';
+    $data = array(':u_id' => $u_id);
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      $fav_array = $stmt -> fetchAll();
+
+      foreach ($fav_array as $key => $id) {
+        $rst['favorite'][$key] = getInstAll($id['institution_id']);
+        $rst['favorite'][$key]['image'] = getImgData($id['institution_id'], 1);
+
+        if(empty($rst['favorite'][$key]['image'])) {
+          $rst['favorite'][$key]['image'] = 'img/noimage.jpeg';
+        }
+      }
+
+    }else {
+      debug('失敗したSQL：'.$sql);
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+    // 2,投稿したクチコミデータに施設名をプラス
+    $sql2 = 'SELECT r.*, i.name, s.name AS stay FROM review AS r
+                              LEFT JOIN institution AS i ON r.institution_id = i.id
+                              LEFT JOIN stay AS s ON r.stay_id = s.id
+              WHERE r.user_id = :u_id ORDER BY r.create_date DESC';
+    $stmt2 = queryPost($dbh, $sql2, $data);
+
+    if ($stmt2) {
+      $rst['review'] = $stmt2 -> fetchAll();
+
+      // 利用目的も取得
+      foreach ($rst['review'] as $key => $val) {
+        $sql2_2 = 'SELECT p.name FROM purpose_in_review AS pir LEFT JOIN purpose AS p ON pir.purpose_id = p.id WHERE pir.review_id = :r_id';
+        $data2_2 = array(':r_id'=> $val['id']);
+        $stmt2_2 = queryPost($dbh, $sql2_2, $data2_2);
+
+        if ($stmt2_2) {
+          $result2_2 = $stmt2_2 -> fetchAll();
+          $purpose = '';
+
+          foreach ($result2_2 as $value) { //$valueは単純配列
+            $purpose .= array_shift($value).'、';
+          }
+          $rst['review'][$key]['purpose'] =  substr($purpose, 0, -3);
+        }
+
+      // 画像データも取得
+        $sql2_3 = 'SELECT `path` FROM image_in_review WHERE review_id = :r_id';
+        $data2_3 = array(':r_id'=> $val['id']);
+        $stmt2_3 = queryPost($dbh, $sql2_3, $data2_3);
+
+        if ($stmt2_3) {
+          $rst['review'][$key]['image'] = $stmt2_3 -> fetchAll();
+        }
+      }
+
+    } else {
+      debug('失敗したSQL：'.$sql2);
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+    // 3,施設の名前、タイプ、市区町村、総合評価、写真1枚
+    $sql3 = 'SELECT id FROM institution WHERE user_id = :u_id';
+    $stmt3 = queryPost($dbh, $sql3, $data);
+
+    if ($stmt3) {
+      $regi_array = $stmt3 -> fetchAll();
+
+      foreach ($regi_array as $key => $id) {
+        $rst['registration'][$key] = getInstAll($id['id']);
+        $rst['registration'][$key]['image'] = getImgData($id['id'], 1);
+
+        if(empty($rst['registration'][$key]['image'])) {
+          $rst['registration'][$key]['image'] = 'img/noimage.jpeg';
+        }
+      }
+
+    }else {
+      debug('失敗したSQL：'.$sql3);
+      global $err_msg;
+      $err_msg['common'] = MSG08;
+    }
+
+    // 全ての結果を返す
+    return $rst;
+
+
+  } catch (\Exception $e) {
+    debug('エラー発生：'.$e-> getMessage());
     global $err_msg;
     $err_msg['common'] = MSG08;
   }
