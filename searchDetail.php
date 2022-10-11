@@ -53,14 +53,14 @@ require('header.php');
     <article>
       <div class="photo_top">
         <div class="main-photo">
-          <img src="<?php echo showImg($dbInstDetail['image'][0]['path']); ?>" alt="メイン画像1" id="js-img-main1">
+          <img src="<?php echo $dbInstDetail['image'][0]['path']; ?>" alt="メイン画像1" id="js-img-main1">
         </div>
         <div class="main-photo">
-          <img src="<?php echo showImg($dbInstDetail['image'][1]['path']); ?>" alt="メイン画像2" id="js-img-main2">
+          <img src="<?php echo $dbInstDetail['image'][1]['path']; ?>" alt="メイン画像2" id="js-img-main2">
         </div>
         <div class="sub-photo">
           <?php foreach ($dbInstDetail['image'] as $id => $pic): ?>
-          <img src="<?php echo showImg($pic['path']); ?>" alt="<?php echo '画像'.$key.'：'.$dbInstDetail['inst']['name']; ?>" class="js-img-sub">
+          <img src="<?php echo $pic['path']; ?>" alt="<?php echo '画像'.$id.'：'.$dbInstDetail['inst']['name']; ?>" class="js-img-sub">
           <?php endforeach; ?>
         </div>
       </div>
@@ -93,10 +93,10 @@ require('header.php');
                 <span><?php echo $dbInstDetail['inst']['purpose']; ?></span>におすすめ
               </p>
               <ul class="feature_tag display_flex">
-                <li style="<?php if($dbInstDetail['inst']['concent'] ==0 )echo'display:none;'?>"><a href="#">コンセントあり</a></li>
-                <li style="<?php if($dbInstDetail['inst']['wifi'] ==0 )echo'display:none;'?>"><a href="#">Wi-fiあり</a></li>
-                <li><a href="#"><?php if($dbInstDetail['inst']['stay_id']>=5) echo $dbInstDetail['inst']['stay']; ?>滞在</a></li>
-                <?php if($s_avg >= 3.5) echo "<li><a href='#'>集中しやすい環境</a></li>";?>
+                <?php if($dbInstDetail['inst']['concent']==='1') echo'<li class="list-feature"><a href="#">コンセントあり</a></li>'; ?>
+                <?php if($dbInstDetail['inst']['wifi']==='1') echo'<li class = "list-feature"><a href="#">Wi-fiあり</a></li>'; ?>
+                <?php if($dbInstDetail['inst']['stay_id'] >= 5) echo'<li class="list-feature"><a href="#">'.$dbInstDetail['inst']['stay'].'滞在</a></li>'; ?>
+                <?php if($dbInstDetail['inst']['s_avg'] >= 3.5) echo '<li class="list-feature"><a href="#">集中しやすい環境</a></li>';?>
               </ul>
             </div>
           </div>
@@ -138,7 +138,7 @@ require('header.php');
                 <ul class="display_flex">
                 <?php foreach ($dbInstDetail['image'] as $id => $pic):?>
                 <?php if($pic['review_id'] == $val['id']): ?>
-                  <li><img src="<?php echo showImg($pic['path']); ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$dbInstDetail['inst']['name']; ?>"></li>
+                  <li><img src="<?php echo $pic['path']; ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$dbInstDetail['inst']['name']; ?>"></li>
                 <?php endif; ?>
                 <?php endforeach; ?>
                 </ul>

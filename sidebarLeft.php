@@ -8,7 +8,7 @@
           <label class="search_detail">
             <p>エリアから探す</p>
             <div class="search_select_box">
-              <input type="text" name="ar" value="<?php echo getFormData('ar', 0); ?>" placeholder="東京都中央区">
+              <input type="text" name="ar" value="<?php echo getFormData('ar', 0); ?>" placeholder="新宿、渋谷">
             </div>
           </label>
         </li>

@@ -88,12 +88,12 @@ require('header.php');
             <div class="card display_flex">
               <div class="photo-area padding_top10">
                 <div class="main-photo">
-                  <img src="http://dummyimage.com/185x185/acc/fff.gif&text=画像" alt="">
+                  <img src="<?php echo $value['image'][0]['path']; ?>" class="big_photo"alt="">
                 </div>
                 <div class="sub-photo">
-                  <img src="http://dummyimage.com/55x55/acc/fff.gif&text=画像" alt="" class="small_photo">
-                  <img src="http://dummyimage.com/55x55/acc/fff.gif&text=画像" alt="" class="small_photo">
-                  <img src="http://dummyimage.com/55x55/acc/fff.gif&text=画像" alt="" class="small_photo">
+                  <?php for ($i=1; $i <= 3 ; $i++):?>
+                  <img src="<?php echo $value['image'][$i]['path']; ?>" alt="" class="small_photo">
+                  <?php endfor; ?>
                 </div>
               </div>
               <div class="script_area padding_top10">
@@ -123,7 +123,7 @@ require('header.php');
                     <?php if($value['inst']['concent']==='1') echo'<li class="list-feature"><a href="#">コンセントあり</a></li>'; ?>
                     <?php if($value['inst']['wifi']==='1') echo'<li class = "list-feature"><a href="#">Wi-fiあり</a></li>'; ?>
                     <?php if($value['inst']['stay_id'] >= 5) echo'<li class="list-feature"><a href="#">'.$value['inst']['stay'].'滞在</a></li>'; ?>
-                    <?php if($value['inst']['s_avg'] >= 3.5) echo "<li><a href='#'>集中しやすい環境</a></li>";?>
+                    <?php if($value['inst']['s_avg'] >= 3.5) echo '<li class="list-feature"><a href="#">集中しやすい環境</a></li>';?>
                   </ul>
                 </div>
                 <div class="others_area">

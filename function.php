@@ -463,7 +463,7 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
                       WHERE delete_flg = 0';
     // SQLに検索条件を追加
     if (!empty($area)) {
-        $sql .= " AND (city LIKE '%" .$area. "%' OR address LIKE '%". $area . "%' OR access LIKE '%". $area . "%')";
+        $sql .= " AND (name LIKE '%" .$area. "%' OR city LIKE '%" .$area. "%' OR address LIKE '%". $area . "%' OR access LIKE '%". $area . "%')";
     }
     if (!empty($purpose)) {
        $sql .= ' AND r1_purpose_id = '.$purpose;
@@ -548,8 +548,21 @@ function getInstList($listSpan, $currentMinNum, $area, $purpose,
 function getInstListReview($i_id){
   // まずは該当施設の全データを格納
   $rst['inst'] = getInstAll($i_id);
-  // 最新の画像を3件取得
-  $rst['image'] = getImgData($i_id, 3);
+
+  // 画像を4枚取得
+  $rst['image'] = getImgData($i_id, 4);
+  // 4枚に満たない分はサンプル画像を挿入
+  $num = count($rst['image']);
+  if ($num === 0) {
+    for ($i=$num; $i < 4 ; $i++) {
+      $rst['image'][$i] = array('review_id' => '', 'path' => 'img/noimage.jpeg');
+    }
+  }elseif ($num !== 0 && $num < 4) {
+    for ($i=$num; $i < 4 ; $i++) {
+      $rst['image'][$i] = array('review_id' => $rst['image'][0]['review_id'], 'path' => 'img/noimage.jpeg');
+    }
+  }
+
   // 加えて最新のコメントと登録日を2件取得
   try {
     $dbh = dbConnect();
@@ -874,12 +887,4 @@ function uploadImg($file, $key){
    }
  }
 
- // 画像表示
- function showImg($path){
-   if (empty($path)) {
-     return 'img/noimage.jpeg';
-   }else {
-     return($path);
-   }
- }
 ?>
