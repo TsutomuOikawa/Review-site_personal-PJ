@@ -112,41 +112,44 @@ require('header.php');
       </section>
       <section id="reviews">
         <h2 class="padding_top10">最新のクチコミ</h2>
+
         <?php if (!empty($dbInstDetail['review'])): ?>
-        <ul>
-          <?php foreach ($dbInstDetail['review'] as $key => $val):?>
-          <li>
-            <div class="background">
-              <div class="review_summary border_bottom padding_bottom10">
-                <p class="small_font"><?php echo(date('Y年m月d日',strtotime($val['create_date']))); ?>投稿</p>
-                <div class="score display_flex">
-                  <div>
-                    <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
-                    <span class="total_pt"><?php echo $val['total_pt'] ?>.0</span>
+        <div class="scrollView">
+          <ul>
+            <?php foreach ($dbInstDetail['review'] as $key => $val):?>
+            <li>
+              <div class="background">
+                <div class="review_summary border_bottom padding_bottom10">
+                  <p class="small_font"><?php echo(date('Y年m月d日',strtotime($val['create_date']))); ?>投稿</p>
+                  <div class="score display_flex">
+                    <div>
+                      <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
+                      <span class="total_pt"><?php echo $val['total_pt'] ?>.0</span>
+                    </div>
+                    <div class="detail_score">
+                      [コンセント:<span class="material-icons md-18">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi:<span class="material-icons md-18">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ:<span class="material-icons md-18">grade</span><?php echo $val['silence_pt']; ?>]
+                    </div>
                   </div>
-                  <div class="detail_score">
-                    [コンセント:<span class="material-icons md-18">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi:<span class="material-icons md-18">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ:<span class="material-icons md-18">grade</span><?php echo $val['silence_pt']; ?>]
+                  <div class="how_used">
+                    <?php echo $val['purpose']; ?>で利用｜滞在時間：<?php echo $val['stay'];?>
                   </div>
                 </div>
-                <div class="how_used">
-                  <?php echo $val['purpose']; ?>で利用｜滞在時間：<?php echo $val['stay'];?>
+                <div class="review_detail">
+                  <h3><?php echo $val['title'];?></h3>
+                  <p><?php echo $val['comment'];?></p>
+                  <ul class="display_flex">
+                  <?php foreach ($dbInstDetail['image'] as $id => $pic):?>
+                  <?php if($pic['review_id'] == $val['id']): ?>
+                    <li><img src="<?php echo $pic['path']; ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$dbInstDetail['inst']['name']; ?>"></li>
+                  <?php endif; ?>
+                  <?php endforeach; ?>
+                  </ul>
                 </div>
               </div>
-              <div class="review_detail">
-                <h3><?php echo $val['title'];?></h3>
-                <p><?php echo $val['comment'];?></p>
-                <ul class="display_flex">
-                <?php foreach ($dbInstDetail['image'] as $id => $pic):?>
-                <?php if($pic['review_id'] == $val['id']): ?>
-                  <li><img src="<?php echo $pic['path']; ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$dbInstDetail['inst']['name']; ?>"></li>
-                <?php endif; ?>
-                <?php endforeach; ?>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <?php endforeach; ?>
-        </ul>
+            </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
         <?php else: ?>
         <p class="align_center">まだクチコミ投稿がありません</p>
       <?php endif; ?>

@@ -84,6 +84,15 @@ h2{
   height: 150px;
 }
 
+/*/////////////////////////
+ スクロールビュー
+/////////////////////////*/
+.scrollView{
+  height: 500px;
+  overflow-y: scroll;
+  border: 1px rgb(237, 237, 237) solid;
+}
+
 
 .summarize_left{
   margin-left: 80px;
