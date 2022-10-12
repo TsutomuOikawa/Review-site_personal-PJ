@@ -82,6 +82,45 @@ ul{
   display: inline;
 }
 
+/*/////////////////////////
+ アイコンフォント
+/////////////////////////*/
+.material-icons.md-36{
+  font-size: 36px;
+}
+.material-icons.md-24{
+  font-size: 24px;
+  padding-bottom: 3px;
+}
+.material-icons.md-18{
+  font-size: 18px;
+  padding-bottom: 2px;
+  color: rgba(250, 190, 0, 1);
+}
+.material-icons.nonactive{
+  opacity: 0.2;
+}
+.material-icons.js-favorite:hover{
+  cursor: pointer;
+}
+.material-icons.js-favorite.active{
+  color: rgba(250, 120, 120, 1);
+}
+.material-icons.active{
+  color: rgba(250, 190, 0, 1);
+}
+
+/*/////////////////////////
+ スクロールビュー
+/////////////////////////*/
+.scrollView{
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.scrollView-visual{
+  border: 1px rgb(237, 237, 237) solid;
+}
+
 /*////////////////////////////
  ページネーション
 ////////////////////////////*/
@@ -114,4 +153,12 @@ footer .copyright{
   margin-top: 100px;
   display: block;
   font-size: 10px;
+}
+
+
+/*////////////////////////////
+ 追加CSS
+////////////////////////////*/
+.font-sizeS{
+  font-size: 12.5px;
 }

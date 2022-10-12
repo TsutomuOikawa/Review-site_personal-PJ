@@ -44,10 +44,14 @@ require('header.php');
           <?php foreach ($dbMypageData['favorite'] as $key => $val):?>
           <div class="myInstList__item">
             <a href="searchDetail.php?i=<?php echo $val['id']; ?>">
-              <img src="<?php echo $val['image']; ?>" class="myInstList__item__img" alt="">
-              <p><?php echo $val['name']; ?></p>
-              <p class="small_font"><?php echo $val['prefecture'].$val['city'].'／'.$val['type']; ?></p>
-              <p><?php echo $val['t_avg']; ?></p>
+              <img src="<?php echo $val['image']; ?>" class="myInstList__item__img panelItem" alt="">
+              <p class="panelItem"><?php echo $val['name']; ?></p>
+              <p class="font-sizeS"><?php echo $val['prefecture'].$val['city']; ?></p>
+              <p class="panelItem font-sizeS"><?php echo $val['type']; ?></p>
+              <div class="pointItem">
+                <span class="material-icons md-18">grade</span>
+              </div>
+              <p class="font-sizeS totalPt totalPt--s"><?php echo isEmpty((int)$val['t_avg'], 2); ?></p>
             </a>
           </div>
         <?php endforeach; ?>
@@ -65,36 +69,31 @@ require('header.php');
         <div class="scrollView">
           <ul>
             <?php foreach ($dbMypageData['review'] as $key => $val):?>
-            <li>
-              <div class="background">
-                <div class="review_summary border_bottom padding_bottom10">
-                  <p class="small_font"><?php echo(date('Y年m月d日',strtotime($val['create_date']))); ?>投稿</p>
-                  <p><?php echo $val['name']; ?></p>
-                  <div class="score display-flex">
-                    <div>
-                      <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
-                      <span class="total_pt"><?php echo $val['total_pt'] ?>.0</span>
-                    </div>
-                    <div class="detail_score">
-                      [コンセント:<span class="material-icons md-18">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi:<span class="material-icons md-18">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ:<span class="material-icons md-18">grade</span><?php echo $val['silence_pt']; ?>]
-                    </div>
+            <li class="listCard listCard--marginS">
+                <p class="panelItem font-sizeS">
+                  <span class="days"><?php echo(date('Y年m月d日',strtotime($val['create_date']))); ?>投稿｜</span><?php echo $val['name']; ?>
+                </p>
+                <div class="panelItem pointArea">
+                  <div class="starBox pointItem">
+                    <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
                   </div>
-                  <div class="how_used">
-                    <?php echo $val['purpose']; ?>で利用｜滞在時間：<?php echo $val['stay'];?>
+                  <div class="pointItem">
+                    <span class="totalPt"><?php echo $val['total_pt'] ?>.0</span>
                   </div>
+                  <span class="pointItem">［コンセント<span class="material-icons md-18">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi<span class="material-icons md-18">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ<span class="material-icons md-18">grade</span><?php echo $val['silence_pt']; ?>］</span>
                 </div>
-                <div class="review_detail">
-                  <h3><?php echo $val['title'];?></h3>
-                  <p><?php echo $val['comment'];?></p>
-                  <ul class="display-flex">
+                <p class="panelItem borderSeparate"><?php echo $val['purpose']; ?>で利用｜滞在時間：<?php echo $val['stay'];?></p>
+
+                <h3 class="panelItem"><?php echo $val['title'];?></h3>
+                <p class="panelItem"><?php echo $val['comment'];?></p>
+                <ul class="panelItem display-flex">
                   <?php if (!empty($val['image'])): ?>
                   <?php foreach ($val['image'] as $id => $pic):?>
-                  <li><img src="<?php echo $pic['path']; ?>" class="imgInList" alt="<?php echo '画像'.$id.':'.$val['name']; ?>"></li>
+                  <li class="imgList"><img src="<?php echo $pic['path']; ?>" class="imgList__img" alt="<?php echo '画像'.$id.':'.$val['name']; ?>"></li>
                   <?php endforeach; ?>
                   <?php endif; ?>
-                  </ul>
-                </div>
-              </div>
+                </ul>
+
             </li>
             <?php endforeach; ?>
           </ul>
@@ -110,10 +109,14 @@ require('header.php');
           <?php foreach ($dbMypageData['registration'] as $key => $val):?>
           <div class="myInstList__item">
             <a href="searchDetail.php?i=<?php echo $val['id']; ?>">
-              <img src="<?php echo $val['image']; ?>" class="myInstList__item__img" alt="">
-              <p><?php echo $val['name']; ?></p>
-              <p class="small_font"><?php echo $val['prefecture'].$val['city'].'／'.$val['type']; ?></p>
-              <p><?php echo $val['t_avg']; ?></p>
+              <img src="<?php echo $val['image']; ?>" class="myInstList__item__img panelItem" alt="">
+              <p class="panelItem"><?php echo $val['name']; ?></p>
+              <p class="font-sizeS"><?php echo $val['prefecture'].$val['city']; ?></p>
+              <p class="panelItem font-sizeS"><?php echo $val['type']; ?></p>
+              <div class="pointItem">
+                <span class="material-icons md-18">grade</span>
+              </div>
+              <p class="font-sizeS totalPt totalPt--s"><?php echo isEmpty((int)$val['t_avg'], 2); ?></p>
             </a>
           </div>
         <?php endforeach; ?>

@@ -51,48 +51,13 @@ h2{
   padding: 2px 8px;
   margin-right: 5px;
 }
-/*/////////////////////////
- アイコンフォント
-/////////////////////////*/
-.material-icons.md-36{
-  font-size: 36px;
-}
-.material-icons.md-24{
-  font-size: 24px;
-}
-.material-icons.md-18{
-  font-size: 18px;
-  color: rgba(250, 190, 0, 1);
-}
-.material-icons.nonactive{
-  opacity: 0.2;
-}
-.material-icons.js-favorite:hover{
-  cursor: pointer;
-}
-.material-icons.js-favorite.active{
-  color: rgba(250, 120, 120, 1);
-}
-.material-icons.active{
-  color: rgba(250, 190, 0, 1);
-}
+
 
 /*/////////////////////////
  一覧内の画像
 /////////////////////////*/
 .imgInList{
   height: 150px;
-}
-
-/*/////////////////////////
- スクロールビュー
-/////////////////////////*/
-.scrollView{
-  max-height: 500px;
-  overflow-y: scroll;
-}
-.scrollView-visual{
-  border: 1px rgb(237, 237, 237) solid;
 }
 
 

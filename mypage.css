@@ -12,12 +12,89 @@ main{
 }
 section{
   background: rgba(237, 237, 237, 0.5);
-  height: 500px;
   margin-bottom: 30px;
 }
-.mypage-inner img{
-  margin: 15px;
+
+.myInstList{
+  padding: 10px 10px 30px;
 }
+.myInstList__item{
+  float: left;
+  width: 25%;
+  height: 300px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.myInstList__item__img{
+  max-width: 100%;
+}
+
+
+
+
+
+.PostedReviewList{
+  padding: 10px 10px 30px;
+}
+.PostedReviewList__item{
+  width: 100%;
+  background: #fff;
+}
+
+
+.listCard{
+  padding: 30px 50px;
+  background: rgba(237, 237, 237, 1);
+}
+.listCard--marginS{
+  margin: 10px 30px;
+}
+.panelItem{
+  padding: 4px 0;
+}
+.starBox{
+  padding-right: 5px;
+}
+.totalPt{
+  color: red;
+  font-size: 23px;
+  font-weight: bold;
+}
+.totalPt--s{
+  font-size: 18px
+}
+
+.pointArea{
+  display: inline-flex;
+  align-items: center;
+}
+.pointItem{
+  float: left;
+  display: inline-flex;
+  align-items: center;
+  line-height: 24px;
+}
+
+.imgList{
+padding: 10px 10px 0 0;
+}
+.imgList__img{
+  height: 150px;
+}
+
+/* 日付表示 */
+.days{
+  font-size: 12px;
+}
+.display-flex{
+  display: flex;
+}
+.borderSeparate{
+  border-bottom: dashed black 1px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
 .align-center{
   text-align: center;
 }

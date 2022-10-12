@@ -10,7 +10,7 @@ ini_set('error_log','error.log');
 //デバッグログ出力
 //=========================================
 //true or falseでデバッグ出力のスイッチに
-$debug_flg = true;
+$debug_flg = false;
 //デバッグログ関数
 function debug($str){
   global $debug_flg;
@@ -1010,5 +1010,15 @@ function uploadImg($file, $key){
     }
    }
  }
+
+function isEmpty($str){
+  if (empty($str)) {
+    return '--';
+  }elseif (!empty($str) && is_int($str)) {
+    return number_format($str, 2);
+  }else {
+    return $str;
+  }
+}
 
 ?>
