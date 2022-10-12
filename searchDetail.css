@@ -17,12 +17,14 @@ h2{
   margin-left: 15px;
   margin-bottom: 20px;
 }
+.mainPhoto{
+  height: 250px;
+}
 .photo_top {
   margin: 0 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 .main-photo{
   height: 250px;

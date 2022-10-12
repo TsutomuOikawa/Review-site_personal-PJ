@@ -24,13 +24,6 @@ $c_avg = (isset($dbInstDetail['inst']['c_avg']))?number_format($dbInstDetail['in
 $w_avg = (isset($dbInstDetail['inst']['w_avg']))?number_format($dbInstDetail['inst']['w_avg'],1):'ーー';
 $s_avg = (isset($dbInstDetail['inst']['s_avg']))?number_format($dbInstDetail['inst']['s_avg'],1):'ーー';
 
-// =========================================
-// POST送信があったら画面処理を開始
-if (!empty($_POST)) {
-  // 施設IDを渡しながらレビュー投稿画面へ
-  header('Location:reviewPost.php?i='.$i_id);
-  exit;
-}
  ?>
 
 <?php
@@ -51,12 +44,18 @@ require('header.php');
   <div class="wrapper">
     <h1 class="h1-wide"><?php echo $dbInstDetail['inst']['name']; ?></h1>
     <article>
+    <?php if (empty($dbInstDetail['image'])): ?>
+        <div class="align_center">
+          <img src="img/noimage.png" alt="サンプル画像" class="mainPhoto">
+          <p>この施設はまだ写真が投稿されていません</p>
+        </div>
+    <?php else: ?>
       <div class="photo_top">
         <div class="main-photo">
-          <img src="<?php echo $dbInstDetail['image'][0]['path']; ?>" alt="メイン画像1" id="js-img-main1">
+          <img src="<?php if(!empty($dbInstDetail['image'])) echo $dbInstDetail['image'][0]['path']; ?>" alt="メイン画像1" id="js-img-main1">
         </div>
         <div class="main-photo">
-          <img src="<?php echo $dbInstDetail['image'][1]['path']; ?>" alt="メイン画像2" id="js-img-main2">
+          <img src="<?php if(!empty($dbInstDetail['image'])) echo $dbInstDetail['image'][1]['path']; ?>" alt="メイン画像2" id="js-img-main2">
         </div>
         <div class="sub-photo">
           <?php foreach ($dbInstDetail['image'] as $id => $pic): ?>
@@ -64,6 +63,8 @@ require('header.php');
           <?php endforeach; ?>
         </div>
       </div>
+    <?php endif; ?>
+
       <section id="summarize">
         <div class="padding_top10 display_flex">
           <h2><?php echo $dbInstDetail['inst']['name']; ?></h2>
@@ -104,9 +105,7 @@ require('header.php');
             <div class="move_to_id_basic">
               <a href="#basic_information">施設情報の詳細をみる</a>
             </div>
-            <form action="" method="post">
-              <input type="submit" name="submit" value="この施設のクチコミを投稿する">
-            </form>
+            <a href="<?php echo 'reviewPost.php?i='.$i_id; ?>">この施設のクチコミを投稿する</a>
           </div>
         </div>
       </section>
@@ -164,31 +163,31 @@ require('header.php');
           <table>
             <tr>
               <th scope="row"><span>施設名</span></th>
-              <td><?php echo $dbInstDetail['inst']['name']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['name']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>施設タイプ</span></th>
-              <td><?php echo $dbInstDetail['inst']['type']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['type']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>住所</span></th>
-              <td><?php echo ($dbInstDetail['inst']['prefecture'].$dbInstDetail['inst']['city'].$dbInstDetail['inst']['address']); ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['prefecture'].$dbInstDetail['inst']['city'].$dbInstDetail['inst']['address']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>アクセス</span></th>
-              <td><?php echo $dbInstDetail['inst']['access']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['access']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>営業時間</span></th>
-              <td><?php echo $dbInstDetail['inst']['hours']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['hours']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>定休日</span></th>
-              <td><?php echo $dbInstDetail['inst']['holidays']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['holidays']); ?></td>
             </tr>
             <tr>
               <th scope="row"><span>ホームページ</span></th>
-              <td><?php echo $dbInstDetail['inst']['homepage']; ?></td>
+              <td><?php echo isEmpty($dbInstDetail['inst']['homepage']); ?></td>
             </tr>
           </table>
         </div>

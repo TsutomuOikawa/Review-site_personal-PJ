@@ -572,11 +572,11 @@ function getInstListReview($i_id){
   $num = count($rst['image']);
   if ($num === 0) {
     for ($i=$num; $i < 4 ; $i++) {
-      $rst['image'][$i] = array('review_id' => '', 'path' => 'img/noimage.jpeg');
+      $rst['image'][$i] = array('review_id' => '', 'path' => 'img/noimage.png');
     }
   }elseif ($num !== 0 && $num < 4) {
     for ($i=$num; $i < 4 ; $i++) {
-      $rst['image'][$i] = array('review_id' => $rst['image'][0]['review_id'], 'path' => 'img/noimage.jpeg');
+      $rst['image'][$i] = array('review_id' => $rst['image'][0]['review_id'], 'path' => 'img/noimage.png');
     }
   }
 
@@ -681,7 +681,7 @@ function getMypageData($u_id){
         $rst['favorite'][$key]['image'] = getImgData($id['institution_id'], 1);
 
         if(empty($rst['favorite'][$key]['image'])) {
-          $rst['favorite'][$key]['image'] = 'img/noimage.jpeg';
+          $rst['favorite'][$key]['image'] = 'img/noimage.png';
         }
       }
 
@@ -745,7 +745,7 @@ function getMypageData($u_id){
         $rst['registration'][$key]['image'] = getImgData($id['id'], 1);
 
         if(empty($rst['registration'][$key]['image'])) {
-          $rst['registration'][$key]['image'] = 'img/noimage.jpeg';
+          $rst['registration'][$key]['image'] = 'img/noimage.png';
         }
       }
 
@@ -1011,13 +1011,13 @@ function uploadImg($file, $key){
    }
  }
 
-function isEmpty($str){
-  if (empty($str)) {
+function isEmpty($data){
+  if (!isset($data)) {
     return '--';
-  }elseif (!empty($str) && is_int($str)) {
-    return number_format($str, 2);
+  }elseif (isset($data) && is_int($data)) {
+    return number_format($data, 2);
   }else {
-    return $str;
+    return $data;
   }
 }
 
