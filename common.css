@@ -1,7 +1,14 @@
+/*////////////////////////////
+ ヘッダー
+////////////////////////////*/
 header{
   width: 100%;
   height: 60px;
-  background-color: rgba(254, 239, 204, 1.0)
+  background-color: rgba(255, 255, 255, 0.3);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 999;
 }
 .header-left img{
   height: 50px;
@@ -80,6 +87,84 @@ ul{
 }
 .inline{
   display: inline;
+}
+
+/*/////////////////////////
+ サイドバー
+/////////////////////////*/
+#sidebar{
+  width: 23%;
+  height: 100%;
+  box-sizing: border-box;
+  border: solid 1px rgba(237, 237, 237, 0.2);
+  position: sticky;
+  top: 70px;
+}
+
+.searchBox{
+  background: rgba(237, 237, 237, 1);
+  color: rgb(80, 70, 60);
+}
+.searchBox--frame{
+  padding: 20px 0;
+}
+.searchBox_title{
+  padding: 15px;
+}
+.searchBox_title--view{
+  background: rgba(200, 200, 200, 1);
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+.searchBox_list{
+  padding: 15px;
+}
+.searchBox_list--view{
+  background: rgba(237, 237, 237, 1);
+}
+.searchBox_list_listItem{
+  margin-bottom: 15px;
+}
+.searchBox_list_listItem--last{
+  margin-bottom: -15px;
+}
+.listItem_title{
+  padding: 5px 0 8px 10px;
+}
+.listItem_input{
+  width: 100%;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+.listItem_input--frame{
+  height: 40px;
+  border-radius: 2px;
+  border: none;
+}
+.searchBox_btn{
+  width: 70%;
+  height: 50px;
+  float: none !important;
+  margin: 20px auto;
+}
+
+/*/////////////////////////
+ ボタン
+/////////////////////////*/
+.btn{
+  display: block;
+  margin: 0 auto;
+  border: none;
+}
+.btn--submit{
+  color: rgba(255, 255, 255, 1);
+  background: rgba(38, 54, 104, 1);
+  font-size: 20px;
+}
+.btn--submit:hover{
+  cursor: pointer;
 }
 
 /*/////////////////////////

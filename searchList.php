@@ -47,7 +47,7 @@ $link = '&ar='.$area.'&pu='.$purpose.'&ty='.$type.'&c='.$concent.
 // GET値に変な値が入っている（GETに値があるが、データを取得できない）場合はログインページへ
 if (!empty($_GET['P']) && empty($dbInstList)) {
   debug('不正なGETパラメータです。p=1へ遷移します');
-  header('Locetin:searchList');
+  header('Location:searchList.php');
   exit;
 }
 
