@@ -766,6 +766,42 @@ function getMypageData($u_id){
   }
 }
 
+// トップページ用クチコミデータ取得
+function getLatestReview(){
+  // 写真がある最新のクチコミデータ4件を取得
+  try {
+    $dbh = dbConnect();
+    $sql = 'SELECT id, total_pt, title, create_date FROM review WHERE image_post = 1 ORDER BY id DESC LIMIT 4 ';
+    $data = array();
+    // クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if ($stmt) {
+      $rst = $stmt -> fetchAll();
+
+      // レビューIDごとに写真を1件取得
+      foreach ($rst as $key => $val) {
+        $sql2 = 'SELECT `path` FROM image_in_review WHERE review_id = :r_id LIMIT 1';
+        $data2 = array(':r_id' => $val['id']);
+        $stmt2 = queryPost($dbh, $sql2, $data2);
+
+        if ($stmt2) {
+          $result = $stmt2 -> fetch(PDO::FETCH_ASSOC);
+          $rst[$key]['path'] = array_shift($result);
+        }
+      }
+      // 結果を返す
+      return $rst;
+
+    }else {
+      debug('失敗したSQL：'.$sql);
+    }
+
+  } catch (\Exception $e) {
+    error_log('エラー発生：'.$e-> getMessage());
+  }
+}
+
 //=========================================
 //サブテーブル項目取得
 //=========================================
