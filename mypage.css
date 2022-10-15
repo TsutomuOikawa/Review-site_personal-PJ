@@ -98,25 +98,3 @@ padding: 10px 10px 0 0;
 .align-center{
   text-align: center;
 }
-aside{
-  width: 230px;
-  height: 300px;
-  margin:95px 0 0 20px;
-  background: rgba(237, 237, 237, 0.5);
-}
-.sidebar-title{
-  height: 50px;
-  background: #d6d7da;
-  margin-bottom: 30px;
-}
-.sidebar-title p{
-  padding: 17px 0;
-  font-weight: bold;
-}
-.sidebar-inner a{
-  padding: 10px 15px;
-  margin: 15px 20px;
-  background: rgba(255, 255, 255, 1.0);
-  border: 1px solid rgba(56, 65, 79, 0.2);
-  display: block;
-}

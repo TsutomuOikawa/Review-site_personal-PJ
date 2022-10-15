@@ -2,31 +2,23 @@
 //ログイン中だったら（セッション情報があったら）
 if (!empty($_SESSION)) {
   //headerにはマイページとログアウト
-  $header = array("mypage.php","マイページ","logout.php","ログアウト");
+  $header = array("logout.php","ログアウト", "mypage.php","マイページ",);
 
 //未ログインだったら（セッション情報がなければ）
 }else {
   //headerには会員登録とログイン
-  $header = array("registration.php","会員登録","login.php","ログイン");
+  $header = array("login.php","ログイン","registration.php","会員登録");
 }
 ?>
 
 <body>
 
-<header>
-  <div class="header-left">
-    <a href="index.php"><img src="img/logo.png" alt=""></a>
+<header id="header">
+  <div class="header_wrapper header_wrapper--display">
+    <a href="index.php" class="headerTitle"><!--<img src="#" class="logoImg" alt="サービスロゴ">-->Concent-rate</a>
+    <ul class="headerNav">
+      <li class="headerNav_Item"><a href=<?php echo $header[0]; ?> class="header-link link--hover"><?php echo $header[1]; ?></a></li>
+      <li class="headerNav_Item headerNav_Item--strong"><a href=<?php echo $header[2]; ?> class="header-link link--hover"><?php echo $header[3]; ?></a></li>
+    </ul>
   </div>
-  <div class="header-right">
-    <div class="r-btn btn">
-      <a href=<?php echo $header[0]; ?>><?php echo $header[1]; ?></a>
-    </div>
-    <div class="l-btn btn">
-      <a href=<?php echo $header[2]; ?>><?php echo $header[3]; ?></a>
-    </div>
-  </div>
-
 </header>
-
-
-<!-- ログアウトが押された時にはJSでポップアップを表示したい -->
