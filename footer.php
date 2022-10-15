@@ -1,7 +1,7 @@
 <!--　共通フッター　-->
 
  <footer id="footer">
-   <small class="copyright">Copyright © <a href="index.php">Concent-rate</a> All Rights Reserved</small>
+   <small class="footer_copyright font-sizeS">Copyright © <a href="index.php">Concent-rate</a> All Rights Reserved</small>
  </footer>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
  <script type="text/javascript">
