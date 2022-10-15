@@ -1,8 +1,8 @@
 
 <!--　検索サイドバー　-->
-<aside id="sidebar" class="sidebar--color">
+<aside id="sidebar" class="contents-baseColor">
   <form>
-    <p class="sidebar_title sidebar_title--visual js-accordion-swich">基本条件</p>
+    <p class="sidebar_title subTitle--Visual js-accordion-swich">基本条件</p>
     <ul class="sidebar_contents js-accordion-area">
       <li class="searchBox-listItem">
         <label>
@@ -33,7 +33,7 @@
         </label>
       </li>
     </ul>
-    <p class="sidebar_title sidebar_title--visual js-accordion-swich">こだわり条件</p>
+    <p class="sidebar_title subTitle--Visual js-accordion-swich">こだわり条件</p>
     <ul class="sidebar_contents js-accordion-area">
       <li class="searchBox-listItem">
         <label>
@@ -79,7 +79,7 @@
         </label>
       </li>
     </ul>
-    <div>
+    <div class="sidebar_contents">
       <input type="submit" value="検索する" class="btn btn--submit searchBox_btn">
     </div>
 
