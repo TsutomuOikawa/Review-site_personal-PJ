@@ -28,18 +28,18 @@ require('header.php');
   <p><?php echo getSessionMsg('js-msg'); ?></p>
 </div>
 
-<div class="pageWrapper">
-  <h1 class="pageTitle">マイページトップ</h1>
-  <div class="pageContents pageContents--between">
+<div class="page-wrapper">
+  <h1 class="page_title">マイページトップ</h1>
+  <div class="page_contents--between">
 
-    <main class="mainContents">
-      <section class="contentsWrapper contents-baseColor">
-        <h2 class="subTitle subTitle--Visual">お気に入りの施設</h2>
+    <main class="mainContents-wrapper">
+      <section class="contents--interval baseColor">
+        <h2 class="subTitle subTitle--visual">お気に入りの施設</h2>
         <?php if(empty($dbMypageData['favorite'])): ?>
         <p class="noItem">お気に入り登録済みの施設がありません</p>
 
         <?php else: ?>
-        <div class="mainContents_inner scrollView">
+        <div class="scrollContents-wrapper scrollView">
 
           <?php foreach ($dbMypageData['favorite'] as $key => $val):?>
           <a href="searchDetail.php?i=<?php echo $val['id']; ?>" class="panelLink panelLink--float --hoverFlow">
@@ -62,13 +62,13 @@ require('header.php');
         <?php endif; ?>
       </section>
 
-      <section class="contentsWrapper contents-baseColor">
-        <h2 class="subTitle subTitle--Visual">投稿済みのクチコミ</h2>
+      <section class="contents--interval baseColor">
+        <h2 class="subTitle subTitle--visual">投稿済みのクチコミ</h2>
         <?php if(empty($dbMypageData['review'])): ?>
         <p class="noItem">まだクチコミ投稿がありません</p>
 
         <?php else: ?>
-        <ul class="mainContents_inner scrollView">
+        <ul class="scrollContents-wrapper scrollView">
 
           <?php foreach ($dbMypageData['review'] as $key => $val):?>
           <li class="reviewCard reviewCard--visualW">
@@ -99,13 +99,13 @@ require('header.php');
         <?php endif; ?>
       </section>
 
-      <section class="contentsWrapper contents-baseColor">
-        <h2 class="subTitle subTitle--Visual">あなたが新しく追加した施設</h2>
+      <section class="contents--interval baseColor">
+        <h2 class="subTitle subTitle--visual">あなたが新しく追加した施設</h2>
         <?php if(empty($dbMypageData['favorite'])): ?>
         <p class="noItem">追加した施設はありません</p>
 
         <?php else: ?>
-        <div class="mainContents_inner scrollView">
+        <div class="scrollContents-wrapper scrollView">
 
           <?php foreach ($dbMypageData['registration'] as $key => $val):?>
           <div class="panelLink panelLink--float">

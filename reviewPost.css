@@ -24,41 +24,12 @@ main{
   border: solid 40px rgba(237, 237, 237, 1);
 
 }
-
 .input-label{
   margin-bottom: 5px;
   line-height: 21px;
 }
 
-.area-msg{
-  height: 20px;
-  margin: 5px 0 20px;
-  font-size: 14px;
-  color: red;
-}
-.label-required{
-  margin-right: 5px;
-  background: rgba(255, 90, 90, 1);
-  font-size: 13px;
-  font-weight: bold;
-  color: #ffffff;
-  padding: 4px 5px;
-  vertical-align: bottom;
-  display: inline;
-}
-.label-optional{
-  margin-right: 5px;
-  background: rgba(150, 150, 150, 1);
-  font-size: 13px;
-  font-weight: bold;
-  color: #ffffff;
-  padding: 4px 5px;
-  display: inline;
-}
 
-.err{
-  background: #f7dcd9;
-}
 input[type="text"],[type="password"]{
   width: 100%;
   height: 40px;
