@@ -1,6 +1,5 @@
 <?php
 require('function.php');
-
 // デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
@@ -141,7 +140,7 @@ require('header.php');
         </p>
 
         <label>
-          <p class="align-itemAndText">認証コード</p>
+          <p class="form_title">認証コード</p>
           <input type="text" name="auth_key" class="form_input form_input--mainContents <?php if (!empty($err_msg['auth_key'])) echo 'err'; ?>" value="<?php echo getFormData('auth_key'); ?>">
         </label>
         <div class="area-msg">
@@ -156,6 +155,4 @@ require('header.php');
 </main>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>

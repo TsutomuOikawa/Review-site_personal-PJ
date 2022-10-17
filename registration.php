@@ -1,6 +1,5 @@
 <?php
 require('function.php');
-
 //デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
@@ -9,7 +8,8 @@ debugLogStart();
 
 //POST送信されているか確認
 if (!empty($_POST)) {
-  debug('POST送信あり・バリデーションチェックに移行します');
+  debug('=============================================');
+  debug('POST送信あり・処理を開始します');
 
   //送信内容を変数に格納
   $email = $_POST['email'];
@@ -114,7 +114,7 @@ require('header.php');
         </div>
 
         <label>
-          <div class="align-itemAndText">
+          <div class="form_title">
             <span class="form_label form_label--required">必須</span>
             メールアドレス
           </div>
@@ -125,7 +125,7 @@ require('header.php');
         </div>
 
         <label>
-          <div class="align-itemAndText">
+          <div class="form_title">
             <span class="form_label form_label--required">必須</span>
             パスワード
             <span class="font-sizeS">（半角英数字6文字以上）</span>
@@ -137,7 +137,7 @@ require('header.php');
         </div>
 
         <label>
-          <div class="align-itemAndText">
+          <div class="form_title">
             <span class="form_label form_label--required">必須</span>
             確認のためもう一度入力してください
           </div>
@@ -156,6 +156,4 @@ require('header.php');
 </main>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>

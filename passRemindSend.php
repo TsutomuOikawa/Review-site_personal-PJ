@@ -1,10 +1,10 @@
 <?php
 require('function.php');
-
 // デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
 //=========================================
+
 // 入力されているか確認
 if (!empty($_POST)) {
   debug('=============================================');
@@ -63,8 +63,7 @@ if (!empty($_POST)) {
 パスワードが再発行されます。
 
 URL：http://localhost:8888/Concent-rate/passRemindRecieve.php
-認証コード：
-{$auth_key}
+認証コード：{$auth_key}
 ※認証コードの有効期限は30分となります。
 
 再度認証コードを発行される場合は、下記URLへのアクセスをお願いいたします。
@@ -131,7 +130,7 @@ require('header.php');
         </p>
 
         <label>
-          <p class="align-itemAndText">メールアドレス</p>
+          <p class="form_title">メールアドレス</p>
           <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
         </label>
         <div class="area-msg">
@@ -147,6 +146,4 @@ require('header.php');
 </main>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>

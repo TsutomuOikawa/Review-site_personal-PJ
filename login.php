@@ -1,9 +1,7 @@
 <?php
 require('function.php');
-
 //ログイン認証
 require('auth.php');
-
 //デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
@@ -99,7 +97,6 @@ if (!empty($_POST)) {
  $p_title = 'ログイン';
  //共通headタグ呼び出し
  require('head.php');
-
  //共通ヘッダー呼び出し
  require('header.php');
  ?>
@@ -121,7 +118,7 @@ if (!empty($_POST)) {
         </div>
 
         <label>
-          <div class="align-itemAndText">
+          <div class="form_title">
             <span class="form_label form_label--required">必須</span>
             メールアドレス
           </div>
@@ -132,7 +129,7 @@ if (!empty($_POST)) {
         </div>
 
         <label>
-          <div class="align-itemAndText">
+          <div class="form_title">
             <span class="form_label form_label--required">必須</span>
             パスワード
             <span class="font-sizeS">（半角英数字6文字以上）</span>
@@ -144,7 +141,7 @@ if (!empty($_POST)) {
         </div>
 
         <div class="form_lastItem">
-          <label class="align-itemAndText">
+          <label class="form_title">
             <input type="checkbox" name="login_check">ログイン状態を保存する
           </label>
         </div>
