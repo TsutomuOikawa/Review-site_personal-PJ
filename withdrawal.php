@@ -43,52 +43,45 @@ if (!empty($_POST)) {
     $err_msg = MSG08;
   }
 }
-
  ?>
 
+
  <?php
- $css_title = basename(__FILE__,".php");
- //
+ // ページタイトルタグの設定
  $p_title = '退会';
- //共通headタグ呼び出し
+ // 共通headタグ呼び出し
  require('head.php');
 
- //共通ヘッダー呼び出し
+ // 共通ヘッダー呼び出し
  require('header.php');
  ?>
 
 <!--　メインコンテンツ　-->
-<div class="wrap">
-  <main>
-    <div class="h1-wide">
-      <h1>マイページ</h1>
-    </div>
-    <div class="mypage-inner">
-      <section>
-        <div class="h2_space">
-          <h2>退会</h2>
-        </div>
-        <div class="align-center <?php if(!empty($err_msg)) echo 'err'; ?>">
-          <span><?php if(!empty($err_msg)) echo $err_msg; ?></span>
-        </div>
-        <form class="wide" method="post">
-          <div class ="regi-user">
-            <p class="align-center">退会すると、次回のご利用時には再度の会員登録が必要になります</p>
-            <input type="submit" value="退会する" name="submit">
-          </div>
-        </form>
-        <p class="align-center">引き続きサービスをご利用される方は <a href="mypage.php">こちら</a></p>
-      </section>
-    </div>
-  </main>
-<?php
-  require('sidebarRight.php');
-?>
+<div class="page-wrapper">
+  <h1 class="page_title">マイページ</h1>
+  <div class="page_contents--between">
 
+    <main class="mainContents-wrapper">
+      <form method="post" class="scrollContents-wrapper baseColor" >
+
+        <h2 class="subTitle --fontCenter">退会</h2>
+        <div class="contents_form">
+
+          <div class="area-msg">
+            <?php echo showErrMsg('common'); ?>
+          </div>
+
+          <p class="form_notion form_lastItem --fontCenter">次回のご利用時には再度の会員登録が必要になります</p>
+          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="退会する">
+          <p class="form_notion"><a href="mypage.php" class="--hoverLine">&gt 引き続きサービスをご利用される方はこちら</a></p>
+
+        </div>
+      </form>
+    </main>
+    <?php require('sidebarRight.php'); ?>
+
+  </div>
 </div>
 
-
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>
