@@ -682,7 +682,7 @@ function getMypageData($u_id){
         $rst['favorite'][$key]['image'] = getImgData($id['institution_id'], 1);
 
         if(empty($rst['favorite'][$key]['image'])) {
-          $rst['favorite'][$key]['image'] = 'img/noimage.png';
+          $rst['favorite'][$key]['image']['path'] = 'img/noimage.png';
         }
       }
 
