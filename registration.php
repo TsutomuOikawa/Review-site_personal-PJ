@@ -107,7 +107,7 @@ require('header.php');
     <form method="post" class="scrollContents-wrapper baseColor">
 
       <h2 class="subTitle --fontCenter">ご登録フォーム</h2>
-      <div class ="contents_form">
+      <div class ="form-wrapper">
 
         <div class="area-msg">
           <?php echo showErrMsg('common'); ?>

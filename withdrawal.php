@@ -10,7 +10,8 @@ debugLogStart();
 //ここから退会処理
 //POST送信されたら
 if (!empty($_POST)) {
-  debug('退会ボタンが押されました');
+  debug('=============================================');
+  debug('POST送信あり・処理を開始します');
 
   try {
     //データベース情報を用意
@@ -51,7 +52,6 @@ if (!empty($_POST)) {
  $p_title = '退会';
  // 共通headタグ呼び出し
  require('head.php');
-
  // 共通ヘッダー呼び出し
  require('header.php');
  ?>
@@ -65,7 +65,7 @@ if (!empty($_POST)) {
       <form method="post" class="scrollContents-wrapper baseColor" >
 
         <h2 class="subTitle --fontCenter">退会</h2>
-        <div class="contents_form">
+        <div class="form-wrapper">
 
           <div class="area-msg">
             <?php echo showErrMsg('common'); ?>

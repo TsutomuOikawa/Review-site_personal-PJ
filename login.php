@@ -6,11 +6,11 @@ require('auth.php');
 $debug_current_page = basename(__FILE__);
 debugLogStart();
 //=========================================
-//ここからバリデーションチェック
 
 //POST送信されているか確認
 if (!empty($_POST)) {
-  debug('POST送信あり・バリデーションチェックに移行します');
+  debug('=============================================');
+  debug('POST送信あり・処理を開始します');
 
   //送信内容を変数に格納
   $email = $_POST['email'];
@@ -112,7 +112,7 @@ if (!empty($_POST)) {
     <form method="post" class="scrollContents-wrapper baseColor">
 
       <h2 class="subTitle --fontCenter">入力フォーム</h2>
-      <div class ="contents_form">
+      <div class ="form-wrapper">
         <div class="area-msg">
           <?php echo showErrMsg('common'); ?>
         </div>
@@ -156,6 +156,4 @@ if (!empty($_POST)) {
 </main>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>
