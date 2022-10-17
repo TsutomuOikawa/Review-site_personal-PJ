@@ -3,13 +3,13 @@
   <form>
     <p class="sidebar_title subTitle--visual js-accordion-swich">基本条件</p>
     <ul class="sidebar_contents js-accordion-area">
-      <li class="searchBox-listItem">
+      <li class="sidebar_listItem">
         <label>
           <p class="form_title">エリア</p>
           <input type="text" name="ar" class="form_input form_input--sidebar" value="<?php echo getFormData('ar', 0); ?>" placeholder="新宿、渋谷">
         </label>
       </li>
-      <li class="searchBox-listItem">
+      <li class="sidebar_listItem">
         <label>
           <p class="form_title">施設タイプ</p>
           <select name=ty class="form_input form_input--sidebar">
@@ -20,7 +20,7 @@
           </select>
         </label>
       </li>
-      <li class="searchBox-listItem">
+      <li class="sidebar_listItem">
         <label>
           <p class="form_title">利用目的</p>
           <select name="pu" class="form_input form_input--sidebar">
@@ -34,7 +34,7 @@
     </ul>
     <p class="sidebar_title subTitle--visual js-accordion-swich">こだわり条件</p>
     <ul class="sidebar_contents js-accordion-area">
-      <li class="searchBox-listItem">
+      <li class="sidebar_listItem">
         <label>
           <p class="form_title">コンセント</p>
           <select name="c" class="form_input form_input--sidebar" style="border-bottom:dashed #BFBFB3 2px;">
@@ -50,7 +50,7 @@
           </select>
         </label>
       </li>
-      <li class="searchBox-listItem">
+      <li class="sidebar_listItem">
         <label>
           <p class="form_title">Wi-Fi</p>
           <select name="w" class="form_input form_input--sidebar" style="border-bottom:dashed #BFBFB3 2px;">
@@ -66,7 +66,7 @@
           </select>
         </label>
       </li>
-      <li class="searchBox-listItem searchBox-listItem--last">
+      <li class="sidebar_listItem sidebar_listItem--last">
         <label>
           <p class="form_title">静かさ</p>
           <select name = "s_r" class="form_input form_input--sidebar">
@@ -79,7 +79,7 @@
       </li>
     </ul>
     <div class="sidebar_contents">
-      <input type="submit" value="検索する" class="btn btn--submit searchBox_btn">
+      <input type="submit" value="検索する" class="btn btn--submit sidebar_btn">
     </div>
 
   </form>
