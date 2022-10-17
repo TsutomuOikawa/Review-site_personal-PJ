@@ -1,25 +1,25 @@
 <?php
 require('function.php');
 
-//デバッグログ
+// デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
 //=========================================
-//入力されているか確認
+// 入力されているか確認
 if (!empty($_POST)) {
   debug('=============================================');
-  debug('POST送信がありました。処理を開始します');
+  debug('POST送信あり・処理を開始します');
 
-  //送信内容を変数に格納
+  // 送信内容を変数に格納
   $email = $_POST['email'];
 
-  //未入力チェック
+  // 未入力チェック
   validRequired($email,'email');
 
   if (empty($err_msg)) {
     debug('未入力チェックOK');
 
-    //メール形式・最大文字数チェック
+    // メール形式・最大文字数チェック
     validEmail($email,'email');
     validMaxLen($email,'email',255);
 
@@ -31,7 +31,7 @@ if (!empty($_POST)) {
         $dbh = dbConnect();
         $sql = 'SELECT count(*) FROM users WHERE email = :email AND delete_flg = 0';
         $data = array(':email' => $email);
-        //SQL実行
+        // SQL実行
         $stmt = queryPost($dbh, $sql, $data);
         $result = $stmt -> fetch(PDO::FETCH_ASSOC);
 
@@ -44,30 +44,30 @@ if (!empty($_POST)) {
           $err_msg['email'] = MSG15;
 
         }else{
-          //処理継続
+          // 処理継続
           debug('メールアドレスが確認できました');
 
-          //認証キー発行
-          debug('認証キーを発行します');
+          // 認証コード発行
+          debug('認証コードを発行します');
           $auth_key = makeRandkey(8);
 
-          //メール送信準備
-          $from = '';
+          // メール送信準備
+          $from = 'o.2106.basket@gmail.com';
           $to = $email;
           $subject = 'メール認証【Concent-rate】';
           $message = <<<EOT
 {$email} 様
 
 本メールアドレス宛にパスワード再発行のご依頼がありました。
-下記URLにて認証キーをご入力いただくと
+下記URL先の画面にて認証コードをご入力いただくと
 パスワードが再発行されます。
 
 URL：http://localhost:8888/Concent-rate/passRemindRecieve.php
-認証キー：
+認証コード：
 {$auth_key}
-※認証キーの有効期限は30分となります。
+※認証コードの有効期限は30分となります。
 
-再度認証キーを発行される場合は、下記URLへのアクセスをお願いいたします。
+再度認証コードを発行される場合は、下記URLへのアクセスをお願いいたします。
 http://localhost:8888/Concent-rate/passRemindSend.php
 
 ==============================
@@ -81,13 +81,13 @@ URL:https://concent-rate.com
 EOT;
           sendMail($from, $to, $subject, $message);
 
-          //セッション変数に必要な情報を格納
+          // セッション変数に必要な情報を格納
           $_SESSION['auth_email'] = $email;
           $_SESSION['auth_key'] = $auth_key;
           $_SESSION['auth_key_limit'] = time() + (60 * 30);
           $_SESSION['js-msg'] = JSMSG02;
 
-          debug('認証キー入力ページへ遷移します');
+          debug('認証コード入力ページへ遷移します');
           header('Location:passRemindRecieve.php');
           exit;
         }
@@ -102,40 +102,47 @@ EOT;
  ?>
 
 
-
 <?php
-//CSSファイルとタイトルタグの設定
-$css_title = basename(__FILE__,".php");
+// タイトルタグの設定
 $p_title = 'メール認証';
-//共通headタグ呼び出し
+// 共通headタグ呼び出し
 require('head.php');
-
-//共通ヘッダー呼び出し
+// 共通ヘッダー呼び出し
 require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
-<main class="wrap">
-  <div class="h1-narrow">
-    <h1>メール認証</h1>
-  </div>
-  <div class="container">
-    <form method="post" class="narrow">
-      <p style="padding:0 0 50px;">ご登録のeメールアドレスに<br>パスワード再設定用のメールをお送りします</p>
-      <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
-        <span><?php echo showErrMsg('common'); ?></span>
-      </div>
-      <div class ="regi-user">
-        <div class="email-form">
-          <label class="<?php if (!empty($err_msg['email'])) echo 'err'; ?>">eメール
-            <span ><?php echo showErrMsg('email'); ?></span>
-            <input type="text" name="email" placeholder="example@test.com" value="<?php echo getFormData('email') ?>">
-          </label>
+<main class="page-wrapper">
+  <h1 class="page_title">パスワード再発行手続き</h1>
+  <div class="page_contents--center mainContents-wrapper">
+
+    <form method="post" class="scrollContents-wrapper baseColor">
+
+      <h2 class="subTitle --fontCenter">メール認証</h2>
+      <div class="contents_form">
+
+        <div class="area-msg">
+          <?php echo showErrMsg('common'); ?>
         </div>
-        <input type="submit" value="送信する">
+
+        <p class="form_notion form_lastItem --fontCenter" style="line-height:1.5;">
+          ご登録のメールアドレスに認証コードをお送りします<br>
+          メール認証の完了後、パスワードが再発行されます
+        </p>
+
+        <label>
+          <p class="align-itemAndText">メールアドレス</p>
+          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+        </label>
+        <div class="area-msg">
+          <?php echo showErrMsg('email'); ?>
+        </div>
+
+        <input type="submit" class="btn btn--submit btn--submit--mainContents" value="送信する">
+        <p class="form_notion"><a href="login.php" class="--hoverLine">&gt ログイン画面へ戻る</a></p>
+
       </div>
     </form>
-    <p>登録済みの方は <a href="login.php">ログイン画面へ戻る</a></p>
   </div>
 </main>
 

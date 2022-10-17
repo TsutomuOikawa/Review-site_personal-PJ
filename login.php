@@ -123,9 +123,9 @@ if (!empty($_POST)) {
         <label>
           <div class="align-itemAndText">
             <span class="form_label form_label--required">必須</span>
-            eメール
+            メールアドレス
           </div>
-          <input type="text" name="email" class="form_input form_input--mainContents<?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
         </label>
         <div class="area-msg">
           <?php echo showErrMsg('email'); ?>
@@ -137,7 +137,7 @@ if (!empty($_POST)) {
             パスワード
             <span class="font-sizeS">（半角英数字6文字以上）</span>
           </div>
-          <input type="password" name="pass" class="form_input form_input--mainContents<?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
+          <input type="password" name="pass" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
         </label>
         <div class="area-msg">
           <?php echo showErrMsg('pass'); ?>

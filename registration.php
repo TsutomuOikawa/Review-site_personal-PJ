@@ -116,9 +116,9 @@ require('header.php');
         <label>
           <div class="align-itemAndText">
             <span class="form_label form_label--required">必須</span>
-            eメール
+            メールアドレス
           </div>
-          <input type="text" name="email" class="form_input form_input--mainContents<?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
         </label>
         <div class="area-msg">
           <?php echo showErrMsg('email'); ?>
@@ -130,7 +130,7 @@ require('header.php');
             パスワード
             <span class="font-sizeS">（半角英数字6文字以上）</span>
           </div>
-          <input type="password" name="pass" class="form_input form_input--mainContents<?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
+          <input type="password" name="pass" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
         </label>
         <div class="area-msg">
           <?php echo showErrMsg('pass'); ?>
@@ -141,7 +141,7 @@ require('header.php');
             <span class="form_label form_label--required">必須</span>
             確認のためもう一度入力してください
           </div>
-          <input type="password" name="pass_re" class="form_input form_input--mainContents<?php if (!empty($err_msg['pass_re'])) echo 'err'; ?>" value="<?php echo getFormData('pass_re'); ?>">
+          <input type="password" name="pass_re" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass_re'])) echo 'err'; ?>" value="<?php echo getFormData('pass_re'); ?>">
         </label>
         <div class="area-msg">
           <?php echo showErrMsg('pass_re'); ?>
