@@ -14,7 +14,8 @@ $dbPrefData = getPrefData();
 
 //POST送信があったら処理スタート
 if (!empty($_POST)) {
-  debug('POST送信がありました');
+  debug('=============================================');
+  debug('POST送信あり・処理を開始します');
 
   $name = $_POST['name'];
   $tel = $_POST['tel'];
@@ -90,7 +91,6 @@ if (!empty($_POST)) {
 
 
 <?php
-$css_title = basename(__FILE__,".php");
 $p_title = 'プロフィール編集';
 //共通headタグ呼び出し
 require('head.php');
@@ -98,79 +98,104 @@ require('head.php');
 require('header.php');
 ?>
 <!--　メインコンテンツ　-->
-<div class="wrap">
-  <main>
-    <div class="h1-wide">
-      <h1>マイページ</h1>
-    </div>
-    <div class="mypage-inner">
-      <section>
-        <div class="h2_space">
-          <h2>プロフィール編集</h2>
-        </div>
-        <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
-          <span><?php echo showErrMsg('common'); ?></span>
-        </div>
-        <div class="for-space">
-          <form class="wide" method="post">
-            <div class ="regi-user">
-              <div class="name-form">
-                <label class="<?php if(!empty($err_msg['name'])) echo 'err'; ?>">名前（ニックネーム可）
-                  <span><?php echo showErrMsg('name'); ?></span>
-                  <input type="text" name="name" placeholder="コントレ太郎" value="<?php echo getFormData('name'); ?>">
-                </label>
-              </div>
-              <div class="tel-form">
-                <label class="<?php if(!empty($err_msg['tel'])) echo 'err'; ?>">電話番号
-                  <span><?php echo showErrMsg('tel'); ?></span>
-                  <input type="text" name="tel" placeholder="ハイフン不要" value="<?php echo getFormData('tel'); ?>">
-                </label>
-              </div>
-              <div class="email-form">
-                <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">eメール
-                  <span><?php echo showErrMsg('email'); ?></span>
-                  <input type="text" name="email" placeholder="example@test.com" value="<?php echo getFormData('email'); ?>">
-                </label>
-              </div>
-              <div class="age-form">
-                <label class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">年齢
-                  <span><?php echo showErrMsg('age'); ?></span>
-                  <input type="number" min="0" max="100" name="age" value="<?php echo getFormData('age'); ?>">
-                </label>
-              </div>
-              <div class="prefecture-form">
-                <label class="<?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">都道府県
-                  <span><?php echo showErrMsg('prefecture_id'); ?></span>
+<div class="page-wrapper">
+  <h1 class="page_title">マイページ</h1>
+  <div class="page_contents--between">
 
-                  <select name="prefecture_id" size="1">
-                    <option value="0" <?php if(empty($dbFormData['prefecture_id'])) echo 'selected';?>>選択してください</option>
-                    <?php foreach ($dbPrefData as $key => $value) {?>
-                    <option value="<?php echo $value['id']; ?>" <?php if (getFormData('prefecture_id') == $value['id']) echo 'selected'; ?>>
-                      <?php echo $value['name']; ?>
-                    </option><?php } ?>
-                  </select>
+    <main class="mainContents-wrapper">
+      <form class="scrollView-wrapper baseColor" method="post">
 
-                </label>
-              </div>
-              <div class="city-form">
-                <label class="<?php if(!empty($err_msg['city'])) echo 'err'; ?>">市区町村
-                  <span><?php echo showErrMsg('city'); ?></span>
-                  <input type="text" name="city" placeholder="新宿区" value="<?php echo getFormData('city'); ?>">
-                </label>
-              </div>
-              <input type="submit" value="更新する">
+        <h2 class="subTitle --fontCenter">プロフィール編集</h2>
+        <div class="form-wrapper">
+
+          <div class="area-msg">
+            <?php echo showErrMsg('common'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--optional">任意</span>
+              名前
+              <span class="font-sizeS">（ニックネーム可）</span>
             </div>
-          </form>
-        </div>
-      </section>
-    </div>
-  </main>
-  <?php
-  require('sidebarRight.php'); ?>
+            <input type="text" name="name" class="form_input form_input--mainContents <?php if(!empty($err_msg['name'])) echo 'err'; ?>" value="<?php echo getFormData('name'); ?>" placeholder="コントレ太郎">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('name'); ?>
+          </div>
 
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--optional">任意</span>
+              電話番号
+              <span class="font-sizeS">（ハイフン不要）</span>
+            </div>
+            <input type="text" name="tel" class="form_input form_input--mainContents <?php if(!empty($err_msg['name'])) echo 'err'; ?>" value="<?php echo getFormData('tel'); ?>" placeholder="000××××××××">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('tel'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--required">必須</span>
+              メールアドレス
+            </div>
+            <input type="text" name="email" class="form_input form_input--mainContents <?php if(!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('email'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--optional">任意</span>
+              年齢
+            </div>
+            <input type="number" min="10" max="100" name="age" class="form_input form_input--age form_input--mainContents <?php if(!empty($err_msg['age'])) echo 'err'; ?>" value="<?php echo getFormData('age'); ?>">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('age'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--optional">任意</span>
+              都道府県
+            </div>
+            <select name="prefecture_id" size="1" class="form_input form_input--mainContents <?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
+              <option value="0" <?php if(empty($dbFormData['prefecture_id'])) echo 'selected';?>>選択してください</option>
+            <?php foreach ($dbPrefData as $value): ?>
+              <option value="<?php echo $value['id']; ?>" <?php if (getFormData('prefecture_id') == $value['id']) echo 'selected'; ?>>
+                <?php echo $value['name']; ?>
+              </option>
+            <?php endforeach; ?>
+            </select>
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('prefecture_id'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--optional">任意</span>
+              市区町村
+            </div>
+            <input type="text" name="email" class="form_input form_input--mainContents <?php if(!empty($err_msg['city'])) echo 'err'; ?>" value="<?php echo getFormData('city'); ?>" placeholder="新宿区">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('city'); ?>
+          </div>
+
+          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="更新する">
+
+        </div>
+      </form>
+    </main>
+    <?php require('sidebarRight.php'); ?>
+
+  </div>
 </div>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>
