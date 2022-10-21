@@ -142,7 +142,7 @@ require('header.php');
               現在のパスワード
               <span class="font-sizeS">（半角英数字6文字以上）</span>
             </div>
-            <input type="password" name="pass_old" value="<?php echo getFormData('pass_old'); ?>">
+            <input type="password" name="pass_old" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_old'); ?>">
           </label>
           <div class="area-msg">
             <?php echo showErrMsg('pass_old'); ?>
@@ -154,7 +154,7 @@ require('header.php');
               新しいパスワード
               <span class="font-sizeS">（半角英数字6文字以上）</span>
             </div>
-            <input type="password" name="pass_new" value="<?php echo getFormData('pass_new'); ?>">
+            <input type="password" name="pass_new" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_new'); ?>">
           </label>
           <div class="area-msg">
             <?php echo showErrMsg('pass_new'); ?>
@@ -165,13 +165,13 @@ require('header.php');
               <span class="form_label form_label--required">必須</span>
               もう一度新しいパスワードを入力してください
             </div>
-            <input type="password" name="pass_new_re" value="<?php echo getFormData('pass_new_re'); ?>">
+            <input type="password" name="pass_new_re" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_new_re'); ?>">
           </label>
           <div class="area-msg">
             <?php echo showErrMsg('pass_new_re'); ?>
           </div>
 
-          <input type="submit" class="form_input form_input--mainContents" value="更新する">
+          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="更新する">
 
         </div>
 
