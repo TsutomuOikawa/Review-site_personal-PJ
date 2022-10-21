@@ -1,6 +1,5 @@
 <?php
 require('function.php');
-
 //ログイン認証
 require('auth.php');
 //デバッグログ
@@ -16,7 +15,6 @@ debug('セッション変数の中身：'.print_r($userData,true));
 if (!empty($_POST)) {
   debug('=============================================');
   debug('POST送信がありました。処理を開始します');
-  debug('POST送信の中身：'.print_r($_POST,true));
 
   //POSTデータを変数に格納
   $pass_old = $_POST['pass_old'];
@@ -74,7 +72,7 @@ if (!empty($_POST)) {
 
                 //パスワード変更の通知メールを設定
                 $username = ($userData['name'])?$userData['name']: '匿名';
-                $from = '';
+                $from = 'o.2106.basket@gmail.com';
                 $to = $userData['email'];
                 $subject = 'パスワード変更通知【Concent-rate】';
                 $message = <<<EOT
@@ -116,61 +114,73 @@ EOT;
  ?>
 
 <?php
-$css_title = basename(__FILE__,".php");
 $p_title = 'パスワード変更';
 //共通headタグ呼び出し
 require('head.php');
-
 //共通ヘッダー呼び出し
 require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
-<div class="wrap">
-  <main>
-    <div class="h1-wide">
-      <h1>マイページ</h1>
-    </div>
-    <div class="mypage-inner">
-      <section>
-        <div class="h2_space">
-          <h2>パスワード変更</h2>
-        </div>
-        <div class="<?php if (!empty($err_msg['common'])) echo 'err'; ?>">
-          <span><?php echo showErrMsg('common'); ?></span>
-        </div>
-        <div class="for-space">
-          <form class="wide" method="post">
-            <div class ="regi-user">
-              <div class="current-pass" style="margin-bottom:30px;">
-                <label class="<?php if(!empty($err_msg['pass_old'])) echo 'err' ?>">現在のパスワード
-                  <span><?php echo showErrMsg('pass_old'); ?></span>
-                  <input type="password" name="pass_old" placeholder="半角英数字6文字以上" value="<?php echo getFormData('pass_old'); ?>">
-                </label>
-              </div>
-              <div class="new-pass">
-                <label class="<?php if(!empty($err_msg['pass_new'])) echo 'err' ?>">新しいパスワード
-                  <span><?php echo showErrMsg('pass_new');?></span>
-                  <input type="password" name="pass_new" placeholder="半角英数字6文字以上" value="<?php echo getFormData('pass_new'); ?>">
-                </label>
-              </div>
-              <div class="email-form">
-                <label class="<?php if(!empty($err_msg['pass_new_re'])) echo 'err' ?>">確認用パスワード
-                  <span><?php echo showErrMsg('pass_new_re'); ?></span>
-                  <input type="password" name="pass_new_re" placeholder="" value="<?php echo getFormData('pass_new_re'); ?>">
-                </label>
-              </div>
+<div class="page-wrapper">
+  <h1 class="page_title">マイページ</h1>
+  <div class="page_contents--between">
 
-              <input type="submit" value="更新する">
+    <main class="mainContents-wrapper">
+      <form class="scrollView-wrapper baseColor" method="post">
+
+        <h2 class="subTitle --fontCenter">パスワード変更</h2>
+        <div class="form-wrapper">
+
+          <div class="area-msg">
+            <?php echo showErrMsg('common'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--required">必須</span>
+              現在のパスワード
+              <span class="font-sizeS">（半角英数字6文字以上）</span>
             </div>
-          </form>
+            <input type="password" name="pass_old" value="<?php echo getFormData('pass_old'); ?>">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('pass_old'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--required">必須</span>
+              新しいパスワード
+              <span class="font-sizeS">（半角英数字6文字以上）</span>
+            </div>
+            <input type="password" name="pass_new" value="<?php echo getFormData('pass_new'); ?>">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('pass_new'); ?>
+          </div>
+
+          <label>
+            <div class="form_title">
+              <span class="form_label form_label--required">必須</span>
+              もう一度新しいパスワードを入力してください
+            </div>
+            <input type="password" name="pass_new_re" value="<?php echo getFormData('pass_new_re'); ?>">
+          </label>
+          <div class="area-msg">
+            <?php echo showErrMsg('pass_new_re'); ?>
+          </div>
+
+          <input type="submit" class="form_input form_input--mainContents" value="更新する">
+
         </div>
-      </section>
-    </div>
-  </main>
 
-  <?php require('sidebarRight.php'); ?>
+      </form>
+    </main>
 
+    <?php require('sidebarRight.php'); ?>
+
+  </div>
 </div>
 
 <!--　共通フッター呼び出し　-->

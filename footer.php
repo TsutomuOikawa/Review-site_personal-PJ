@@ -1,5 +1,3 @@
-<!--　共通フッター　-->
-
  <footer id="footer">
    <small class="footer_copyright font-sizeS">Copyright © <a href="index.php">Concent-rate</a> All Rights Reserved</small>
  </footer>
