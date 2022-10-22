@@ -277,8 +277,8 @@ ul{
 画像ファイルアップデート箇所
 /////////////////////////////  */
 .dropPic{
-  margin-bottom: 45px;
-  overflow:hidden;
+  display: flex;
+  justify-content: space-between;
 }
 .dropPic_container{
   width: 33.3%;

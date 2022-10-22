@@ -10,7 +10,7 @@ ini_set('error_log','error.log');
 //デバッグログ出力
 //=========================================
 //true or falseでデバッグ出力のスイッチに
-$debug_flg = true;
+$debug_flg = false;
 //デバッグログ関数
 function debug($str){
   global $debug_flg;
@@ -1061,6 +1061,7 @@ function isEmpty($data){
 
 // クチコミ投稿用得点の選択肢表示関数
 function makeSelectTag($str){
+  global $err_msg;
   echo (!empty($err_msg[$str])) ?'<select class="form_input err" name="'.$str.'">' : '<select class="form_input" name="'.$str.'">';
   echo (empty(getFormData($str))) ?'<option value="" selected>選択してください</option>' : '<option value="">選択してください</option>';
   echo (getFormData($str)== 1) ?'<option value="1" selected>1点（悪い）</option>' : '<option value="1">1点（悪い）</option>';

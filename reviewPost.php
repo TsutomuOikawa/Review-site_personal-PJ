@@ -45,7 +45,6 @@ if (!empty($_POST)) {
   if (!empty($_FILES['pic1']['name'])) $pic['pic1'] = uploadImg($_FILES['pic1'], 'pic1');
   if (!empty($_FILES['pic2']['name'])) $pic['pic2'] = uploadImg($_FILES['pic2'], 'pic2');
   if (!empty($_FILES['pic3']['name'])) $pic['pic3'] = uploadImg($_FILES['pic3'], 'pic3');
-  debug('$picの値：'.print_r($pic, true));
 
   // 新規登録用バリデーション実施
   validRequired($stay_id, 'stay_id');
@@ -118,7 +117,7 @@ if (!empty($_POST)) {
   }
 }
 
- ?>
+?>
 
 <?php
 $p_title = 'クチコミ投稿' ;
@@ -175,7 +174,7 @@ require('header.php');
               </label>
             <?php foreach ($dbPurposeData as $key => $value):?>
               <label class="marginItemLine">
-                <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php if(!empty($_POST)) echo ((in_array($value['id'],$purpose_id))?'checked':'');?> >
+                <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php if($_POST) echo ($_POST['purpose_id']&&in_array($value['id'],$purpose_id))?'checked':'';?> >
                 <?php echo $value['name']; ?>
               </label>
             <?php endforeach; ?>
@@ -305,7 +304,9 @@ require('header.php');
               </div>
             </label>
             <div class="area-msg">
-              <?php echo showErrMsg('pic'); ?>
+              <?php echo showErrMsg('pic1'); ?>
+              <?php echo showErrMsg('pic2'); ?>
+              <?php echo showErrMsg('pic3'); ?>
             </div>
           </div>
 
