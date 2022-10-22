@@ -10,7 +10,7 @@ ini_set('error_log','error.log');
 //デバッグログ出力
 //=========================================
 //true or falseでデバッグ出力のスイッチに
-$debug_flg = false;
+$debug_flg = true;
 //デバッグログ関数
 function debug($str){
   global $debug_flg;
@@ -1048,6 +1048,7 @@ function uploadImg($file, $key){
    }
  }
 
+//
 function isEmpty($data){
   if (!isset($data)) {
     return '--';
@@ -1056,6 +1057,18 @@ function isEmpty($data){
   }else {
     return $data;
   }
+}
+
+// クチコミ投稿用得点の選択肢表示関数
+function makeSelectTag($str){
+  echo (!empty($err_msg[$str])) ?'<select class="form_input err" name="'.$str.'">' : '<select class="form_input" name="'.$str.'">';
+  echo (empty(getFormData($str))) ?'<option value="" selected>選択してください</option>' : '<option value="">選択してください</option>';
+  echo (getFormData($str)== 1) ?'<option value="1" selected>1点（悪い）</option>' : '<option value="1">1点（悪い）</option>';
+  echo (getFormData($str)== 2) ?'<option value="2" selected>2点（やや悪い）</option>' : '<option value="2">2点（やや悪い）</option>';
+  echo (getFormData($str)== 3) ?'<option value="3" selected>3点（普通）</option>' : '<option value="3">3点（普通）</option>';
+  echo (getFormData($str)== 4) ?'<option value="4" selected>4点（やや良い）</option>' : '<option value="4">4点（やや良い）</option>';
+  echo (getFormData($str)== 5) ?'<option value="5" selected>5点（良い）</option>' : '<option value="5">5点（良い）</option>';
+  echo ' </select>';
 }
 
 ?>

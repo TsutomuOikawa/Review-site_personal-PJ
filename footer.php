@@ -73,8 +73,8 @@ $(function(){
 
 /////////////////////////////
   // 画像プレビュー機能
-  var $dropArea = $('.drop-area'),
-      $inputFile = $('.input-file');
+  var $dropArea = $('.dropPic_area'),
+      $inputFile = $('.dropPic_inputFile');
 
   // ドラッグオーバーで枠線表示
   $dropArea.on('click', function(e){
