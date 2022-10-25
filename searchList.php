@@ -103,7 +103,7 @@ require('header.php');
                     <span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=5)?'active':'nonactive') ?>">grade</span>
                   </div>
                   <p class="pointArea_totalPt"><?php echo (($value['inst']['t_avg'])? number_format($value['inst']['t_avg'], 2) : '-.--'); ?></p>
-                  <p class="font-sizeS"><?php echo (($value['inst']['total_review'])? $value['inst']['total_review'] : 0); ?>件のクチコミ</p>
+                  <p class="font-sizeS"><a href="searchDetail.php?i=<?php echo $value['inst']['id'].'&p='.$currentPageNum;?>#reviews" class="--hoverLine"><?php echo (($value['inst']['total_review'])? $value['inst']['total_review'] : 0); ?>件のクチコミ</a></p>
                 </div>
 
                 <ul class="display-flex borderSeparate">
