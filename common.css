@@ -154,8 +154,8 @@ ul{
 .sidebar_listItem{
   margin-bottom: 18px;
 }
-.sidebar-listItem--last{
-  margin-bottom: -18px;
+.sidebar_listItem--last{
+  margin-bottom: -13px;
 }
 /* 左サイドバー */
 .sidebar_btn{
@@ -196,14 +196,24 @@ ul{
   クチコミカード
 /////////////////////////*/
 .reviewCard{
-  padding: 25px 35px;
+  margin-bottom: 15px;
+  background: white;
+  position:relative;
+}
+.reviewCard--sizeM{
+  padding: 15px 20px;
+
 }
 .reviewCard--visualW{
-  margin: 0 30px 20px;
-  background: white;
+  padding: 25px 35px;
 }
+
 .reviewCard_description{
   line-height: 1.5;
+  min-width: 70%;
+}
+.reviewCard_imgArea{
+  margin: auto 0;
 }
 
 /*/////////////////////////
@@ -411,7 +421,6 @@ ul{
 }
 .scrollView-wrapper{
   padding: 25px 35px;
-  border: 1px solid rgba(191, 191, 179, 0.8);
 }
 .scrollView--panel{
   display: inline-flex;
@@ -462,12 +471,40 @@ li.list-active{
 /*/////////////////////////
   タグ
 /////////////////////////*/
-.typeTag{
+.tag{
+  font-size: 12.5px;
+  margin-right: 2px;
+  line-height: 1;
+  display:inline-block;
+}
+.tag--type{
   background: #ededed;
 }
+.tag--purpose{
+  background: #eb9342;
+  font-size: 16px;
+  color: white;
+  position: absolute;
+  top: -8px;
+  left: -5px;
+}
+.tag--purpose:hover{
+  opacity: 0.5;
+}
+.tag--feature{
+  background: rgba(255, 242, 214, 1);
+  color: #0064A0;
+  border: 0.5px solid rgba(121, 132, 161, 1);
+  border-radius: 20px;
+}
+.tag--feature:hover{
+  background: rgba(254, 214, 130, 1);
+}
 .--tagS{
-  font-size: 12.5px;
-  padding:  3px 4px;
+  padding:  3px 5px;
+}
+.--tagM{
+  padding:  5px 8px;
 }
 
 /*/////////////////////////
@@ -481,8 +518,20 @@ li.list-active{
   padding: 10px 10px 0 0;
   box-sizing: border-box;
 }
+.--imgS{
+  width: 55px;
+  height: 55px;
+  margin-top: 5px;
+  margin-right: 5px;
+  box-sizing: border-box;
+}
 .--imgM{
   max-height: 140px;
+}
+.--imgL{
+  max-width: 180px;
+  max-height: 180px;
+
 }
 .--3img{
   max-width: 33%;
@@ -499,6 +548,21 @@ li.list-active{
 .font-sizeS{
   font-size: 12.5px;
 }
+.font-sizeM{
+  font-size: 20px;
+}
+.display-flex{
+  display: flex;
+}
+.display-between{
+  display: flex;
+  justify-content: space-between;
+}
+.display-centerBox{
+  display: inline-flex;
+  align-items: center;
+}
+
 .--fontCenter{
   text-align: center;
 }

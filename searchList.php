@@ -1,8 +1,6 @@
 <?php
 require('function.php');
 
-// ログイン認証は不要
-
 //デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
@@ -50,109 +48,96 @@ if (!empty($_GET['P']) && empty($dbInstList)) {
   header('Location:searchList.php');
   exit;
 }
-
  ?>
 
 <?php
-$css_title = basename(__FILE__,".php");
-$p_title = '検索結果一覧';
+$p_title = '施設情報一覧';
 //共通headタグ呼び出し
 require('head.php');
-
 //共通ヘッダー呼び出し
 require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
-<main>
+<div class="page-wrapper">
+  <h1 class="page_title">施設情報一覧</h1>
 
-  <?php require('sidebarLeft.php'); ?>
-  <!--　検索結果一覧　-->
-  <article>
-    <div class="h1-wide">
-      <h1>検索結果一覧</h1>
-      <div style="">
-        <span style="float:left;"><?php echo $dbInstList['total_data'] ?>件の施設が見つかりました</span>
-        <span style="float:right;"><?php echo ($currentMinNum +1);?>-<?php echo (($currentMinNum + $listSpan)<$dbInstList['total_data'])?($currentMinNum + $listSpan):$dbInstList['total_data']; ?>件／<?php echo $dbInstList['total_data'] ?>件中</span>
+  <div class="page_contents--between">
+
+    <?php require('sidebarLeft.php'); ?>
+    <!--　検索結果一覧　-->
+    <main class="mainContents-wrapper">
+      <div class="display-between">
+        <span class="subTitle"><?php echo '検索結果：'.$dbInstList['total_data'].'件'; ?></span>
+        <span style="margin:auto 35px;"><?php echo ($currentMinNum +1);?>-<?php echo (($currentMinNum + $listSpan)<$dbInstList['total_data'])?($currentMinNum + $listSpan):$dbInstList['total_data']; ?>件／<?php echo $dbInstList['total_data'] ?>件中</span>
       </div>
-    </div>
-    <div class="list">
-      <div class="list-inner">
-        <?php if ($dbInstList['total_data'] === 0): ?>
-          <p>検索条件に該当する施設がありません</p>
-          <p>条件を変更して再度お試しください</p>
-        <?php else: ?>
-        <ul>
+
+      <?php if ($dbInstList['total_data'] === 0): ?>
+        <p class="noItem">検索条件に該当する施設がありません<br>
+        条件を変更して再度お試しください</p>
+
+      <?php else: ?>
+        <ul class="scrollView-wrapper baseColor">
           <?php foreach ($dbInstListReview as $key => $value): ?>
-          <li>
-            <div class="card display_flex">
-              <div class="photo-area padding_top10">
-                <div class="main-photo">
-                  <img src="<?php echo $value['image'][0]['path']; ?>" class="big_photo"alt="">
-                </div>
-                <div class="sub-photo">
+          <li class="reviewCard reviewCard--sizeM">
+            <?php if(!empty($value['inst']['purpose'])) echo '<a href="#" class="tag --tagM tag--purpose">'.$value['inst']['purpose'].'におすすめ</a>'; ?>
+            <div class="display-between">
+              <h2 class="subTitle font-sizeM"><a href="searchDetail.php?i=<?php echo $value['inst']['id'].'&p='.$currentPageNum; ?>" class="--hoverLine"><?php echo $value['inst']['name']; ?></a></h2>
+              <span class="material-icons md-36 js-favorite <?php echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id']; ?>">favorite</span>
+            </div>
+
+            <div class="display-between">
+              <div class="reviewCard_imgArea">
+                <img src="<?php echo $value['image'][0]['path']; ?>" class="--imgL" alt="">
+                <div class="imgBox">
                   <?php for ($i=1; $i <= 3 ; $i++):?>
-                  <img src="<?php echo $value['image'][$i]['path']; ?>" alt="" class="small_photo">
+                  <img src="<?php echo $value['image'][$i]['path']; ?>" alt="" class="--imgS --3img">
                   <?php endfor; ?>
                 </div>
               </div>
-              <div class="script_area padding_top10">
-                <div class="name_area border_bottom padding_bottom10">
-                  <div class="display_flex">
-                    <h2><a href="searchDetail.php?i=<?php echo $value['inst']['id'].'&p='.$currentPageNum; ?>"><?php echo $value['inst']['name']; ?></a></h2>
-                    <div class="icon-space">
-                      <span class="material-icons md-24 js-favorite <?php echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id']; ?>">favorite</span>
-                    </div>
-                  </div>
-                  <p class="small_font"><a href="#"><?php echo $value['inst']['type']; ?></a>　｜　アクセス：<?php echo (($value['inst']['access'])?$value['inst']['access']:'ー'); ?></p>
-                </div>
-                <div class="feature_area border_bottom padding_top10 padding_bottom10">
-                  <div class="review_score display_flex">
+
+              <div class="reviewCard_description">
+                <p><a href="#" class="link--hull tag tag--type --tagM"><?php echo $value['inst']['type']; ?></a></p>
+                <div class="pointArea">
+                  <div class="pointArea_starBox">
                     <span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($value['inst']['t_avg']>=5)?'active':'nonactive') ?>">grade</span>
-                    <div class="total_score">
-                      <span><?php echo (($value['inst']['t_avg'])? number_format($value['inst']['t_avg'], 2) : '-.--'); ?></span>
-                    </div>
-                    <div class="review_numbers small_font">
-                      <?php echo (($value['inst']['total_review'])? $value['inst']['total_review'] : 0); ?>件のクチコミ
-                    </div>
                   </div>
-                  <div class="purpose">
-                    <?php if(!empty($value['inst']['purpose'])) echo '<a href="#">'.$value['inst']['purpose'].'におすすめ</a>'; ?>
-                  </div>
-                  <ul class="display_flex">
-                    <?php if($value['inst']['concent']==='1') echo'<li class="list-feature"><a href="#">コンセントあり</a></li>'; ?>
-                    <?php if($value['inst']['wifi']==='1') echo'<li class = "list-feature"><a href="#">Wi-fiあり</a></li>'; ?>
-                    <?php if($value['inst']['stay_id'] >= 5) echo'<li class="list-feature"><a href="#">'.$value['inst']['stay'].'滞在</a></li>'; ?>
-                    <?php if($value['inst']['s_avg'] >= 3.5) echo '<li class="list-feature"><a href="#">集中しやすい環境</a></li>';?>
-                  </ul>
+                  <p class="pointArea_totalPt"><?php echo (($value['inst']['t_avg'])? number_format($value['inst']['t_avg'], 2) : '-.--'); ?></p>
+                  <p class="font-sizeS"><?php echo (($value['inst']['total_review'])? $value['inst']['total_review'] : 0); ?>件のクチコミ</p>
                 </div>
-                <div class="others_area">
-                  <p class="padding_top10 small_font">営業時間：<?php echo $value['inst']['hours']; ?>　|　定休日：<?php echo $value['inst']['holidays']; ?></p>
-                  <div class="comment">
-                    <?php for ($i=0; $i < 2; $i++):?>
-                    <?php
-                     $date = (!empty($value['latest_review'][$i]))? date('Y/m/d',strtotime($value['latest_review'][$i]['create_date'])).'：' : '';
-                     $com = (!empty($value['latest_review'][$i])) ? $value['latest_review'][$i]['title'] : 'ーー';
-                     ?>
-                    <p class="small_font"><?php echo $date.$com; ?></p>
-                  <?php endfor; ?>
-                  </div>
+
+                <ul class="display-flex borderSeparate">
+                  <?php if($value['inst']['concent']==='1') echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">コンセントあり</a></li>'; ?>
+                  <?php if($value['inst']['wifi']==='1') echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">Wi-fiあり</a></li>'; ?>
+                  <?php if($value['inst']['stay_id'] >= 5) echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">'.$value['inst']['stay'].'滞在</a></li>'; ?>
+                  <?php if($value['inst']['s_avg'] >= 3.5) echo '<li class="tag tag--feature"><a href="#" class="link--full --tagM">集中しやすい環境</a></li>';?>
+                </ul>
+                <div class="font-sizeS borderSeparate">
+                  <p>営業時間：<?php echo $value['inst']['hours']; ?></p>
+                  <p>定休日：<?php echo $value['inst']['holidays']; ?></p>
+                  <p>アクセス：<?php echo ($value['inst']['access'])? $value['inst']['access'] :'ー'; ?></p>
+                </div>
+
+                <div class="font-sizeS">
+                  <?php for ($i=0; $i < 2; $i++){
+                    $date = (!empty($value['latest_review'][$i]))? date('Y/m/d',strtotime($value['latest_review'][$i]['create_date'])).'：' : '';
+                    $comment = (!empty($value['latest_review'][$i])) ? $value['latest_review'][$i]['title'] : 'ーー';
+                    echo '<p>'.$date.$comment.'</p>';
+                  };?>
                 </div>
               </div>
             </div>
           </li>
           <?php endforeach; ?>
         </ul>
-        <?php endif; ?>
-      </div>
-      <div class="more align_center">
-        <?php require('pagination.php'); ?>
-      </div>
-    </div>
-  </article>
-</main>
+
+        <div>
+          <?php require('pagination.php'); ?>
+        </div>
+      <?php endif; ?>
+    </main>
+  </div>
+</div>
 
 <!--　共通フッター呼び出し　-->
-<?php
-require('footer.php');
- ?>
+<?php require('footer.php'); ?>
