@@ -39,12 +39,12 @@ require('header.php');
         <p class="noItem">お気に入り登録済みの施設がありません</p>
 
         <?php else: ?>
-        <div class="scrollContents-wrapper scrollView">
+        <div class="scrollView scrollView--panel scrollView-wrapper">
 
           <?php foreach ($dbMypageData['favorite'] as $key => $val):?>
-          <a href="searchDetail.php?i=<?php echo $val['id']; ?>" class="panelLink panelLink--float --hoverFlow">
-            <img src="<?php echo $val['image']['path']; ?>" class="panelLink_img" alt="">
-            <div class="panelLink_description">
+          <a href="searchDetail.php?i=<?php echo $val['id']; ?>" class="panel panel--frame --hoverFlow">
+            <img src="<?php echo $val['image']['path']; ?>" class="panel_img" alt="">
+            <div class="panel_description">
               <span class= "typeTag --tagS"><?php echo $val['type']; ?></span>
               <p class="smallTitle"><?php echo $val['name']; ?></p>
               <div class="pointArea">
@@ -68,7 +68,7 @@ require('header.php');
         <p class="noItem">まだクチコミ投稿がありません</p>
 
         <?php else: ?>
-        <ul class="scrollContents-wrapper scrollView">
+        <ul class="scrollView scrollView-wrapper">
 
           <?php foreach ($dbMypageData['review'] as $key => $val):?>
           <li class="reviewCard reviewCard--visualW">
@@ -105,12 +105,12 @@ require('header.php');
         <p class="noItem">追加した施設はありません</p>
 
         <?php else: ?>
-        <div class="scrollContents-wrapper scrollView">
+        <div class="scrollView scrollView--panel scrollView-wrapper">
 
           <?php foreach ($dbMypageData['registration'] as $key => $val):?>
-          <div class="panelLink panelLink--float">
-            <img src="<?php echo $val['image']; ?>" class="panelLink_img" alt="">
-            <div class="panelLink_description">
+          <div class="panel panel--frame">
+            <img src="<?php echo $val['image']; ?>" class="panel_img" alt="">
+            <div class="panel_description">
               <span class="typeTag --tagS"><?php echo $val['type']; ?></span>
               <p class="smallTitle"><?php echo $val['name']; ?></p>
               <div class="pointArea">
