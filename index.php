@@ -1,9 +1,6 @@
 <?php
 require('function.php');
 
-//ログイン認証
-require('auth.php');
-
 //デバッグログ
 $debug_current_page = basename(__FILE__);
 debugLogStart();
@@ -59,152 +56,222 @@ if (!empty($_GET)) {
   header('Location:'.$link);
   exit;
 }
-
 ?>
 
 <?php
-//CSSファイルとタイトルタグの設定
-$css_title = basename(__FILE__,".php");
+// タイトルタグの設定
 $p_title = 'トップ';
 //共通headタグ呼び出し
 require('head.php');
 //共通ヘッダー呼び出し
 require('header.php');
-
  ?>
 
 <!-- コンテンツ部分ー -->
-<main>
+<main class="">
 
-  <section id="first-wrap">
-    <div class="fv">
-      <div class="toumei">
-        <h2>見つけよう<br>あなたが集中できる場所</h2>
-        <form class="top-input" method="GET">
-          <input type="text" name="ar" placeholder="駅名、地域名など">
-          <input type="submit" value="検索">
-        </form>
-        <p>
-        Concent-rate は、勉強や読書、仕事のために<br>
-        集中できる場所を探している人のための口コミサイトです。<br>
-        <span class="font-sizeS"><br></span>
-        Wi-Fiやコンセントの有無、静かさや滞在可能時間等の観点から<br>
-        作業場所として優れたカフェや施設を探すことができます。
-        </p>
+  <article id="topPage">
+    <div class="topPage">
+      <section class="topPage_firstView">
+        <div class="topPage_firstView--cover">
+          <div class="topPage_item">
+            <h1 class="topPage_title">見つけよう<br><span>集中</span>できる場所</h1>
+            <form class="topPage_input" method="GET">
+              <input type="text" name="ar" class="" placeholder="駅名、地域名など">
+              <input type="submit" class="btn--submit" value="検索">
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="narration">
+        <div class="narration_textBox">
+          <p class="narration_text">Concent-rateは、集中力が高まる場所を探している人のための口コミサイト<br>その場所を訪れるまでわからなかった「集中できる場所かどうか」を、クチコミ評価によって可視化</p>
+          <p class="narration_text">作業場所（コンセントがあるような場所 =concent）へのクチコミ評価（rate）を通じて<br>自分の時間に集中(concentrate)できる人が増えてほしい<br>そして、目標を叶えられる人が増えてほしい、という想いからうまれたサービスです</p>
+        </div>
+      </section>
+    </div>
+
+    <section id="features">
+      <div class="topPage_section-wrapper">
+        <div class="topPage_container">
+          <h2 class="topPage_subTitle topPage_subTitle--features">Features</h2>
+          <div class="topPage_contents">
+            <div class="subTitle font-sizeL --fontCenter">
+              <p>「集中できる場所」が見つかる<br>ありそうでなかったクチコミサイト</p>
+            </div>
+            <div class="featuresBox">
+
+              <div class="features features--01 panel panel--3frame">
+                <h3 class="subTitle font-sizeM --fontCenter">評価は「集中できるか」が基準</h3>
+                <div class="panel_thumbnail">
+                  <img src="img/studying-people.JPG" class="panel_bigImg" alt="">
+                </div>
+                <p class="panel_description --fontCenter">電源やWi-Fi、静かさなど<br>作業場所を選ぶ上で気になる観点で評価<br>行くまでわからなかった情報が<br>事前にわかるように</p>
+              </div>
+
+              <div class="features features--02 panel panel--3frame">
+                <h3 class="subTitle font-sizeM --fontCenter">多様な施設をカバー</h3>
+                <div class="panel_thumbnail">
+                  <img src="img/cafe&library.JPG" class="panel_bigImg" alt="">
+                </div>
+                <p class="panel_description --fontCenter">カフェや図書館から<br>レンタルスペースまで広くカバー<br>目的に合った施設が見つかる</p>
+              </div>
+
+              <div class="features features--03 panel panel--3frame">
+                <h3 class="subTitle font-sizeM --fontCenter">お気に入り機能</h3>
+                <div class="panel_thumbnail">
+                  <img src="img/favorite.jpg" class="panel_bigImg" alt="">
+                </div>
+                <p class="panel_description --fontCenter">気に入った施設は保存が可能<br>お気に入りの場所で<br>作業をどんどん進めよう</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="rate-ex">
-    </div>
-  </section>
+    </section>
 
-  <section id="find">
-    <div class="sectionWrapper">
-      <div class="pageWidth pageWidth--display">
+    <section id="warries">
+      <div class="topPage_section-wrapper">
+        <div class="topPage_container" style="background:white;">
+          <h2 class="topPage_subTitle topPage_subTitle--warries">Warries</h2>
+          <div class="topPage_contents">
+            <div class="subTitle font-sizeL --fontCenter">
+              <p>こんなふうに困った経験ありませんか<br>
+              <span style="color:#EB9342;">Concent-rateなら もう困らない</span></p>
+            </div>
+            <div class="panelBox">
+              <div class="panel panel--3frame panel--warries">
+                <div class="panel_description">
+                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                  <p>PC作業がしたかったのに<br>コンセントがない・Wi-Fiが弱い</p>
+                </div>
+                <div class="panel_description" style="color:#EB9342;">
+                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                  <p>コンセント・Wi-Fi設備を点数化<br>設備の整った場所を見つけられる</p>
+                </div>
+              </div>
+              <div class="panel panel--3frame panel--warries">
+                <div class="panel_description">
+                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                  <p>他の利用客の話し声で集中できない<br>店員さんが退店を呼びかけている</p>
+                </div>
+                <div class="panel_description" style="color:#EB9342;">
+                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                  <p>クチコミで客層や混雑度をチェック<br>作業に向かない場所を避けられる</p>
+                </div>
+              </div>
+              <div class="panel panel--3frame panel--warries">
+                <div class="panel_description">
+                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                  <p>出先からweb会議に参加したい<br>ゆっくり集中できる場所がほしい</p>
+                </div>
+                <div class="panel_description" style="color:#EB9342;">
+                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                  <p>利用目的や滞在時間別の検索も可能<br>最適な場所が見つかる</p>
+                </div>
+              </div>
 
-        <?php require('sidebarLeft.php'); ?>
-        <div class="center">
+            </div>
 
-          <div class="introList introList--first">
-            <h2 class="introList_title"> 地域から探す </h2>
-            <div class="introList_item">
-              <a href="searchList.php?ar=新宿" class="linkCard linkCard--introList">
-                <img src="img/shinjuku.jpg" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">新宿</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <section id="search" class="">
+    <div class="topPage_section-wrapper">
+      <div class="topPage_container">
+        <h2 class="topPage_subTitle topPage_subTitle--search">Search</h2>
+        <div class="topPage_contents">
+
+          <div class="search_container contents--interval">
+            <h3 class="subTitle font-sizeL --fontCenter">地域から探す</h3>
+            <div class="cardBox">
+              <a href="searchList.php?ar=新宿" class="card card--design">
+                <img src="img/shinjuku.jpg" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">新宿</p>
               </a>
-              <a href="searchList.php?ar=渋谷" class="linkCard linkCard--introList">
-                <img src="img/shibuya.jpg" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">渋谷</p>
+              <a href="searchList.php?ar=渋谷" class="card card--design">
+                <img src="img/shibuya.jpg" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">渋谷</p>
               </a>
-              <a href="searchList.php?ar=東京" class="linkCard linkCard--introList">
-                <img src="img/tokyo.jpg" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">東京</p>
+              <a href="searchList.php?ar=東京" class="card card--design">
+                <img src="img/tokyo.jpg" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">東京</p>
               </a>
-              <a href="searchList.php?ar=池袋" class="linkCard linkCard--introList">
-                <img src="img/ikebukuro.webp" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">池袋</p>
+              <a href="searchList.php?ar=池袋" class="card card--design">
+                <img src="img/ikebukuro.webp" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">池袋</p>
               </a>
-              <a href="searchList.php?ar=上野" class="linkCard linkCard--introList">
-                <img src="img/ueno.jpg" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">上野</p>
+              <a href="searchList.php?ar=上野" class="card card--design">
+                <img src="img/ueno.jpg" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">上野</p>
               </a>
-              <a href="searchList.php?ar=品川" class="linkCard linkCard--introList">
-                <img src="img/shinagawa.webp" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">品川</p>
+              <a href="searchList.php?ar=品川" class="card card--design">
+                <img src="img/shinagawa.webp" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">品川</p>
               </a>
-              <a href="searchList.php?ar=吉祥寺" class="linkCard linkCard--introList">
-                <img src="img/kichijoji.webp" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">吉祥寺</p>
+              <a href="searchList.php?ar=吉祥寺" class="card card--design">
+                <img src="img/kichijoji.webp" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">吉祥寺</p>
               </a>
-              <a href="searchList.php?ar=横浜" class="linkCard linkCard--introList">
-                <img src="img/yokohama.webp" alt="" class="linkCard_img--introList">
-                <p class="linkCard_name linkCard_name--introList">横浜</p>
+              <a href="searchList.php?ar=横浜" class="card card--design">
+                <img src="img/yokohama.webp" alt="" class="card_img">
+                <div class="card_img--cover"></div>
+                <p class="card_name card_name--design">横浜</p>
               </a>
             </div>
           </div>
 
-          <div class="introList introList--second">
-            <h2 class="introList_title">利用目的から探す</h2>
-            <div class="introList_item introList_item--center">
-              <a href="searchList.php?pu=1" class="linkPic linkPic--introList">
-                <img src="img/studying.jpg" class="linkPic_img linkPic_img--size" alt="勉強">
-                <p class="linkPic_name linkPic_name--introList">勉強</p>
+          <div class="search_container">
+            <h3 class="subTitle font-sizeL --fontCenter">利用目的から探す</h3>
+            <div class="panelBox">
+              <a href="searchList.php?pu=1" class="panel panel--5frame --hoverFlow">
+                <div class="panel_thumbnail">
+                  <img src="img/studying.jpg" class="panel_bigImg" alt="勉強">
+                </div>
+                <p class="panel_oneWord">勉強</p>
               </a>
-              <a href="searchList.php?pu=2" class="linkPic linkPic--introList">
-                <img src="img/pc.jpg" class="linkPic_img linkPic_img--size" alt="PC作業">
-                <p class="linkPic_name linkPic_name--introList">PC作業</p>
+              <a href="searchList.php?pu=2" class="panel panel--5frame --hoverFlow">
+                <div class="panel_thumbnail">
+                  <img src="img/pc.jpg" class="panel_bigImg" alt="PC作業">
+                </div>
+                <p class="panel_oneWord">PC作業</p>
               </a>
-              <a href="searchList.php?pu=3" class="linkPic linkPic--introList">
-                <img src="img/work.jpg" class="linkPic_img linkPic_img--size" alt="テレワーク">
-                <p class="linkPic_name linkPic_name--introList">テレワーク</p>
+              <a href="searchList.php?pu=3" class="panel panel--5frame --hoverFlow">
+                <div class="panel_thumbnail">
+                  <img src="img/work.jpg" class="panel_bigImg" alt="テレワーク">
+                </div>
+                <p class="panel_oneWord">テレワーク</p>
               </a>
-              <a href="searchList.php?pu=4" class="linkPic linkPic--introList">
-                <img src="img/meeting.jpg" class="linkPic_img linkPic_img--size" alt="グループワーク">
-                <p class="linkPic_name linkPic_name--introList">グループワーク</p>
+              <a href="searchList.php?pu=4" class="panel panel--5frame --hoverFlow">
+                <div class="panel_thumbnail">
+                  <img src="img/meeting.jpg" class="panel_bigImg" alt="グループワーク">
+                </div>
+                <p class="panel_oneWord">グループワーク</p>
               </a>
-              <a href="searchList.php?pu=5" class="linkPic linkPic--introList">
-                <img src="img/video-meeting.jpg" class="linkPic_img linkPic_img--size" alt="web面接">
-                <p class="linkPic_name linkPic_name--introList">web会議・面接</p>
+              <a href="searchList.php?pu=5" class="panel panel--5frame --hoverFlow">
+                <div class="panel_thumbnail">
+                  <img src="img/video-meeting.jpg" class="panel_bigImg" alt="web面接">
+                </div>
+                <p class="panel_oneWord">web会議・面接</p>
               </a>
             </div>
           </div>
-
-          <div class="introList">
-            <h2 class="introList_title">最新の口コミ投稿</h2>
-            <ul class="introList_item introList_item--between">
-              <?php foreach ($dbhLatestReview as $key => $val):?>
-                <li class="linkPic linkPic--review">
-                  <img src="<?php echo $val['path']; ?>" class="linkPic_img linkPic_img--size" alt="" >
-                  <div class="linkPic_contents">
-                    <p class="panelItem days"><?php echo date('Y/m/d',strtotime($val['create_date'])).'投稿' ; ?></p>
-                    <div class="pointArea">
-                      <div class="starBox pointAria_Item">
-                        <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
-                      </div>
-                      <div class="pointAria_Item">
-                        <span class="totalPt"><?php echo $val['total_pt'] ?>.0</span>
-                      </div>
-                    </div>
-                    <div class="panelItem panelItem--comment">
-                      <?php echo $val['title'];?>
-                    </div>
-                  </div>
-
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          </div>
-
         </div>
       </div>
     </div>
   </section>
-
-<main>
-<!-- ここでコンテンツ終わり -->
+</main>
 
 <!--　共通フッター　-->
-<?php
-
-require('footer.php');
-
- ?>
+<?php require('footer.php'); ?>
