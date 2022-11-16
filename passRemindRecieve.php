@@ -122,35 +122,35 @@ require('header.php');
 </div>
 <!--　メインコンテンツ　-->
 <main class="page-wrapper">
-  <h1 class="page_title">メール認証</h1>
-  <div class="page_contents--center mainContents-wrapper">
 
-    <form method="post" class="scrollContents-wrapper baseColor">
+  <div class="container">
+    <h1 class="container_title">メール認証</h1>
+    <div class="container_body">
 
-      <h2 class="subTitle --fontCenter">認証コード入力フォーム</h2>
-      <div class="form-wrapper">
+      <form method="post" class="module form">
+        <h2 class="module_title">認証コード入力フォーム</h2>
+        <div class="module_body">
 
-        <div class="area-msg">
-          <?php echo showErrMsg('common'); ?>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('common'); ?>
+          </div>
+          <p class="form_notion" style="text-align:center;">届いた認証コードを入力してください</p>
+          <p class="form_lastItem" style="text-align:center;">パスワードを再発行いたします</p>
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              認証コード
+            </div>
+            <input type="text" name="auth_key" class="form_input  <?php if (!empty($err_msg['auth_key'])) echo 'err'; ?>" value="<?php echo getFormData('auth_key'); ?>">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('auth_key'); ?>
+          </div>
+          <button type="submit" class="btn btn--submit">認証する</button>
         </div>
+      </form>
+    </div>
 
-        <p class="form_notion form_lastItem --fontCenter" style="line-height:1.5;">
-          メールに届いた認証コードをご入力ください<br>
-          パスワードを再発行いたします
-        </p>
-
-        <label>
-          <p class="form_title">認証コード</p>
-          <input type="text" name="auth_key" class="form_input form_input--mainContents <?php if (!empty($err_msg['auth_key'])) echo 'err'; ?>" value="<?php echo getFormData('auth_key'); ?>">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('auth_key'); ?>
-        </div>
-
-        <input type="submit" class="btn btn--submit btn--submit--mainContents" value="送信する">
-
-      </div>
-    </form>
   </div>
 </main>
 
