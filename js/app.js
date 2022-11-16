@@ -7,6 +7,14 @@ $(function(){
    $('.js-change-header').toggleClass('active', $(this).scrollTop() < targetHeight);
  });
 
+ /////////////////////////////
+  // ハンバーガーメニュー
+  var trigger = $('.js-show-menu');
+  trigger.on('click', function(){
+    $('.js-show-menu-target').toggleClass('active');
+    $(this).toggleClass('active');
+  });
+
 /////////////////////////////
  // 画面遷移後のメッセージ表示
  var $jsShowMsg = $('#js_show_msg');
