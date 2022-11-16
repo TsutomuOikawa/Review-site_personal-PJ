@@ -109,7 +109,7 @@ if (!empty($_POST)) {
   <div class="container">
 
     <h1 class="container_title">ログイン</h1>
-    <div class="container_body container_body--form">
+    <div class="container_body">
 
       <form method="post" class="module form">
         <h2 class="module_title">入力フォーム</h2>
