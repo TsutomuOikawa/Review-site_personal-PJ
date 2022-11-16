@@ -94,64 +94,64 @@ if (!empty($_POST)) {
 $p_title = '会員登録';
 //共通headタグ呼び出し
 require('head.php');
-
 //共通ヘッダー呼び出し
 require('header.php');
 ?>
 
 <!--　メインコンテンツ　-->
-<main class="page-wrapper">
-  <h1 class="page_title">会員登録（無料）</h1>
-  <div class="page_contents--center mainContents-wrapper">
+<main id="registration" class="page-wrapper">
+  <div class="container">
+    <h1 class="container_title">会員登録（無料）</h1>
+    <div class="container_body">
 
-    <form method="post" class="scrollContents-wrapper baseColor">
+      <form method="post" class="module form">
+        <h2 class="module_title">ご登録フォーム</h2>
+        <div class ="module_body">
 
-      <h2 class="subTitle --fontCenter">ご登録フォーム</h2>
-      <div class ="form-wrapper">
-
-        <div class="area-msg">
-          <?php echo showErrMsg('common'); ?>
-        </div>
-
-        <label>
-          <div class="form_title">
-            <span class="form_label form_label--required">必須</span>
-            メールアドレス
+          <div class="form_errMsg">
+            <?php echo showErrMsg('common'); ?>
           </div>
-          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('email'); ?>
-        </div>
 
-        <label>
-          <div class="form_title">
-            <span class="form_label form_label--required">必須</span>
-            パスワード
-            <span class="font-sizeS">（半角英数字6文字以上）</span>
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              メールアドレス
+            </div>
+            <input type="text" name="email" class="form_input  <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('email'); ?>
           </div>
-          <input type="password" name="pass" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('pass'); ?>
-        </div>
 
-        <label>
-          <div class="form_title">
-            <span class="form_label form_label--required">必須</span>
-            確認のためもう一度入力してください
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              パスワード
+              <span class="font-sizeS">（半角英数字6文字以上）</span>
+            </div>
+            <input type="password" name="pass" class="form_input  <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('pass'); ?>
           </div>
-          <input type="password" name="pass_re" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass_re'])) echo 'err'; ?>" value="<?php echo getFormData('pass_re'); ?>">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('pass_re'); ?>
+
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              確認用 パスワード再入力
+            </div>
+            <input type="password" name="pass_re" class="form_input  <?php if (!empty($err_msg['pass_re'])) echo 'err'; ?>" value="<?php echo getFormData('pass_re'); ?>">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('pass_re'); ?>
+          </div>
+
+          <button type="submit" class="btn btn--submit">登録する</button>
+          <p class="form_notion"><a href="login.php" class="--hoverLine">&gt 登録済みの方はこちら</a></p>
+
         </div>
-
-        <input type="submit" class="btn btn--submit btn--submit--mainContents" value="登録する">
-        <p class="form_notion"><a href="login.php" class="--hoverLine">&gt 登録済みの方はこちら</a></p>
-
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </main>
 
