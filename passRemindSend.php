@@ -112,36 +112,36 @@ require('header.php');
 
 <!--　メインコンテンツ　-->
 <main class="page-wrapper">
-  <h1 class="page_title">パスワード再発行手続き</h1>
-  <div class="page_contents--center mainContents-wrapper">
+  <div class="container">
 
-    <form method="post" class="scrollContents-wrapper baseColor">
+    <h1 class="container_title">パスワード再発行手続き</h1>
+    <div class="container_body">
 
-      <h2 class="subTitle --fontCenter">メール認証</h2>
-      <div class="form-wrapper">
+      <form method="post" class="module form">
+        <h2 class="module_title">メール認証</h2>
+        <div class="module_body">
 
-        <div class="area-msg">
-          <?php echo showErrMsg('common'); ?>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('common'); ?>
+          </div>
+          <p class="form_notion" style="text-align:center;">ご登録のメールアドレスに<br>認証コードをお送りします</p>
+          <p class="form_lastItem" style="text-align:center;">メール認証の完了後<br><span class="sp-delete">、</span>パスワードが再発行されます</p>
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              メールアドレス
+            </div>
+            <input type="text" name="email" class="form_input <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('email'); ?>
+          </div>
+          <button type="submit" class="btn btn--submit">送信する</button>
+          <p class="form_notion"><a href="login.php" class="--hoverLine">&gt ログイン画面へ戻る</a></p>
+
         </div>
-
-        <p class="form_notion form_lastItem --fontCenter" style="line-height:1.5;">
-          ご登録のメールアドレスに認証コードをお送りします<br>
-          メール認証の完了後、パスワードが再発行されます
-        </p>
-
-        <label>
-          <p class="form_title">メールアドレス</p>
-          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('email'); ?>
-        </div>
-
-        <input type="submit" class="btn btn--submit btn--submit--mainContents" value="送信する">
-        <p class="form_notion"><a href="login.php" class="--hoverLine">&gt ログイン画面へ戻る</a></p>
-
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </main>
 
