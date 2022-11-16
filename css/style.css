@@ -14,15 +14,23 @@ body {
   letter-spacing: 0.05em;
   line-height: 1.5;
 }
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
 input {
   border: none;
+}
+input:focus-visible {
+  outline: none;
 }
 ul {
   list-style-type: none;
 }
-/*/////////////////////////
+/*====================
   ヘッダー
-/////////////////////////*/
+====================*/
 .header {
   background-color: #FFFFFF;
   box-shadow: 0 -10px 15px 5px;
@@ -136,6 +144,7 @@ ul {
 }
 .menu_link--strong {
   background: #EB9342;
+  border-radius: 3px;
   color: #ffffff;
   padding: 15px 15px;
   transition: .3s;
@@ -155,9 +164,9 @@ ul {
 }
 
 
-/*/////////////////////////
+/*====================
   フッター
-/////////////////////////*/
+====================*/
 .footer {
   background: #00426C;
   color: #F9F9F9;
@@ -201,9 +210,9 @@ ul {
   }
 }
 
-/*/////////////////////////
+/*====================
   JSメッセージウィンドウ
-/////////////////////////*/
+====================*/
 .js_msg_window{
   position: fixed;
   top: 60px;
@@ -215,66 +224,107 @@ ul {
   background: rgba(119, 100, 87, 0.7);
 }
 
-/*/////////////////////////
+/*====================
   コンテンツ部分
-/////////////////////////*/
+====================*/
 /* ページ全体 */
-.page-wrapper{
-  margin: 50px auto 120px;
+.page-wrapper {
+  margin-top: 60px;
 }
-.page_title{
-  margin-bottom: 40px;
-  font-size: 28px;
+.container {
+  padding: 50px 0 70px;
+}
+.container_title{
+  font-size: 32px;
   font-weight: bold;
-  letter-spacing: 0.1em;
-  line-height: 1.5;
-}
-.page_contents--center{
   margin: 0 auto;
+  padding-left: 50px;
+  max-width: 1000px;
 }
-.page_contents--between{
-  display: flex;
-  justify-content: space-between;
+.container_body {
+  box-sizing: border-box;
+  margin: 40px auto 0;
+  padding: 0 10px;
+  width: 1000px;
 }
+.container_body--form {
+  width: 40%;
+}
+@media screen and (max-width: 430px) {
+  .container_title {
+    font-size: 24px;
+  }
+  .container_body--form {
+    width: 100%;
+  }
+}
+
+/*
+.section {
+
+}
+.section_title {
+
+}
+
+.section_body {
+
+}
+ */
+
+.module {
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 40px 50px;
+}
+.module_title {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+@media screen and (max-width: 430px) {
+  .module{
+    padding: 20px 25px;
+  }
+}
+
 section.page_contents--separate{
   margin-top: 20px;
   padding-bottom: 15px;
 }
 
 
-/* メインコンテンツ部分 */
-.mainContents-wrapper{
-  width: 75%;
-}
-
-/* 共通アイテム */
-.contents--interval{
-  margin-bottom: 50px;
-}
-.baseColor{
-  background: #F9F9F9;
-  color: #333333;
+/* ワンカラム部分 */
+.content-wrapper {
   box-sizing: border-box;
+  margin: 0 auto;
+  padding: 80px 10px 50px;
+  width: 1000px;
 }
-.subTitle{
-  font-size: 20px;
+.content_title {
+  font-size: 28px;
   font-weight: bold;
-  line-height: 1.5;
 }
-.subTitle--visual{
-  color: white;
-  background: #004D80;
-  letter-spacing: 0.05em;
-  padding: 15px 30px;
+.content_title--topPage {
+  text-align: left;
+  padding-left: 30px;
+  position: relative;
 }
-.noItem{
-  font-weight: bold;
-  text-align: center;
+.content_title--topPage::before{
+  content: '';
+  font-size: 70px;
+  opacity: 0.2;
+  position: absolute;
+    top: 5px;
+    left: 70px;
+}
+.content_body{
+  padding: 30px 0;
 }
 
-/*/////////////////////////
+/*====================
   サイドバー
-/////////////////////////*/
+====================*/
 #sidebar{
   width: 23%;
   height: 100%;
@@ -312,68 +362,126 @@ section.page_contents--separate{
   box-shadow: 1px 1px 3px rgba(191, 191, 179, 0.3);
 }
 
-/*/////////////////////////
+/*====================
   トップページ
-/////////////////////////*/
-.topPage_firstView{
+====================*/
+
+/* ファーストビュー */
+.firstView {
   height: 900px;
   background-image: url(../img/top.jpg);
-  background-blend-mode: lighten;
+  background-position: center;
+  background-size: cover;
   position: relative;
 }
-.topPage_firstView--cover{
+.firstView--cover {
   height: 100%;
   background:linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0.99));
 }
-.topPage_item{
-  position: absolute;
-  top: 260px;
-  left: 210px;
-}
-.topPage_title{
-  font-size: 50px;
+.firstView_title {
+  font-size: 48px;
   font-weight: bold;
   letter-spacing: 0.1em;
-  line-height: 1.7;
+  position: absolute;
+    top: 250px;
+    left: 230px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 1);
 }
-.topPage_input{
+.firstView_form {
+  background: rgba(255, 255, 255);
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+    align-items: center;
   margin-top: 10px;
+  opacity: 0.9;
+  padding: 0 10px;
+  position: absolute;
+    top: 400px;
+    left: 230px;
+  width: 360px;
+}
+.firstView_input {
   border: none;
-  display:flex;
-}
-.topPage_input> input[type="text"]{
-  width: 75%;
-  padding: 15px 15px;
+  border-radius: 4px;
   font-size: 16px;
+  padding: 15px;
+  width: 85%;
 }
-.topPage_input> input[type="submit"]{
-  width: 25%;
-  box-shadow: none;
-  font-size: 18px;
+.firstView_button {
+  padding: 15px 0;
+  width: 15%;
 }
 
-.narration_textBox{
+@media screen and (max-width: 430px) {
+  .firstView_title {
+    font-size: 36px;
+    top: 180px;
+    left: 30px;
+  }
+  .firstView_form {
+    top: 338px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+  }
+}
+
+/* ナレーション */
+.narration{
+  background: linear-gradient(rgba(255, 255, 255, 0.01), rgba(0, 68, 108, 1) );
   padding: 120px 0 50px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #f5f5f5;
-  letter-spacing: 0.08em;
-  line-height: 1.8;
   position: relative;
 }
-.narration_textBox::before{
+.narration::before{
   content: 'Why Concent-rate';
-  font-size: 90px;
-  opacity: 0.2;
-  font-weight: bold;
   color: #00426c;
+  font-size: 90px;
+  font-weight: bold;
+  opacity: 0.2;
   position: absolute;
-  top: 10px;
-  left: calc((100% - 905px) / 2);
+    top: 5px;
+    left: calc((100% - 905px) / 2);
+}
+.narration_textBox{
+  box-sizing: border-box;
+  color: #f5f5f5;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  margin: 0 auto;
+  padding: 0 10px;
+  text-align: left;
+  width: 900px;
 }
 .narration_text{
-  padding-top: 20px;
+  padding-top: 12px;
+}
+
+@media screen and (max-width: 430px) {
+  .narration{
+  padding-top: 100px;
+}
+  .narration::before{
+    font-size: 48px;
+      top: 10px;
+      left: 50px;
+  }
+  .narration_textBox{
+    font-size: 16px;
+    padding: 0 20px;
+    text-align: left;
+    width: 100%;
+  }
+  .narration_text span {
+    display: none;
+  }
+}
+
+/* 特徴 */
+#features .content_title--topPage::before {
+  content: 'Features';
 }
 
 .featuresBox{
@@ -414,10 +522,14 @@ section.page_contents--separate{
 #warries{
   background: linear-gradient(to top, rgba(0, 66, 108, 0.1), rgba(0, 66, 108, 1));
 }
+#warries .content_title--topPage::before {
+  content: 'Warries';
+}
 .warries-wrapper{
   background: white;
-  padding-top: 30px;
-  height:100%;
+  height: 100%;
+  margin-bottom: -50px;
+  padding: 30px 0 50px;
 }
 .solution_warry{
   height: 50%;
@@ -435,47 +547,13 @@ section.page_contents--separate{
 #search{
   background: #F9F9F9;
 }
-.topPage_section-wrapper{
-  width: 70%;
-  padding: 70px 5px 0;
-  margin: 0 auto;
-}
-.topPage_container{
-  padding: 30px 0 50px;
-  position: relative;
-}
-.topPage_subTitle{
-  font-size: 32px;
-  font-weight: bold;
-  letter-spacing: 0.01em;
-  line-height: 1.5;
-  text-align: left;
-  padding-left: 30px;
-}
-.topPage_subTitle::before{
-  content: '';
-  font-size: 70px;
-  opacity: 0.1;
-  position: absolute;
-  top: 35px;
-  left: 80px;
-}
-.topPage_subTitle--features::before{
-  content: 'Features';
-}
-.topPage_subTitle--warries::before{
-  content: 'Warries';
-}
-.topPage_subTitle--search::before{
+#search .content_title--topPage::before {
   content: 'Search';
 }
-.topPage_contents{
-  margin: 20px auto;
-}
 
-/*/////////////////////////
+/*====================
   テーブルエリア
-/////////////////////////*/
+====================*/
 .table{
   margin: 0 auto;
   width: 80%;
@@ -501,9 +579,9 @@ section.page_contents--separate{
 }
 
 
-/*/////////////////////////
+/*====================
   マイページ
-/////////////////////////*/
+====================*/
 .connectedLink{
   width: 50%;
   padding: 5px;
@@ -523,9 +601,9 @@ section.page_contents--separate{
   border: 1px solid rgba(68, 68, 68, 0.1);
 }
 
-/*/////////////////////////
+/*====================
   クチコミカード
-/////////////////////////*/
+====================*/
 .reviewCard{
   margin-bottom: 15px;
   background: white;
@@ -545,24 +623,25 @@ section.page_contents--separate{
   margin: auto 0;
 }
 
-/*/////////////////////////
+/*====================
   入力フォーム（form_）
-/////////////////////////*/
-.form-wrapper{
-  padding: 0 20% 30px;
+====================*/
+.form{
+  background: #F2F5F8;
 }
-.form_title{
+.form_name{
+  display: flex;
+    align-items: center;
   margin-bottom: 5px;
   margin-left: 3px;
-  display: flex;
-  align-items: center;
 }
 .form_label{
+  border-radius: 2px;
+  color: #ffffff;
   font-size: 14px;
   font-weight: bold;
-  color: #ffffff;
-  padding: 4px 5px;
   margin-right: 5px;
+  padding: 3px 5px;
 }
 .form_label--required{
   background: rgba(255, 90, 90, 1);
@@ -571,12 +650,12 @@ section.page_contents--separate{
   background: rgba(150, 150, 150, 1);
 }
 .form_input {
-  width: 100%;
-  min-height: 45px;
-  padding: 5px 10px;
+  background: white;
   border: none;
   box-sizing: border-box;
-  background: white;
+  min-height: 45px;
+  padding: 5px 10px;
+  width: 100%;
 }
 .form_input--age{
   width: 40%;
@@ -593,15 +672,15 @@ section.page_contents--separate{
   min-height: 45px;
 }
 .form_notion{
-  margin-top: 35px;
+  margin-top: 25px;
 }
 .form_lastItem{
   display: block;
-  margin-bottom: 45px;
+  margin-bottom: 30px;
 }
-.area-msg{
+.form_errMsg{
   height: 20px;
-  margin: 5px 0 20px;
+  margin: 5px 0 15px;
   font-size: 14px;
   color: red;
 }
@@ -612,6 +691,7 @@ section.page_contents--separate{
   display: flex;
   justify-content: space-between;
 }
+
 /*  /////////////////////////////
 画像ファイルアップデート箇所
 /////////////////////////////  */
@@ -649,9 +729,9 @@ section.page_contents--separate{
   display: none;
 }
 
-/*/////////////////////////
+/*====================
   カード（写真と文章が横並び）
-/////////////////////////*/
+====================*/
 .cardBox{
   display: flex;
   flex-wrap: wrap;
@@ -706,9 +786,9 @@ section.page_contents--separate{
   font-weight: bold;
 }
 
-/*/////////////////////////
+/*====================
   パネル（写真と文章が縦にひとまとまり）
-/////////////////////////*/
+====================*/
 .panelBox{
   display: flex;
   justify-content: space-around;
@@ -784,9 +864,9 @@ section.page_contents--separate{
   line-height: 2;
 }
 
-/*/////////////////////////
+/*====================
   スコア表示
-/////////////////////////*/
+====================*/
 .pointArea{
   display: inline-flex;
   align-items: center;
@@ -814,9 +894,9 @@ section.page_contents--separate{
   align-items: center;
 }
 
-/*/////////////////////////
+/*====================
  アイコンフォント
-/////////////////////////*/
+====================*/
 .material-icons.md-36{
   font-size: 36px;
 }
@@ -881,9 +961,9 @@ section.page_contents--separate{
   }
 }
 
-/*/////////////////////////
+/*====================
  スクロールビュー
-/////////////////////////*/
+====================*/
 .scrollView{
   overflow-y: scroll;
   max-height: 400px;
@@ -906,9 +986,9 @@ section.page_contents--separate{
   flex-wrap: wrap;
 }
 
-/*////////////////////////////
+/*====================///
  ページネーション
-////////////////////////////*/
+///====================*/
 ul.pagination-list{
   display: flex;
   justify-content: center;
@@ -922,33 +1002,34 @@ li.list-item{
 li.list-active{
   background: #d6d7da;
 }
-/*/////////////////////////
+/*====================
   ボタン
-/////////////////////////*/
+====================*/
 .btn{
   display: block;
   margin: 0 auto;
-  border: none;
 }
 .btn--submit{
-  color: #F9F9F9;
   background: #004D80;
+  border-radius: 25px;
+  box-shadow: 0px 6px #082F50;
+  color: #F9F9F9;
   font-size: 20px;
-  box-shadow: 1px 2px 1px #082F50;
+  height: 40px;
+  transition: all .2s;
+  width:120px;
 }
 .btn--submit:hover{
-  cursor: pointer;
-  box-shadow: 1px 4px 2px #082F50;
+  background: #66a9d6;
 }
-.btn--submit--mainContents{
-  height: 40px;
-  width:120px;
-  border-radius: 25px;
+.btn--submit:active {
+  box-shadow: 0px 0px #082F50;
+  transform: translateY(6px);
 }
 
-/*/////////////////////////
+/*====================
   タグ
-/////////////////////////*/
+====================*/
 .tag{
   margin-right: 4px;
   line-height: 1;
@@ -980,9 +1061,9 @@ li.list-active{
   font-size: 16px;
 }
 
-/*/////////////////////////
+/*====================
   写真横並び
-/////////////////////////*/
+====================*/
 .imgBox{
   display: flex;
   justify-content: flex-start;
@@ -1018,16 +1099,38 @@ li.list-active{
   max-width: 33%;
 }
 
-/*////////////////////////////
+/*====================///
  ピンポイントCSS
-////////////////////////////*/
-.smallTitle{
+///====================*/
+.contents--interval{
+  margin-bottom: 50px;
+}
+.baseColor{
+  background: #F9F9F9;
+  color: #333333;
+  box-sizing: border-box;
+}
+.subTitle{
+  font-size: 20px;
   font-weight: bold;
   line-height: 1.5;
+}
+.subTitle--visual{
+  color: white;
+  background: #004D80;
+  letter-spacing: 0.05em;
+  padding: 15px 30px;
+}
+.noItem{
+  font-weight: bold;
+  text-align: center;
+}
+.smallTitle{
+  font-weight: bold;
   margin-top: 3px;
 }
 .font-sizeS{
-  font-size: 12.5px;
+  font-size: 13px;
 }
 .font-sizeM{
   font-size: 20px;

@@ -55,14 +55,14 @@ if (!empty($_POST)) {
           debug("メールアドレス、パスワードが登録情報に一致しました");
 
           //セッション時間のデフォルトを1時間に設定
-          $sesLimit = 60*60;
+          $sesLimit = 60 *60;
           //最終ログイン日時を現在時間に更新
           $_SESSION['login_date'] = time();
           //パスワードがマッチしたらチェックボックスを確認
           if ($login_check) {
             //チェックされていたら期限を30日に更新
             debug('ログイン延長のチェックあり・セッション期限を延長します');
-            $_SESSION['login_limit'] = $sesLimit *24*30;
+            $_SESSION['login_limit'] = $sesLimit *24*3;
           }else {
             //チェックされていないのでセッションはデフォルトに設定
             debug('ログイン延長のチェックはありません');
@@ -105,53 +105,55 @@ if (!empty($_POST)) {
    <p><?php echo getSessionMsg('js-msg'); ?></p>
  </div>
 <!--　メインコンテンツ　-->
-<main class="page-wrapper">
-  <h1 class="page_title">ログイン</h1>
-  <div class="page_contents--center mainContents-wrapper">
+<main id="login" class="page-wrapper">
+  <div class="container">
 
-    <form method="post" class="scrollContents-wrapper baseColor">
+    <h1 class="container_title">ログイン</h1>
+    <div class="container_body container_body--form">
 
-      <h2 class="subTitle --fontCenter">入力フォーム</h2>
-      <div class ="form-wrapper">
-        <div class="area-msg">
-          <?php echo showErrMsg('common'); ?>
-        </div>
-
-        <label>
-          <div class="form_title">
-            <span class="form_label form_label--required">必須</span>
-            メールアドレス
+      <form method="post" class="module form">
+        <h2 class="module_title">入力フォーム</h2>
+        <div class ="module_body">
+          <div class="form_errMsg">
+            <?php echo showErrMsg('common'); ?>
           </div>
-          <input type="text" name="email" class="form_input form_input--mainContents <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('email'); ?>
-        </div>
 
-        <label>
-          <div class="form_title">
-            <span class="form_label form_label--required">必須</span>
-            パスワード
-            <span class="font-sizeS">（半角英数字6文字以上）</span>
-          </div>
-          <input type="password" name="pass" class="form_input form_input--mainContents <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
-        </label>
-        <div class="area-msg">
-          <?php echo showErrMsg('pass'); ?>
-        </div>
-
-        <div class="form_lastItem">
-          <label class="form_title">
-            <input type="checkbox" name="login_check">ログイン状態を保存する
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              メールアドレス
+            </div>
+            <input type="text" name="email" class="form_input <?php if (!empty($err_msg['email'])) echo 'err'; ?>" value="<?php echo getFormData('email'); ?>" placeholder="example@test.com">
           </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('email'); ?>
+          </div>
+
+          <label>
+            <div class="form_name">
+              <span class="form_label form_label--required">必須</span>
+              パスワード
+              <span class="font-sizeS">（半角英数字6文字以上）</span>
+            </div>
+            <input type="password" name="pass" class="form_input  <?php if (!empty($err_msg['pass'])) echo 'err'; ?>" value="<?php echo getFormData('pass'); ?>">
+          </label>
+          <div class="form_errMsg">
+            <?php echo showErrMsg('pass'); ?>
+          </div>
+
+          <div class="form_lastItem">
+            <label class="form_name">
+              <input type="checkbox" name="login_check">ログイン状態を保存する
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn--submit">ログイン</button>
+          <p class="form_notion"><a href="passRemindSend.php" class="--hoverLine">&gt パスワードをお忘れの方はこちら</a></p>
+          <p class="form_notion"><a href="registration.php" class="--hoverLine">&gt 会員登録がまだの方はこちら</a></p>
+
         </div>
-
-        <input type="submit" class="btn btn--submit btn--submit--mainContents" value="ログイン">
-        <p class="form_notion"><a href="passRemindSend.php" class="--hoverLine">&gt パスワードをお忘れの方はこちら</a></p>
-        <p class="form_notion"><a href="registration.php" class="--hoverLine">&gt 会員登録がまだの方はこちら</a></p>
-
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </main>
 
