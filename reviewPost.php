@@ -319,7 +319,7 @@ require('header.php');
                 </div>
               </div>
 
-              <input type="submit" class="btn btn--submit btn--submit--mainContents" value="投稿する">
+              <button type="submit" class="btn btn--submit">投稿する</button>
             </div>
           </div>
 
