@@ -123,63 +123,59 @@ require('header.php');
 
 <!--　メインコンテンツ　-->
 <div class="page-wrapper">
-  <h1 class="page_title">マイページ</h1>
-  <div class="page_contents--between">
 
-    <main class="mainContents-wrapper">
-      <form class="scrollView-wrapper baseColor" method="post">
+  <div class="container">
+    <h1 class="container_title">マイページ</h1>
+    <div class="container_body container_body--divide">
 
-        <h2 class="subTitle --fontCenter">パスワード変更</h2>
-        <div class="form-wrapper">
+      <main class="form form--wide">
+        <form method="post" class="module">
 
-          <div class="area-msg">
-            <?php echo showErrMsg('common'); ?>
-          </div>
-
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              現在のパスワード
-              <span class="font-sizeS">（半角英数字6文字以上）</span>
+          <h2 class="module_title module_title--surround">パスワード変更</h2>
+          <div class="module_body">
+            <div class="form_errMsg">
+              <?php echo showErrMsg('common'); ?>
             </div>
-            <input type="password" name="pass_old" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_old'); ?>">
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('pass_old'); ?>
-          </div>
 
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              新しいパスワード
-              <span class="font-sizeS">（半角英数字6文字以上）</span>
+            <p class="form_notion form_lastItem" style="text-align:center;">半角英数字6文字以上で<br>入力してください</p>
+            <label>
+              <div class="form_name">
+                <span class="form_label form_label--required">必須</span>
+                現在のパスワード
+              </div>
+              <input type="password" name="pass_old" class="form_input " value="<?php echo getFormData('pass_old'); ?>">
+            </label>
+            <div class="form_errMsg">
+              <?php echo showErrMsg('pass_old'); ?>
             </div>
-            <input type="password" name="pass_new" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_new'); ?>">
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('pass_new'); ?>
-          </div>
-
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              もう一度新しいパスワードを入力してください
+            <label>
+              <div class="form_name">
+                <span class="form_label form_label--required">必須</span>
+                新しいパスワード
+              </div>
+              <input type="password" name="pass_new" class="form_input " value="<?php echo getFormData('pass_new'); ?>">
+            </label>
+            <div class="form_errMsg">
+              <?php echo showErrMsg('pass_new'); ?>
             </div>
-            <input type="password" name="pass_new_re" class="form_input form_input--mainContents" value="<?php echo getFormData('pass_new_re'); ?>">
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('pass_new_re'); ?>
+            <label>
+              <div class="form_name">
+                <span class="form_label form_label--required">必須</span>
+                確認用 パスワード再入力
+              </div>
+              <input type="password" name="pass_new_re" class="form_input " value="<?php echo getFormData('pass_new_re'); ?>">
+            </label>
+            <div class="form_errMsg">
+              <?php echo showErrMsg('pass_new_re'); ?>
+            </div>
+            <button type="submit" class="btn btn--submit">更新する</button>
           </div>
+        </form>
+      </main>
 
-          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="更新する">
+      <?php require('sidebarRight.php'); ?>
 
-        </div>
-
-      </form>
-    </main>
-
-    <?php require('sidebarRight.php'); ?>
-
+    </div>
   </div>
 </div>
 
