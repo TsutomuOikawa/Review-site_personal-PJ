@@ -19,7 +19,6 @@ $edit_flg = (!empty($i_id)) ? true : false;
 if (!empty($_POST)) {
   debug('=============================================');
   debug('POST送信がありました。処理を開始します');
-  debug(print_r($_POST, true));
 
   // POSTの中身を変数に詰める
   $name = $_POST['name'];
@@ -139,166 +138,170 @@ require('header.php');
 
 <!--　メインコンテンツ　-->
 <div class="page-wrapper">
-  <h1 class="page_title"><?php echo ($edit_flg) ? '施設情報編集' : '施設新規登録'; ?></h1>
-  <div class="page_contents--between">
 
-    <main class="mainContents-wrapper">
-      <form method="post">
+  <div class="container">
+    <h1 class="container_title"><?php echo ($edit_flg) ? '施設情報編集' : '施設新規登録'; ?></h1>
+    <div class="container_body container_body--divide">
+      <main class="container_mainBody">
+        <form method="post">
 
-        <section class="contents--interval baseColor">
-          <h2 class="subTitle subTitle--visual">基本情報入力</h2>
-          <div class="form-wrapper">
-
-            <div class="area-msg">
-              <?php echo showErrMsg('common'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--required">必須</span>
-                施設名
-              </div>
-              <input type="text" name="name" class="form_input form_input--mainContents <?php if(!empty($err_msg['name'])) echo 'err'; ?>" value="<?php echo getFormData('name'); ?>" placeholder="コントレcafe">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('name'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--required">必須</span>
-                都道府県
-              </div>
-              <select name="prefecture_id" class="form_input form_input--mainContents <?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
-                <option value="0" <?php if(empty(getFormData('prefecture_id'))) echo 'selected';?> >選択してください</option>
-              <?php foreach ($dbPrefData as $key => $value): ?>
-                <option value="<?php echo $value['id']; ?>" <?php if (getFormData('prefecture_id') == $value['id']) echo 'selected'; ?>><?php echo $value['name']; ?></option>
-              <?php endforeach; ?>
-              </select>
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('prefecture_id'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--required">必須</span>
-                市区町村
-                <span class="font-sizeS">（「市」「区」「町」「村」までつけてください）</span>
-              </div>
-              <input type="text" name="city" class="form_input form_input--mainContents <?php if(!empty($err_msg['city'])) echo 'err'; ?>" value="<?php echo getFormData('city'); ?>" placeholder="中央区">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('city'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                その他住所
-              </div>
-              <input type="text" name="address" class="form_input form_input--mainContents <?php if(!empty($err_msg['address'])) echo 'err'; ?>" value="<?php echo getFormData('address'); ?>" placeholder="日本橋1-1-1">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('address'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--required">必須</span>
-                施設カテゴリー
-              </div>
-              <select name="type_id" class="form_input form_input--mainContents <?php if(!empty($err_msg['type_id'])) echo 'err'; ?>">
-                <option value="0" <?php if(empty(getFormData('prefecture_id'))) echo 'selected';?> >選択してください</option>
-              <?php foreach ($dbTypeData as $key => $val): ?>
-                <option value="<?php echo $val['id']; ?>" <?php if (getFormData('type_id') == $val['id']) echo 'selected'; ?>><?php echo $val['name']; ?></option>
-              <?php endforeach; ?>
-              </select>
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('type_id'); ?>
-            </div>
-          </div>
-        </section>
-
-
-        <section class="contents--interval baseColor">
-          <h2 class="subTitle subTitle--visual">詳細情報入力</h2>
-          <div class="form-wrapper">
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                アクセス
-              </div>
-              <input type="text" name="access" class="form_input form_input--mainContents <?php if(!empty($err_msg['access'])) echo 'err'; ?>" value="<?php echo getFormData('access'); ?>" placeholder="JR東京駅八重洲口徒歩10分">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('access'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                営業時間
-              </div>
-              <input type="text" name="hours" class="form_input form_input--mainContents <?php if(!empty($err_msg['hours'])) echo 'err'; ?>" value="<?php echo getFormData('hours'); ?>" placeholder="平日11:00~19:00／休日10:00~20:00">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('hours'); ?>
-            </div>
-
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                定休日
-              </div>
-              <input type="text" name="holidays" class="form_input form_input--mainContents <?php if(!empty($err_msg['holidays'])) echo 'err'; ?>" value="<?php echo getFormData('holidays'); ?>" placeholder="毎週水曜日／祝日">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('holidays'); ?>
-            </div>
-
-            <div>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                コンセント・Wi-Fiの設置
-              </div>
-              <div class="form_input form_input--checkbox">
-                <label class="marginItemLine">
-                  <input type="checkbox" name="concent" <?php if(getFormData('concent') == (1 || on)) echo 'checked';?>>
-                  コンセントあり
+          <section class="section">
+            <div class="module form form--wide">
+              <h2 class="module_title module_title--surround">基本情報</h2>
+              <div class="module_body">
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('common'); ?>
+                </div>
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--required">必須</span>
+                    施設名
+                  </div>
+                  <input type="text" name="name" class="form_input  <?php if(!empty($err_msg['name'])) echo 'err'; ?>" value="<?php echo getFormData('name'); ?>" placeholder="コントレcafe">
                 </label>
-                <label class="marginItemLine">
-                  <input type="checkbox" name="wifi" <?php if(getFormData('wifi') == (1 || on)) echo 'checked';?>>
-                  Wi-Fiあり
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('name'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--required">必須</span>
+                    都道府県
+                  </div>
+                  <select name="prefecture_id" class="form_input  <?php if(!empty($err_msg['prefecture_id'])) echo 'err'; ?>">
+                    <option value="0" <?php if(empty(getFormData('prefecture_id'))) echo 'selected';?> >選択してください</option>
+                  <?php foreach ($dbPrefData as $key => $value): ?>
+                    <option value="<?php echo $value['id']; ?>" <?php if (getFormData('prefecture_id') == $value['id']) echo 'selected'; ?>><?php echo $value['name']; ?></option>
+                  <?php endforeach; ?>
+                  </select>
                 </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('prefecture_id'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--required">必須</span>
+                    市区町村
+                    <span class="font-sizeS">（「市区町村」まで必須）</span>
+                  </div>
+                  <input type="text" name="city" class="form_input  <?php if(!empty($err_msg['city'])) echo 'err'; ?>" value="<?php echo getFormData('city'); ?>" placeholder="中央区">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('city'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    その他住所
+                  </div>
+                  <input type="text" name="address" class="form_input  <?php if(!empty($err_msg['address'])) echo 'err'; ?>" value="<?php echo getFormData('address'); ?>" placeholder="日本橋1-1-1">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('address'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--required">必須</span>
+                    施設カテゴリー
+                  </div>
+                  <select name="type_id" class="form_input  <?php if(!empty($err_msg['type_id'])) echo 'err'; ?>">
+                    <option value="0" <?php if(empty(getFormData('prefecture_id'))) echo 'selected';?> >選択してください</option>
+                  <?php foreach ($dbTypeData as $key => $val): ?>
+                    <option value="<?php echo $val['id']; ?>" <?php if (getFormData('type_id') == $val['id']) echo 'selected'; ?>><?php echo $val['name']; ?></option>
+                  <?php endforeach; ?>
+                  </select>
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('type_id'); ?>
+                </div>
               </div>
             </div>
-            <div class="area-msg">
-              <?php echo showErrMsg('concent'); ?>
-              <?php echo showErrMsg('wifi'); ?>
-            </div>
+          </section>
 
-            <label>
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                ホームページ
+          <section class="section">
+            <div class="module form form--wide">
+              <h2 class="module_title module_title--surround">詳細情報</h2>
+              <div class="module_body">
+                <p class="form_notion form_lastItem" style="text-align:center;">※正確な情報をご入力ください</p>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    アクセス
+                  </div>
+                  <input type="text" name="access" class="form_input  <?php if(!empty($err_msg['access'])) echo 'err'; ?>" value="<?php echo getFormData('access'); ?>" placeholder="JR東京駅八重洲口徒歩10分">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('access'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    営業時間
+                  </div>
+                  <input type="text" name="hours" class="form_input  <?php if(!empty($err_msg['hours'])) echo 'err'; ?>" value="<?php echo getFormData('hours'); ?>" placeholder="平日11:00~19:00／休日10:00~20:00">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('hours'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    定休日
+                  </div>
+                  <input type="text" name="holidays" class="form_input  <?php if(!empty($err_msg['holidays'])) echo 'err'; ?>" value="<?php echo getFormData('holidays'); ?>" placeholder="毎週水曜日／祝日">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('holidays'); ?>
+                </div>
+
+                <div>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    コンセント・Wi-Fiの設置
+                  </div>
+                  <div class="form_input form_input--checkbox <?php if(!empty($err_msg['concent'])|| !empty($err_msg['wifi'])) echo 'err'; ?>">
+                    <label class="marginItemLine">
+                      <input type="checkbox" name="concent" value="1" <?php if(getFormData('concent') == (1 || on)) echo 'checked';?>>
+                      コンセントあり
+                    </label>
+                    <label class="marginItemLine">
+                      <input type="checkbox" name="wifi" value="1" <?php if(getFormData('wifi') == (1 || on)) echo 'checked';?>>
+                      Wi-Fiあり
+                    </label>
+                  </div>
+                </div>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('concent'); ?>
+                  <?php echo showErrMsg('wifi'); ?>
+                </div>
+
+                <label>
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    ホームページ
+                  </div>
+                  <input type="text" name="homepage" class="form_input  <?php if(!empty($err_msg['homepage'])) echo 'err'; ?>" value="<?php echo getFormData('homepage'); ?>" placeholder="https://wwww">
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('homepage'); ?>
+                </div>
+
+                <button type="submit" class="btn btn--submit"><?php echo ($edit_flg) ? '更新する':'登録する'; ?></button>
+
               </div>
-              <input type="text" name="homepage" class="form_input form_input--mainContents <?php if(!empty($err_msg['homepage'])) echo 'err'; ?>" value="<?php echo getFormData('homepage'); ?>" placeholder="https://wwww">
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('homepage'); ?>
             </div>
+          </section>
+        </form>
+      </main>
 
-            <input type="submit" class="btn btn--submit btn--submit--mainContents" value="<?php echo ($edit_flg) ? '更新する':'登録する'; ?>">
-
-          </div>
-        </section>
-      </form>
-    </main>
-
-    <?php require('sidebarRight.php'); ?>
+      <?php require('sidebarRight.php'); ?>
+    </div>
   </div>
 </div>
 
