@@ -7,7 +7,6 @@ $debug_current_page = basename(__FILE__);
 debugLogStart();
 //=========================================
 
-//ここから退会処理
 //POST送信されたら
 if (!empty($_POST)) {
   debug('=============================================');
@@ -58,28 +57,29 @@ if (!empty($_POST)) {
 
 <!--　メインコンテンツ　-->
 <div class="page-wrapper">
-  <h1 class="page_title">マイページ</h1>
-  <div class="page_contents--between">
 
-    <main class="mainContents-wrapper">
-      <form method="post" class="scrollContents-wrapper baseColor" >
+  <div class="container">
+    <h1 class="container_title">マイページ</h1>
+    <div class="container_body container_body--divide">
+      <main class="container_mainBody">
 
-        <h2 class="subTitle --fontCenter">退会</h2>
-        <div class="form-wrapper">
+        <form method="post" class="module form form--wide">
+          <h2 class="module_title module_title--surround">退会</h2>
+          <div class="module_body">
 
-          <div class="area-msg">
-            <?php echo showErrMsg('common'); ?>
+            <div class="area-msg">
+              <?php echo showErrMsg('common'); ?>
+            </div>
+
+            <p class="form_notion form_lastItem" style="text-align:center;">次回のご利用時には<br>再度の会員登録が必要になります</p>
+            <button type="submit" class="btn btn--submit">退会する</button>
+            <p class="form_notion"><a href="mypage.php" class="--hoverLine">&gt マイページに戻る</a></p>
           </div>
+        </form>
+      </main>
+      <?php require('sidebarRight.php'); ?>
 
-          <p class="form_notion form_lastItem --fontCenter">次回のご利用時には再度の会員登録が必要になります</p>
-          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="退会する">
-          <p class="form_notion"><a href="mypage.php" class="--hoverLine">&gt 引き続きサービスをご利用される方はこちら</a></p>
-
-        </div>
-      </form>
-    </main>
-    <?php require('sidebarRight.php'); ?>
-
+    </div>
   </div>
 </div>
 
