@@ -130,192 +130,202 @@ require('header.php');
 <!--　メインコンテンツ　-->
 
 <main class="page-wrapper">
-  <h1 class="page_title">クチコミ投稿</h1>
-  <div class="page_contents--center mainContents-wrapper">
 
-    <form method="post" enctype="multipart/form-data">
+  <div class="container">
+    <h1 class="container_title">クチコミ投稿</h1>
+    <div class="container_body">
+      <form method="post" enctype="multipart/form-data">
 
-      <section class="contents--interval baseColor">
-        <h2 class="subTitle subTitle--visual">施設ご利用時の状況</h2>
-        <div class="form-wrapper">
-          <div class="area-msg">
-            <?php echo showErrMsg('common'); ?>
-          </div>
-          <label>
-            <div class="form_title">
-              施設名<span class="font-sizeS">（変更不可）</span>
-            </div>
-            <p class="form_input form_lastItem" style="line-height:35px;"><?php echo $dbInstData['name']; ?></p>
-          </label>
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              滞在時間
-            </div>
-            <select class="form_input <?php if(!empty($err_msg['stay_id'])) echo 'err'; ?>" name="stay_id">
-              <option value="" <?php if(empty(getFormData('stay_id'))) echo 'selected';?> >選択してください</option>
-            <?php foreach ($dbStayData as $key => $st):?>
-              <option value="<?php echo $st['id']; ?>" <?php if(getFormData('stay_id') === $st['id']) echo 'selected';?> ><?php echo $st['name']; ?></option>
-            <?php endforeach; ?>
-            </select>
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('stay_id'); ?>
-          </div>
-          <div>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              利用目的
-              <span class="font-sizeS">（複数選択可）</span>
-            </div>
-            <div class="form_input form_input--checkbox <?php if(!empty($err_msg['purpose_id'])) echo 'err'; ?>">
+        <section class="section">
+          <div class="module form">
+            <h2 class="module_title module_title--surround">施設ご利用時の状況</h2>
+            <div class="module_body">
+              <div class="form_errMsg">
+                <?php echo showErrMsg('common'); ?>
+              </div>
               <label>
-                <input type="hidden" name="purpose_id[]" value="">
+                <div class="form_name">
+                  施設名
+                  <span class="font-sizeS">（変更不可）</span>
+                </div>
+                <p class="form_input form_lastItem" style="line-height:35px;"><?php echo $dbInstData['name']; ?></p>
               </label>
-            <?php foreach ($dbPurposeData as $key => $value):?>
-              <label class="marginItemLine">
-                <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php if($_POST) echo ($_POST['purpose_id']&&in_array($value['id'],$purpose_id))?'checked':'';?> >
-                <?php echo $value['name']; ?>
+              <label>
+                <div class="form_name">
+                  <span class="form_label form_label--required">必須</span>
+                  滞在時間
+                </div>
+                <select class="form_input <?php if(!empty($err_msg['stay_id'])) echo 'err'; ?>" name="stay_id">
+                  <option value="" <?php if(empty(getFormData('stay_id'))) echo 'selected';?> >選択してください</option>
+                <?php foreach ($dbStayData as $key => $st):?>
+                  <option value="<?php echo $st['id']; ?>" <?php if(getFormData('stay_id') === $st['id']) echo 'selected';?> ><?php echo $st['name']; ?></option>
+                <?php endforeach; ?>
+                </select>
               </label>
-            <?php endforeach; ?>
-            </div>
-          </div>
-          <div class="area-msg">
-            <?php echo showErrMsg('purpose_id'); ?>
-          </div>
-        </div>
-      </section>
-
-      <section class="contents--interval baseColor">
-        <h2 class="subTitle subTitle--visual">施設の設備へのご評価<span class="font-sizeS">（各項目1点~5点で採点してください）</span></h2>
-        <div class="form-wrapper">
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--required">必須</span>
-              コンセント設備へのご評価
-              <span class="font-sizeS">（設置席数・利用しやすさなど）</span>
-            </div>
-            <?php makeSelectTag('concent_pt'); ?>
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('concent_pt'); ?>
-          </div>
-          <label>
-            <div class="form_title">
-              <div class="form_label form_label--required">必須</div>
-              Wi-Fiへのご評価
-              <span class="font-sizeS">（電波の強さ・接続方法の分かりやすさなど）</span>
-            </div>
-            <?php makeSelectTag('wifi_pt'); ?>
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('wifi_pt'); ?>
-          </div>
-          <label>
-            <div class="form_title">
-              <div class="form_label form_label--required">必須</div>
-              施設内の環境へのご評価
-              <span class="font-sizeS">（静かさ・混雑など）</span>
-            </div>
-            <?php makeSelectTag('silence_pt'); ?>
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('silence_pt'); ?>
-          </div>
-          <label>
-            <div class="form_title">
-              <div class="form_label form_label--required">必須</div>
-              総合評価
-              <span class="font-sizeS">（集中しやすい環境かどうかの観点からご評価ください）</span>
-            </div>
-            <?php makeSelectTag('total_pt'); ?>
-          </label>
-          <div class="area-msg">
-            <?php echo showErrMsg('total_pt'); ?>
-          </div>
-        </div>
-      </section>
-
-      <section class="contents--interval baseColor">
-        <h2 class="subTitle subTitle--visual">フリーコメント<span class="font-sizeS">（勉強場所・作業場所としてのご感想や注意点をご記入ください）</span></h2>
-        <div class="form-wrapper">
-
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--optional">任意</span>
-              ひとこと感想
-            </div>
-            <input type="text" name="title" class="form_input js-text-count1 <?php if(!empty($err_msg['title'])) echo 'err'; ?>" value="<?php echo getFormData('title'); ?>" placeholder="静かで設備も充実しており、作業にぴったりでした">
-          </label>
-          <div class="text-counter">
-            <div class="area-msg">
-              <?php echo showErrMsg('title'); ?>
-            </div>
-            <p><span class="js-text-count-view1">0</span>/30文字</p>
-          </div>
-
-
-          <label>
-            <div class="form_title">
-              <span class="form_label form_label--optional">任意</span>
-              詳細なコメント・その他備考など
-            </div>
-            <textarea name="comment" class="form_input js-text-count2 <?php if(!empty($err_msg['comment'])) echo 'err'; ?>" rows="8"><?php echo getFormData('comment'); ?></textarea>
-          </label>
-          <div class="text-counter">
-            <div class="area-msg">
-              <?php echo showErrMsg('comment'); ?>
-            </div>
-            <p><span class="js-text-count-view2">0</span>/200文字</p>
-          </div>
-
-          <div class="dropPic form_lastItem">
-            <label class="dropPic_container">
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                画像1
+              <div class="form_errMsg">
+                <?php echo showErrMsg('stay_id'); ?>
               </div>
-              <div class="dropPic_area">ドラッグ&ドロップ
-                <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
-                <input type="file" name="pic1" class="dropPic_inputFile">
-                <img src="<?php echo getFormData('pic1'); ?>" alt="" class="js-img-preview">
+              <div>
+                <div class="form_name">
+                  <span class="form_label form_label--required">必須</span>
+                  利用目的
+                  <span class="font-sizeS">（複数選択可）</span>
+                </div>
+                <div class="form_input form_input--checkbox <?php if(!empty($err_msg['purpose_id'])) echo 'err'; ?>">
+                  <label>
+                    <input type="hidden" name="purpose_id[]" value="">
+                  </label>
+                <?php foreach ($dbPurposeData as $key => $value):?>
+                  <label class="marginItemLine">
+                    <input type="checkbox" name="purpose_id[]" value="<?php echo $value['id']; ?>" <?php if($_POST) echo ($_POST['purpose_id']&&in_array($value['id'],$purpose_id))?'checked':'';?> >
+                    <?php echo $value['name']; ?>
+                  </label>
+                <?php endforeach; ?>
+                </div>
               </div>
-            </label>
-            <label class="dropPic_container">
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                画像2
+              <div class="form_errMsg">
+                <?php echo showErrMsg('purpose_id'); ?>
               </div>
-              <div class="dropPic_area">ドラッグ&ドロップ
-                <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
-                <input type="file" name="pic2" class="dropPic_inputFile">
-                <img src="<?php echo getFormData('pic2'); ?>" alt="" class="js-img-preview">
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="module form">
+            <h2 class="module_title module_title--surround">設備へのご評価</h2>
+            <div class="module_body">
+              <p class="form_notion" style="text-align:center;">作業場所に必要な設備について</p>
+              <p class="form_lastItem" style="text-align:center;">1点~5点で評価してください</p>
+              <label>
+                <div class="form_name">
+                  <span class="form_label form_label--required">必須</span>
+                  コンセントの評価
+                  <span class="font-sizeS">（設置席数など）</span>
+                </div>
+                <?php makeSelectTag('concent_pt'); ?>
+              </label>
+              <div class="form_errMsg">
+                <?php echo showErrMsg('concent_pt'); ?>
               </div>
-            </label>
-            <label class="dropPic_container">
-              <div class="form_title">
-                <span class="form_label form_label--optional">任意</span>
-                画像3
+              <label>
+                <div class="form_name">
+                  <div class="form_label form_label--required">必須</div>
+                  Wi-Fiの評価
+                  <span class="font-sizeS">（電波の強さなど）</span>
+                </div>
+                <?php makeSelectTag('wifi_pt'); ?>
+              </label>
+              <div class="form_errMsg">
+                <?php echo showErrMsg('wifi_pt'); ?>
               </div>
-              <div class="dropPic_area">ドラッグ&ドロップ
-                <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
-                <input type="file" name="pic3" class="dropPic_inputFile">
-                <img src="<?php echo getFormData('pic3'); ?>" alt="" class="js-img-preview">
+              <label>
+                <div class="form_name">
+                  <div class="form_label form_label--required">必須</div>
+                  雰囲気の評価
+                  <span class="font-sizeS">（静かさ、混雑など）</span>
+                </div>
+                <?php makeSelectTag('silence_pt'); ?>
+              </label>
+              <div class="form_errMsg">
+                <?php echo showErrMsg('silence_pt'); ?>
               </div>
-            </label>
-            <div class="area-msg">
-              <?php echo showErrMsg('pic1'); ?>
-              <?php echo showErrMsg('pic2'); ?>
-              <?php echo showErrMsg('pic3'); ?>
+              <label>
+                <div class="form_name">
+                  <div class="form_label form_label--required">必須</div>
+                  総合評価
+                </div>
+                <?php makeSelectTag('total_pt'); ?>
+              </label>
+              <div class="form_errMsg">
+                <?php echo showErrMsg('total_pt'); ?>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="module form">
+            <h2 class="module_title module_title--surround">フリーコメント</h2>
+            <div class="module_body">
+
+              <p class="form_notion" style="text-align:center;">勉強場所・作業場所としての</p>
+              <p class="form_lastItem" style="text-align:center;">ご感想や注意点をご記入ください</p>
+              <label>
+                <div class="form_name">
+                  <span class="form_label form_label--optional">任意</span>
+                  ひとこと感想
+                </div>
+                <input type="text" name="title" class="form_input js-text-count1 <?php if(!empty($err_msg['title'])) echo 'err'; ?>" value="<?php echo getFormData('title'); ?>" placeholder="静かで設備も充実しており、作業にぴったり">
+              </label>
+              <div class="text-counter">
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('title'); ?>
+                </div>
+                <p><span class="js-text-count-view1">0</span>/30文字</p>
+              </div>
+
+              <label>
+                <div class="form_name">
+                  <span class="form_label form_label--optional">任意</span>
+                  詳細なコメント・その他備考など
+                </div>
+                <textarea name="comment" class="form_input js-text-count2 <?php if(!empty($err_msg['comment'])) echo 'err'; ?>" rows="8"><?php echo getFormData('comment'); ?></textarea>
+              </label>
+              <div class="text-counter">
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('comment'); ?>
+                </div>
+                <p><span class="js-text-count-view2">0</span>/200文字</p>
+              </div>
+
+              <div class="dropPic form_lastItem">
+                <label class="dropPic_container">
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    画像1
+                  </div>
+                  <div class="dropPic_area">ドラッグ&ドロップ
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                    <input type="file" name="pic1" class="dropPic_inputFile">
+                    <img src="<?php echo getFormData('pic1'); ?>" alt="" class="js-img-preview">
+                  </div>
+                </label>
+                <label class="dropPic_container">
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    画像2
+                  </div>
+                  <div class="dropPic_area">ドラッグ&ドロップ
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                    <input type="file" name="pic2" class="dropPic_inputFile">
+                    <img src="<?php echo getFormData('pic2'); ?>" alt="" class="js-img-preview">
+                  </div>
+                </label>
+                <label class="dropPic_container">
+                  <div class="form_name">
+                    <span class="form_label form_label--optional">任意</span>
+                    画像3
+                  </div>
+                  <div class="dropPic_area">ドラッグ&ドロップ
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                    <input type="file" name="pic3" class="dropPic_inputFile">
+                    <img src="<?php echo getFormData('pic3'); ?>" alt="" class="js-img-preview">
+                  </div>
+                </label>
+                <div class="form_errMsg">
+                  <?php echo showErrMsg('pic1'); ?>
+                  <?php echo showErrMsg('pic2'); ?>
+                  <?php echo showErrMsg('pic3'); ?>
+                </div>
+              </div>
+
+              <input type="submit" class="btn btn--submit btn--submit--mainContents" value="投稿する">
             </div>
           </div>
 
-          <input type="submit" class="btn btn--submit btn--submit--mainContents" value="投稿する">
-        </div>
-      </section>
-
-    </form>
-
+        </section>
+      </form>
+    </div>
   </div>
 </main>
 
