@@ -1,6 +1,5 @@
 <?php
 require('function.php');
-
 //ログイン認証
 require('auth.php');
 
@@ -49,7 +48,7 @@ require('header.php');
                   <p class="smallTitle"><?php echo $val['name']; ?></p>
                   <div class="pointArea_total">
                     <div class="pointArea_starBox">
-                      <span class="material-icons md-18">grade</span>
+                      <i class="fa-sharp fa-solid fa-star"></i>
                     </div>
                     <p class="pointArea_totalPt --pointS"><?php echo isEmpty((int)$val['t_avg'], 2); ?></p>
                   </div>
@@ -78,11 +77,13 @@ require('header.php');
                   <div class="pointArea">
                     <div class="pointArea_total">
                       <div class="pointArea_starBox">
-                        <span class="material-icons md-24 <?php echo(($val['total_pt']>=1)?'active':'nonactive'); ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=2)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=3)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=4)?'active':'nonactive') ?>">grade</span><span class="material-icons md-24 <?php echo(($val['total_pt']>=5)?'active':'nonactive') ?>">grade</span>
+                    <?php for ($i=1; $i <= 5; $i++):?>
+                        <i class="fa-sharp fa-solid fa-star fa-lg <?php if($val['total_pt']<$i) echo 'nonactive';?>"></i>
+                    <?php endfor; ?>
                       </div>
                       <p class="pointArea_totalPt"><?php echo $val['total_pt'] ?>.0</p>
                     </div>
-                    <p class="pointArea_detailPt"><span class="sp-delete">［</span>コンセント<span class="material-icons md-18 md-18--padding">grade</span><?php echo $val['concent_pt'];?>｜Wi-Fi<span class="material-icons md-18 md-18--padding">grade</span><?php echo $val['wifi_pt']; ?>｜静かさ<span class="material-icons md-18 md-18--padding">grade</span><?php echo $val['silence_pt']; ?><span class="sp-delete">］</span></p>
+                    <p class="pointArea_detailPt"><span class="sp-delete">［</span>コンセント<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['concent_pt'];?>｜Wi-Fi<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['wifi_pt']; ?>｜静かさ<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['silence_pt']; ?><span class="sp-delete">］</span></p>
                   </div>
                   <p class="borderSeparate"><?php echo $val['purpose'].'で利用｜滞在時間：'.$val['stay'];?></p>
                   <h3 class="smallTitle"><?php echo $val['title'];?></h3>
@@ -120,7 +121,7 @@ require('header.php');
                   <p class="smallTitle"><?php echo $val['name']; ?></p>
                   <div class="pointArea_total">
                     <div class="pointArea_starBox">
-                      <span class="material-icons md-18">grade</span>
+                      <i class="fa-sharp fa-solid fa-star"></i>
                     </div>
                     <p class="pointArea_totalPt --pointS"><?php echo isEmpty((int)$val['t_avg'], 2); ?></p>
                   </div>

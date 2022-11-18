@@ -986,6 +986,13 @@ section.page_contents--separate{
 /*====================
  アイコンフォント
 ====================*/
+.fa-star {
+  color: rgba(250, 190, 0, 1);
+  padding-bottom: 2px;
+}
+.fa-star.nonactive {
+  color: #a0a0a0;
+}
 .material-icons.md-36{
   font-size: 36px;
 }
