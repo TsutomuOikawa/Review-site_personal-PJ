@@ -1,17 +1,17 @@
 <!--　検索サイドバー　-->
-<aside id="sidebar" class="baseColor">
+<aside id="sidebar" class="sidebar sidebar--left">
   <form>
-    <p class="sidebar_title subTitle--visual js-accordion-swich">基本条件</p>
+    <p class="sidebar_title js-accordion-switch">基本条件</p>
     <ul class="sidebar_contents js-accordion-area">
       <li class="sidebar_listItem">
         <label>
-          <p class="form_title">エリア</p>
+          <p class="form_name">エリア</p>
           <input type="text" name="ar" class="form_input form_input--sidebar" value="<?php echo getFormData('ar', 0); ?>" placeholder="新宿、渋谷">
         </label>
       </li>
       <li class="sidebar_listItem">
         <label>
-          <p class="form_title">施設タイプ</p>
+          <p class="form_name">施設タイプ</p>
           <select name=ty class="form_input form_input--sidebar">
             <option value="" <?php if (empty($type)) echo 'selected';?> >選択してください</option>
             <?php foreach ($dbTypeData as $key => $val): ?>
@@ -22,7 +22,7 @@
       </li>
       <li class="sidebar_listItem">
         <label>
-          <p class="form_title">利用目的</p>
+          <p class="form_name">利用目的</p>
           <select name="pu" class="form_input form_input--sidebar">
             <option value="" <?php if (empty($purpose)) echo 'selected'; ?>>選択してください</option>
             <?php foreach ($dbPurposeData as $key => $value): ?>
@@ -32,11 +32,11 @@
         </label>
       </li>
     </ul>
-    <p class="sidebar_title subTitle--visual js-accordion-swich">こだわり条件</p>
-    <ul class="sidebar_contents js-accordion-area">
+    <p class="sidebar_title js-accordion-switch2 close">こだわり条件</p>
+    <ul class="sidebar_contents js-accordion-area close">
       <li class="sidebar_listItem">
         <label>
-          <p class="form_title">コンセント</p>
+          <p class="form_name">コンセント</p>
           <select name="c" class="form_input form_input--sidebar" style="border-bottom:dashed #BFBFB3 2px;">
             <option value="" <?php if($concent=='') echo'selected';?>>あり or なし</option>
             <option value="1" <?php if($concent==='1') echo'selected';?> >あり</option>
@@ -52,7 +52,7 @@
       </li>
       <li class="sidebar_listItem">
         <label>
-          <p class="form_title">Wi-Fi</p>
+          <p class="form_name">Wi-Fi</p>
           <select name="w" class="form_input form_input--sidebar" style="border-bottom:dashed #BFBFB3 2px;">
             <option value="" <?php if($wifi==='') echo'selected';?>>あり or なし</option>
             <option value="1" <?php if($wifi==='1') echo'selected';?> >あり</option>
@@ -66,9 +66,9 @@
           </select>
         </label>
       </li>
-      <li class="sidebar_listItem sidebar_listItem--last">
+      <li class="sidebar_listItem">
         <label>
-          <p class="form_title">静かさ</p>
+          <p class="form_name">静かさ</p>
           <select name = "s_r" class="form_input form_input--sidebar">
             <option value="" <?php if($s_rate =='') echo'selected';?>>ユーザー評価</option>
             <?php for ($i=1; $i < 6 ; $i++):?>
@@ -79,7 +79,9 @@
       </li>
     </ul>
     <div class="sidebar_contents">
-      <input type="submit" value="検索する" class="btn btn--submit sidebar_btn">
+      <button type="submit" class="btn btn--submit btn--sidebar">
+        <i class="fa-solid fa-magnifying-glass" style="padding-right:8px;"></i>検索する
+      </button>
     </div>
 
   </form>

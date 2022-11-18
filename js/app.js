@@ -114,12 +114,20 @@ $(function(){
 
 /////////////////////////////
  // アコーディオンパネル機能
- var $accordSwitch = $('.js-accordion-swich');
+ var $accordSwitch = $('.js-accordion-switch');
+ var $accordSwitch2 = $('.js-accordion-switch2');
 
  $accordSwitch.on('click', function(e){
- var  $accordArea = $(this).next('.js-accordion-area');
- $accordArea.slideToggle(500);
- })
+   var $accordArea = $(this).next('.js-accordion-area');
+   $accordArea.slideToggle(500);
+   $accordSwitch.toggleClass('close');
+ });
 
+ $accordSwitch2.on('click', function(e){
+   var $accordArea = $(this).next('.js-accordion-area');
+   $accordArea.slideToggle(500);
+   $accordSwitch2.toggleClass('close');
+
+ });
 
 });
