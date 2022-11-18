@@ -27,13 +27,11 @@ $(function(){
 
 /////////////////////////////
  // 施設詳細ページ画像切り替え
- var $imgMain1 = $('#js-img-main1'),
-     $imgMain2 = $('#js-img-main2'),
+ var $imgMain = $('#js-img-main'),
      $imgSub = $('.js-img-sub');
 
  $imgSub.on('click', function(e){
-   $imgMain1.attr('src', $imgMain2.attr('src'));
-   $imgMain2.attr('src', $(this).attr('src'));
+   $imgMain.attr('src', $(this).attr('src'));
  });
 
 /////////////////////////////
@@ -57,12 +55,10 @@ $(function(){
  // お気に入り機能
  $('.js-favorite').on('click',function(){
    var $pushIcon = $(this);
-   var $movingIcon = $pushIcon.siblings('span');
+   var $movingIcon = $pushIcon.next('.js-favorite-animation');
    var inst_id = $pushIcon.data('instid');
    $pushIcon.toggleClass('active');
-   $pushIcon.toggleClass('nonactive')
    $movingIcon.toggleClass('active');
-   $movingIcon.toggleClass('nonactive');
 
    $.ajax({
      type: 'POST',
