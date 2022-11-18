@@ -119,7 +119,7 @@ ul {
       right: 0;
       left: 100%;
     margin-top: 60px;
-    transition: all 1.5s;
+    transition: all 1s;
     width: 100%;
     z-index: 2000;
   }
@@ -613,29 +613,6 @@ section.page_contents--separate{
   vertical-align: middle;
 }
 
-
-/*====================
-  マイページ
-====================*/
-.connectedLink{
-  width: 50%;
-  padding: 5px;
-  font-size: 12.5px;
-  box-sizing: border-box;
-  position: absolute;
-  bottom: 0;
-}
-.connectedLink--left{
-  left: 0;
-  color: #ffffff;
-  background: #eb9342;
-  border: 1px solid rgba(235, 147, 66, 0.1);
-}
-.connectedLink--right{
-  left: 50%;
-  border: 1px solid rgba(68, 68, 68, 0.1);
-}
-
 /*====================
   クチコミカード
 ====================*/
@@ -697,7 +674,7 @@ section.page_contents--separate{
   padding: 5px 10px;
   width: 100%;
 }
-.form_input--age{
+.form_input--short {
   width: 40%;
 }
 .form_input--sidebar{
@@ -849,12 +826,15 @@ section.page_contents--separate{
 /*====================
   パネル（写真と文章が縦にひとまとまり）
 ====================*/
+
+/* 削除対象 */
 .panelBox{
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   margin-top: 30px;
 }
+
 .panel{
   display: flex;
   flex-direction: column;
@@ -893,28 +873,33 @@ section.page_contents--separate{
   height: 75%;
   border-radius: 3px 3px 0 0;
 }
-.panel_img{
+.panel_img {
   width: 100%;
   max-height: 50%;
   border-radius: 3px;
-  vertical-align: bottom;
 }
 .panel_bigImg{
   height: 100%;
   width: 100%;
   border-radius: 3px;
-  vertical-align: bottom;
   transition: all 1s;
   display: block;
 }
 .panel--5frame:hover .panel_bigImg{
   transform: scale(1.2);
 }
-.panel_description{
-  line-height: 1.3;
-  height: 50%;
-  padding: 7px 5px 3px;
+.panel_description {
   box-sizing: border-box;
+  height: 50%;
+  padding: 7px 5px 5px;
+  position: relative;
+}
+.panel_link {
+  display: flex;
+  position: absolute;
+    bottom: 0;
+    left: 0;
+  width: 100%;
 }
 .panel_oneWord{
   height: 25%;
@@ -922,6 +907,50 @@ section.page_contents--separate{
   font-size: 20px;
   font-weight: bold;
   line-height: 2;
+}
+
+@media screen and (max-width: 430px) {
+  .panel {
+    border-top: 2px solid #F5ECE2;
+    border-bottom: 2px solid #F5ECE2;
+    flex-direction: row;
+  }
+  .panel--3frame{
+    height: auto;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .panel_img {
+    max-height: 100%;
+    width: 40%;
+  }
+  .panel_description {
+    height: 100%;
+    padding: 1px 0;
+    padding-left: 10px;
+    width: 60%;
+  }
+}
+
+/* マイページカードのリンク */
+.connectedLink{
+  box-sizing: border-box;
+  font-size: 13px;
+  padding: 5px;
+  width: 50%;
+}
+.connectedLink--left{
+  color: #ffffff;
+  background: #eb9342;
+  border: 1px solid rgba(235, 147, 66, 0.1);
+}
+.connectedLink--right{
+  border: 1px solid rgba(68, 68, 68, 0.1);
+}
+@media screen and (max-width: 430px) {
+  .connectedLink{
+    padding: 3px;
+  }
 }
 
 /*====================
