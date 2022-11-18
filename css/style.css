@@ -1223,21 +1223,21 @@ section.page_contents--separate{
 /*====================///
  ページネーション
 ///====================*/
-.pagination-list{
+.pagination_list{
   display: flex;
   justify-content: center;
 }
-.list-item{
+.pagination_item{
   padding: 10px 10px;
   margin: 0 2.5px;
   background: white;
   border: solid 0.5px #d6d7da;
 }
-.list-active{
+.pagination_item.active{
   background: #d6d7da;
 }
 @media screen and (max-width: 430px) {
-  .pagination-list {
+  .pagination_list {
     font-size: 13px;
   }
 }
