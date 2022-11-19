@@ -68,126 +68,116 @@ require('header.php');
  ?>
 
 <!-- コンテンツ部分ー -->
-<main class="">
+<main>
+  <div class="js-change-header-target">
+    <section id="firstView" class="firstView">
+      <div class="firstView--cover">
+        <h1 class="firstView_title">見つけよう<br><span>集中</span>できる場所</h1>
+        <form class="firstView_form" method="GET">
+          <input type="text" name="ar" class="firstView_input" placeholder="駅名、地域名で検索">
+          <button type="submit" class="firstView_button" name=""><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+        </form>
+      </div>
+    </section>
 
-  <article id="topPage">
-    <div class="topPage">
-      <section class="topPage_firstView">
-        <div class="topPage_firstView--cover">
-          <div class="topPage_item">
-            <h1 class="topPage_title">見つけよう<br><span>集中</span>できる場所</h1>
-            <form class="topPage_input" method="GET">
-              <input type="text" name="ar" class="" placeholder="駅名、地域名など">
-              <input type="submit" class="btn--submit" value="検索">
-            </form>
+    <section id="narration" class="narration">
+      <div class="narration_textBox">
+        <p class="narration_text">Concent-rateは、集中力が高まる場所を探している人のための口コミサイト<br><span>その場所を訪れるまでわからなかった「集中できる場所かどうか」を、クチコミ評価によって可視化</span></p>
+        <p class="narration_text">作業場所（コンセントがあるような場所 =concent）へのクチコミ評価（rate）を通じて<br>自分の時間に集中(concentrate)できる人が増えてほしい<br>そして、目標を叶えられる人が増えてほしい、という想いからうまれたサービスです</p>
+      </div>
+    </section>
+  </div>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="container_title container_title--topPage">Features</h2>
+      <div class="container_body">
+        <p class="module_title">「集中できる場所」が見つかる<br>ありそうでなかったクチコミサイト</p>
+        <div class="featuresBox">
+
+          <div class="features_body features--01 panel panel--3frame">
+            <h3 class="features_title">「集中できるか」で評価</h3>
+            <div class="panel_thumbnail">
+              <img src="img/studying-people.JPG" class="panel_bigImg" alt="">
+            </div>
+            <p class="panel_description ">電源やWi-Fi、静かさなど<br>作業のために重要な項目を評価<br>行くまでわからなかった情報が<span class="sp-delete"><br></span>事前にわかる</p>
+          </div>
+
+          <div class="features_body features--02 panel panel--3frame">
+            <h3 class="features_title">多様な施設をカバー</h3>
+            <div class="panel_thumbnail">
+              <img src="img/cafe&library.JPG" class="panel_bigImg" alt="">
+            </div>
+            <p class="panel_description ">カフェや図書館から<br>レンタルスペースまで広くカバー<br>目的に合った施設が見つかる</p>
+          </div>
+
+          <div class="features_body features--03 panel panel--3frame">
+            <h3 class="features_title">お気に入り機能</h3>
+            <div class="panel_thumbnail">
+              <img src="img/favorite.jpg" class="panel_bigImg" alt="">
+            </div>
+            <p class="panel_description ">気に入った施設は保存が可能<br>お気に入りの場所で<span class="sp-delete"><br></span>どんどん作業を進めよう</p>
           </div>
         </div>
-      </section>
-
-      <section id="narration">
-        <div class="narration_textBox">
-          <p class="narration_text">Concent-rateは、集中力が高まる場所を探している人のための口コミサイト<br>その場所を訪れるまでわからなかった「集中できる場所かどうか」を、クチコミ評価によって可視化</p>
-          <p class="narration_text">作業場所（コンセントがあるような場所 =concent）へのクチコミ評価（rate）を通じて<br>自分の時間に集中(concentrate)できる人が増えてほしい<br>そして、目標を叶えられる人が増えてほしい、という想いからうまれたサービスです</p>
-        </div>
-      </section>
+      </div>
     </div>
+  </section>
 
-    <section id="features">
-      <div class="topPage_section-wrapper">
-        <div class="topPage_container">
-          <h2 class="topPage_subTitle topPage_subTitle--features">Features</h2>
-          <div class="topPage_contents">
-            <div class="subTitle font-sizeL --fontCenter">
-              <p>「集中できる場所」が見つかる<br>ありそうでなかったクチコミサイト</p>
-            </div>
-            <div class="featuresBox">
-
-              <div class="features features--01 panel panel--3frame">
-                <h3 class="subTitle font-sizeM --fontCenter">評価は「集中できるか」が基準</h3>
-                <div class="panel_thumbnail">
-                  <img src="img/studying-people.JPG" class="panel_bigImg" alt="">
-                </div>
-                <p class="panel_description --fontCenter">電源やWi-Fi、静かさなど<br>作業場所を選ぶ上で気になる観点で評価<br>行くまでわからなかった情報が<br>事前にわかるように</p>
-              </div>
-
-              <div class="features features--02 panel panel--3frame">
-                <h3 class="subTitle font-sizeM --fontCenter">多様な施設をカバー</h3>
-                <div class="panel_thumbnail">
-                  <img src="img/cafe&library.JPG" class="panel_bigImg" alt="">
-                </div>
-                <p class="panel_description --fontCenter">カフェや図書館から<br>レンタルスペースまで広くカバー<br>目的に合った施設が見つかる</p>
-              </div>
-
-              <div class="features features--03 panel panel--3frame">
-                <h3 class="subTitle font-sizeM --fontCenter">お気に入り機能</h3>
-                <div class="panel_thumbnail">
-                  <img src="img/favorite.jpg" class="panel_bigImg" alt="">
-                </div>
-                <p class="panel_description --fontCenter">気に入った施設は保存が可能<br>お気に入りの場所で<br>作業をどんどん進めよう</p>
-              </div>
-            </div>
+  <section id="warries" class="warries">
+    <div class="container">
+      <div class="warries-wrapper" style="background:white;">
+        <h2 class="container_title container_title--topPage">Warries</h2>
+        <div class="container_body">
+          <div class="module_title">
+            <p>こんなふうに困った経験ありませんか<p>
+            <p style="color:#EB9342;">Concent-rateなら もう困らない</p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="warries">
-      <div class="topPage_section-wrapper">
-        <div class="topPage_container" style="background:white;">
-          <h2 class="topPage_subTitle topPage_subTitle--warries">Warries</h2>
-          <div class="topPage_contents">
-            <div class="subTitle font-sizeL --fontCenter">
-              <p>こんなふうに困った経験ありませんか<br>
-              <span style="color:#EB9342;">Concent-rateなら もう困らない</span></p>
+          <div class="panelBox">
+            <div class="panel panel--3frame panel--warries">
+              <div class="panel_description">
+                <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                <p class="warries_text">PC作業をしたかったが<br>コンセントがない・Wi-Fiが弱い</p>
+              </div>
+              <div class="panel_description panel_description--warriesAns">
+                <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                <p class="warries_text">コンセント・Wi-Fi設備を点数化<br>設備の整った場所が見つかる</p>
+              </div>
             </div>
-            <div class="panelBox">
-              <div class="panel panel--3frame panel--warries">
-                <div class="panel_description">
-                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
-                  <p>PC作業がしたかったのに<br>コンセントがない・Wi-Fiが弱い</p>
-                </div>
-                <div class="panel_description" style="color:#EB9342;">
-                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
-                  <p>コンセント・Wi-Fi設備を点数化<br>設備の整った場所を見つけられる</p>
-                </div>
+            <div class="panel panel--3frame panel--warries">
+              <div class="panel_description">
+                <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                <p class="warries_text">他の利用客の話し声で集中できない<br>利用時間に制限がある</p>
               </div>
-              <div class="panel panel--3frame panel--warries">
-                <div class="panel_description">
-                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
-                  <p>他の利用客の話し声で集中できない<br>店員さんが退店を呼びかけている</p>
-                </div>
-                <div class="panel_description" style="color:#EB9342;">
-                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
-                  <p>クチコミで客層や混雑度をチェック<br>作業に向かない場所を避けられる</p>
-                </div>
+              <div class="panel_description panel_description--warriesAns">
+                <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                <p class="warries_text">クチコミで客層や混雑度をチェック<br>作業に向かない場所を避けられる</p>
               </div>
-              <div class="panel panel--3frame panel--warries">
-                <div class="panel_description">
-                  <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
-                  <p>出先からweb会議に参加したい<br>ゆっくり集中できる場所がほしい</p>
-                </div>
-                <div class="panel_description" style="color:#EB9342;">
-                  <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
-                  <p>利用目的や滞在時間別の検索も可能<br>最適な場所が見つかる</p>
-                </div>
+            </div>
+            <div class="panel panel--3frame panel--warries">
+              <div class="panel_description">
+                <i class="fa-regular fa-face-frown fa-2x icon--warries"></i>
+                <p class="warries_text">家でweb会議ができない<br>ゆっくり集中できる場所がほしい</p>
               </div>
-
+              <div class="panel_description panel_description--warriesAns">
+                <i class="fa-regular fa-face-smile fa-2x icon--warries"></i>
+                <p class="warries_text">利用目的や滞在時間別の検索も可能<br>最適な場所が見つかる</p>
+              </div>
             </div>
 
           </div>
+
         </div>
       </div>
-    </section>
-  </article>
+    </div>
+  </section>
 
   <section id="search" class="">
-    <div class="topPage_section-wrapper">
-      <div class="topPage_container">
-        <h2 class="topPage_subTitle topPage_subTitle--search">Search</h2>
-        <div class="topPage_contents">
+    <div class="container">
+        <h2 class="container_title container_title--topPage">Search</h2>
+        <div class="container_body">
 
-          <div class="search_container contents--interval">
-            <h3 class="subTitle font-sizeL --fontCenter">地域から探す</h3>
+          <div class="search-wrapper">
+            <h3 class="module_title">地域から探す</h3>
             <div class="cardBox">
               <a href="searchList.php?ar=新宿" class="card card--design">
                 <img src="img/shinjuku.jpg" alt="" class="card_img">
@@ -232,34 +222,34 @@ require('header.php');
             </div>
           </div>
 
-          <div class="search_container">
-            <h3 class="subTitle font-sizeL --fontCenter">利用目的から探す</h3>
+          <div class="search-wrapper">
+            <h3 class="module_title">利用目的から探す</h3>
             <div class="panelBox">
-              <a href="searchList.php?pu=1" class="panel panel--5frame --hoverFlow">
+              <a href="searchList.php?pu=1" class="panel panel--purpose --hoverFlow">
                 <div class="panel_thumbnail">
                   <img src="img/studying.jpg" class="panel_bigImg" alt="勉強">
                 </div>
                 <p class="panel_oneWord">勉強</p>
               </a>
-              <a href="searchList.php?pu=2" class="panel panel--5frame --hoverFlow">
+              <a href="searchList.php?pu=2" class="panel panel--purpose --hoverFlow">
                 <div class="panel_thumbnail">
                   <img src="img/pc.jpg" class="panel_bigImg" alt="PC作業">
                 </div>
                 <p class="panel_oneWord">PC作業</p>
               </a>
-              <a href="searchList.php?pu=3" class="panel panel--5frame --hoverFlow">
+              <a href="searchList.php?pu=3" class="panel panel--purpose --hoverFlow">
                 <div class="panel_thumbnail">
                   <img src="img/work.jpg" class="panel_bigImg" alt="テレワーク">
                 </div>
                 <p class="panel_oneWord">テレワーク</p>
               </a>
-              <a href="searchList.php?pu=4" class="panel panel--5frame --hoverFlow">
+              <a href="searchList.php?pu=4" class="panel panel--purpose --hoverFlow">
                 <div class="panel_thumbnail">
                   <img src="img/meeting.jpg" class="panel_bigImg" alt="グループワーク">
                 </div>
                 <p class="panel_oneWord">グループワーク</p>
               </a>
-              <a href="searchList.php?pu=5" class="panel panel--5frame --hoverFlow">
+              <a href="searchList.php?pu=5" class="panel panel--purpose --hoverFlow">
                 <div class="panel_thumbnail">
                   <img src="img/video-meeting.jpg" class="panel_bigImg" alt="web面接">
                 </div>
@@ -268,7 +258,6 @@ require('header.php');
             </div>
           </div>
         </div>
-      </div>
     </div>
   </section>
 </main>
