@@ -45,7 +45,7 @@ require('header.php');
                 <img src="<?php echo $val['image']['path']; ?>" class="panel_img" alt="">
                 <div class="panel_description">
                   <span class="tag tag--type --tagS"><?php echo $val['type']; ?></span>
-                  <p class="smallTitle"><?php echo $val['name']; ?></p>
+                  <h3><?php echo $val['name']; ?></h3>
                   <div class="pointArea_total">
                     <div class="pointArea_starBox">
                       <i class="fa-sharp fa-solid fa-star"></i>
@@ -86,7 +86,7 @@ require('header.php');
                     <p class="pointArea_detailPt"><span class="sp-delete">［</span>コンセント<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['concent_pt'];?>｜Wi-Fi<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['wifi_pt']; ?>｜静かさ<i class="fa-sharp fa-solid fa-star fa-xs"></i><?php echo $val['silence_pt']; ?><span class="sp-delete">］</span></p>
                   </div>
                   <p class="borderSeparate"><?php echo $val['purpose'].'で利用｜滞在時間：'.$val['stay'];?></p>
-                  <h3 class="smallTitle"><?php echo $val['title'];?></h3>
+                  <h3><?php echo $val['title'];?></h3>
                   <p><?php echo $val['comment'];?></p>
                 </div>
                 <div class="imgBox">
@@ -118,7 +118,7 @@ require('header.php');
                 <img src="<?php echo $val['image']; ?>" class="panel_img" alt="">
                 <div class="panel_description">
                   <span class="tag tag--type --tagS"><?php echo $val['type']; ?></span>
-                  <p class="smallTitle"><?php echo $val['name']; ?></p>
+                  <h3><?php echo $val['name']; ?></h3>
                   <div class="pointArea_total">
                     <div class="pointArea_starBox">
                       <i class="fa-sharp fa-solid fa-star"></i>
