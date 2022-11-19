@@ -68,8 +68,8 @@ require('header.php');
             <?php endif; ?>
             </div>
             <p class="tag --tagM">お気に入り登録
-              <i class="fa-solid fa-heart fa-lg instInfo_favorite js-favorite <?php echo((isLike($_SESSION['user_id'], $i_id))?'active':'nonactive');?>" data-instid="<?php echo $i_id; ?>"></i>
-              <i class="fa-solid fa-heart fa-lg instInfo_favorite js-favorite-animation <?php echo((isLike($_SESSION['user_id'], $i_id))?'active':'nonactive');?>" data-instid="<?php echo $i_id; ?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
+              <i class="fa-solid fa-heart fa-lg instInfo_favorite js-favorite <?php if(!empty($_SESSION['user_id'])) echo((isLike($_SESSION['user_id'], $i_id))?'active':'nonactive');?>" data-instid="<?php echo $i_id; ?>"></i>
+              <i class="fa-solid fa-heart fa-lg instInfo_favorite js-favorite-animation <?php if(!empty($_SESSION['user_id'])) echo((isLike($_SESSION['user_id'], $i_id))?'active':'nonactive');?>" data-instid="<?php echo $i_id; ?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
             </p>
           </div>
           <div class="instInfo_name">

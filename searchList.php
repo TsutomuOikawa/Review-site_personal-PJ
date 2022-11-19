@@ -81,9 +81,9 @@ require('header.php');
             <ul class="reviewCard-wrapper">
               <?php foreach ($dbInstListReview as $key => $value): ?>
               <li class="reviewCard reviewCard--sizeM">
-                <?php if(!empty($value['inst']['purpose'])) echo '<a href="#" class="tag --tagM tag--purpose tag--leftTop">'.$value['inst']['purpose'].'におすすめ</a>'; ?>
-                <i class="fa-solid fa-heart fa-2x reviewCard_favorite js-favorite-animation <?php echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
-                <i class="fa-solid fa-heart fa-2x reviewCard_favorite js-favorite <?php echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
+                <?php if(!empty($value['inst']['purpose'])) echo '<a href="searchList.php?pu='.$value['inst']['purpose_id'].'" class="tag --tagM tag--purpose tag--leftTop">'.$value['inst']['purpose'].'におすすめ</a>'; ?>
+                <i class="fa-solid fa-heart fa-2x reviewCard_favorite js-favorite-animation <?php if(!empty($_SESSION['user_id'])) echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
+                <i class="fa-solid fa-heart fa-2x reviewCard_favorite js-favorite <?php if(!empty($_SESSION['user_id'])) echo((isLike($_SESSION['user_id'], $value['inst']['id']))?'active':'nonactive');?>" data-instid="<?php echo $value['inst']['id'];?>"></i>
                 <h2 class="reviewCard_name"><a href="searchDetail.php?i=<?php echo $value['inst']['id'].'&p='.$currentPageNum; ?>" class="--hoverLine"><?php echo $value['inst']['name']; ?></a></h2>
 
                 <div class="reviewCard_body">
@@ -110,7 +110,7 @@ require('header.php');
                       <p class="font-sizeS"><a href="searchDetail.php?i=<?php echo $value['inst']['id'].'&p='.$currentPageNum;?>#reviews" class="--hoverLine"><?php echo (($value['inst']['total_review'])? $value['inst']['total_review'] : 0); ?>件のクチコミ</a></p>
                     </div>
 
-                    <ul class="reviewCard_featureTag borderSeparate">
+                    <ul class="featureTagBox borderSeparate">
                       <?php if($value['inst']['concent']==='1') echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">コンセントあり</a></li>'; ?>
                       <?php if($value['inst']['wifi']==='1') echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">Wi-fiあり</a></li>'; ?>
                       <?php if($value['inst']['stay_id'] >= 5) echo'<li class="tag tag--feature"><a href="#" class="link--full --tagM">'.$value['inst']['stay'].'滞在</a></li>'; ?>
