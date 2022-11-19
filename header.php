@@ -23,9 +23,16 @@ if (!empty($_SESSION['login_date'])) {
     </div>
     <nav class="header_nav js-show-menu-target">
       <ul class="menu">
+      <?php if (!empty($_SESSION['login_date'])):?>
+        <li class="menu_item"><a href="profileEdit.php" class="menu_link --hoverLine">プロフィール編集</a></li>
+        <li class="menu_item"><a href="mypage.php" class="menu_link --hoverLine">マイページ</a></li>
+        <li class="menu_item"><a href="mypage.php" class="menu_link --hoverLine">お気に入り施設</a></li>
+        <li class="menu_item"><a href="logout.php" class="menu_link menu_link--strong --hoverLine">ログアウト</a></li>
+      <?php else: ?>
         <li class="menu_item"><a href="searchList.php" class="menu_link --hoverLine">施設検索</a></li>
-        <li class="menu_item"><a href=<?php echo $header[0]; ?> class="menu_link --hoverLine"><?php echo $header[1]; ?></a></li>
-        <li class="menu_item"><a href=<?php echo $header[2]; ?> class="menu_link menu_link--strong"><?php echo $header[3]; ?></a></li>
+        <li class="menu_item"><a href="login.php" class="menu_link --hoverLine">ログイン</a></li>
+        <li class="menu_item"><a href="registration.php" class="menu_link menu_link--strong">会員登録</a></li>
+      <?php endif; ?>
       </ul>
     </nav>
   </div>
