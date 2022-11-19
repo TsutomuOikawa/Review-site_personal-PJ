@@ -137,9 +137,9 @@ require('header.php');
       <form method="post" enctype="multipart/form-data">
 
         <section class="section">
-          <div class="module form">
+          <div class="module container_body--form">
             <h2 class="module_title module_title--surround">施設ご利用時の状況</h2>
-            <div class="module_body">
+            <div class="module_body form--multi">
               <div class="form_errMsg">
                 <?php echo showErrMsg('common'); ?>
               </div>
@@ -191,9 +191,9 @@ require('header.php');
         </section>
 
         <section class="section">
-          <div class="module form">
+          <div class="module container_body--form">
             <h2 class="module_title module_title--surround">設備へのご評価</h2>
-            <div class="module_body">
+            <div class="module_body form--multi">
               <p class="form_notion" style="text-align:center;">作業場所に必要な設備について</p>
               <p class="form_lastItem" style="text-align:center;">1点~5点で評価してください</p>
               <label>
@@ -244,9 +244,9 @@ require('header.php');
         </section>
 
         <section class="section">
-          <div class="module form">
+          <div class="module container_body--form">
             <h2 class="module_title module_title--surround">フリーコメント</h2>
-            <div class="module_body">
+            <div class="module_body form--multi">
 
               <p class="form_notion" style="text-align:center;">勉強場所・作業場所としての</p>
               <p class="form_lastItem" style="text-align:center;">ご感想や注意点をご記入ください</p>

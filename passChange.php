@@ -123,21 +123,17 @@ require('header.php');
 
 <!--　メインコンテンツ　-->
 <div class="page-wrapper">
-
   <div class="container">
     <h1 class="container_title">マイページ</h1>
     <div class="container_body container_body--divide">
-
-      <main class="form form--wide">
+      <main class="container_mainBody">
         <form method="post" class="module">
-
           <h2 class="module_title module_title--surround">パスワード変更</h2>
-          <div class="module_body">
+          <div class="module_body form--multi form--wide">
+            <p class="form_notion form_lastItem" style="text-align:center;">半角英数字6文字以上で<br>入力してください</p>
             <div class="form_errMsg">
               <?php echo showErrMsg('common'); ?>
             </div>
-
-            <p class="form_notion form_lastItem" style="text-align:center;">半角英数字6文字以上で<br>入力してください</p>
             <label>
               <div class="form_name">
                 <span class="form_label form_label--required">必須</span>
@@ -172,7 +168,6 @@ require('header.php');
           </div>
         </form>
       </main>
-
       <?php require('sidebarRight.php'); ?>
 
     </div>

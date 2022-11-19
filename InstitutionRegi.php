@@ -146,9 +146,9 @@ require('header.php');
         <form method="post">
 
           <section class="section">
-            <div class="module form form--wide">
+            <div class="module">
               <h2 class="module_title module_title--surround">基本情報</h2>
-              <div class="module_body">
+              <div class="module_body form--multi form--wide">
                 <div class="form_errMsg">
                   <?php echo showErrMsg('common'); ?>
                 </div>
@@ -222,9 +222,9 @@ require('header.php');
           </section>
 
           <section class="section">
-            <div class="module form form--wide">
+            <div class="module">
               <h2 class="module_title module_title--surround">詳細情報</h2>
-              <div class="module_body">
+              <div class="module_body form--multi form--wide">
                 <p class="form_notion form_lastItem" style="text-align:center;">※正確な情報をご入力ください</p>
 
                 <label>
@@ -266,11 +266,11 @@ require('header.php');
                     コンセント・Wi-Fiの設置
                   </div>
                   <div class="form_input form_input--checkbox <?php if(!empty($err_msg['concent'])|| !empty($err_msg['wifi'])) echo 'err'; ?>">
-                    <label class="marginItemLine">
+                    <label>
                       <input type="checkbox" name="concent" value="1" <?php if(getFormData('concent') == (1 || on)) echo 'checked';?>>
                       コンセントあり
                     </label>
-                    <label class="marginItemLine">
+                    <label>
                       <input type="checkbox" name="wifi" value="1" <?php if(getFormData('wifi') == (1 || on)) echo 'checked';?>>
                       Wi-Fiあり
                     </label>

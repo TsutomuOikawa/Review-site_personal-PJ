@@ -122,15 +122,12 @@ require('header.php');
 </div>
 <!--　メインコンテンツ　-->
 <main class="page-wrapper">
-
   <div class="container">
     <h1 class="container_title">メール認証</h1>
     <div class="container_body">
-
-      <form method="post" class="module form">
+      <form method="post" class="module form container_body--form">
         <h2 class="module_title">認証コード入力フォーム</h2>
         <div class="module_body">
-
           <div class="form_errMsg">
             <?php echo showErrMsg('common'); ?>
           </div>
@@ -150,7 +147,6 @@ require('header.php');
         </div>
       </form>
     </div>
-
   </div>
 </main>
 

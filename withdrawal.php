@@ -62,10 +62,9 @@ if (!empty($_POST)) {
     <h1 class="container_title">マイページ</h1>
     <div class="container_body container_body--divide">
       <main class="container_mainBody">
-
-        <form method="post" class="module form form--wide">
+        <form method="post" class="module">
           <h2 class="module_title module_title--surround">退会</h2>
-          <div class="module_body">
+          <div class="module_body form--multi form--wide">
 
             <div class="area-msg">
               <?php echo showErrMsg('common'); ?>

@@ -104,7 +104,7 @@ require('header.php');
     <h1 class="container_title">会員登録（無料）</h1>
     <div class="container_body">
 
-      <form method="post" class="module form">
+      <form method="post" class="module form container_body--form">
         <h2 class="module_title">ご登録フォーム</h2>
         <div class ="module_body">
 

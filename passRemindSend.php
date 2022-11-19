@@ -113,14 +113,11 @@ require('header.php');
 <!--　メインコンテンツ　-->
 <main class="page-wrapper">
   <div class="container">
-
     <h1 class="container_title">パスワード再発行手続き</h1>
     <div class="container_body">
-
-      <form method="post" class="module form">
+      <form method="post" class="module form container_body--form">
         <h2 class="module_title">メール認証</h2>
         <div class="module_body">
-
           <div class="form_errMsg">
             <?php echo showErrMsg('common'); ?>
           </div>
@@ -138,10 +135,10 @@ require('header.php');
           </div>
           <button type="submit" class="btn btn--submit">送信する</button>
           <p class="form_notion"><a href="login.php" class="--hoverLine">&gt ログイン画面へ戻る</a></p>
-
         </div>
       </form>
     </div>
+
   </div>
 </main>
 
